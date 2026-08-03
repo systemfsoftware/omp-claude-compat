@@ -7,7 +7,7 @@ import { Gherkin, Given, makeFeature, Then, When } from '@systemfsoftware/effect
 import { Effect, Layer } from 'effect'
 import { expect } from 'vitest'
 import { loadSettingsWithPaths } from '../src/hook-dispatcher.executor.js'
-import { loaded } from './loaded.observer.js'
+import { expectLoaded } from './loaded.observer.js'
 
 const Feature = makeFeature({ it, layer })
 
@@ -61,7 +61,7 @@ Feature('Multi-level hook settings loading')
         Then('the merged settings should contain two PreToolUse hooks')((s) =>
           Effect.sync(() => {
             expect(s.result).not.toBeNull()
-            expect(loaded(s.result).hooks.PreToolUse).toHaveLength(2)
+            expect(expectLoaded(s.result).hooks.PreToolUse).toHaveLength(2)
           })
         ),
       ),
@@ -99,7 +99,7 @@ Feature('Multi-level hook settings loading')
         Then('no hook survives')((s) =>
           Effect.sync(() => {
             expect(s.result).not.toBeNull()
-            expect(loaded(s.result).hooks.PreToolUse).toEqual([])
+            expect(expectLoaded(s.result).hooks.PreToolUse).toEqual([])
           })
         ),
       ),
@@ -140,7 +140,7 @@ Feature('Multi-level hook settings loading')
         Then('only the managed hook runs')((s) =>
           Effect.sync(() => {
             expect(s.result).not.toBeNull()
-            const commands = loaded(s.result).hooks.PreToolUse
+            const commands = expectLoaded(s.result).hooks.PreToolUse
               .flatMap((e) => e.hooks)
               .filter((h) => h.type === 'command')
               .map((h) => h.command)
@@ -182,7 +182,7 @@ Feature('Multi-level hook settings loading')
         Then('no hook survives')((s) =>
           Effect.sync(() => {
             expect(s.result).not.toBeNull()
-            expect(loaded(s.result).hooks.PreToolUse).toEqual([])
+            expect(expectLoaded(s.result).hooks.PreToolUse).toEqual([])
           })
         ),
       ),
@@ -211,7 +211,7 @@ Feature('Multi-level hook settings loading')
         Then('the result should contain hooks from the existing file')((s) =>
           Effect.sync(() => {
             expect(s.result).not.toBeNull()
-            expect(loaded(s.result).hooks.PreToolUse).toHaveLength(1)
+            expect(expectLoaded(s.result).hooks.PreToolUse).toHaveLength(1)
           })
         ),
       ),
@@ -243,7 +243,7 @@ Feature('Multi-level hook settings loading')
         Then('the result should have hooks from the valid file')((s) =>
           Effect.sync(() => {
             expect(s.result).not.toBeNull()
-            expect(loaded(s.result).hooks.PreToolUse).toHaveLength(1)
+            expect(expectLoaded(s.result).hooks.PreToolUse).toHaveLength(1)
           })
         ),
       ),
