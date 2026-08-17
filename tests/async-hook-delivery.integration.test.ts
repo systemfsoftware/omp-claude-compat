@@ -12,7 +12,7 @@ import type { HookPrompt, HookSession, HookToolCall } from '../src/hook-session.
 import { loadSettingsWithPaths } from '../src/internal/load-settings.executor.js'
 import { runPreToolUseHooks } from '../src/internal/run-pre-tool-use-hooks.executor.js'
 import { runUserPromptSubmitHooks } from '../src/internal/run-user-prompt-submit-hooks.executor.js'
-import { expectLoaded } from './loaded.observer.js'
+import { expectLoaded } from './__fixtures__/loaded.observer.js'
 
 const Feature = makeFeature({ it, layer })
 

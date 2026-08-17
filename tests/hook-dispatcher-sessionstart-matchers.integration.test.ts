@@ -11,7 +11,7 @@ import { collectSettingsGapsWithPaths } from '../src/internal/collect-settings-g
 import { loadSettingsWithPaths } from '../src/internal/load-settings.executor.js'
 import { runSessionStartHooks } from '../src/internal/run-session-start-hooks.executor.js'
 import { runSessionSwitchHooks } from '../src/internal/run-session-switch-hooks.executor.js'
-import { makeRecorder, makeSettingsJson, runInvocations } from './hook-dispatcher-fixture.observer.js'
+import { makeRecorder, makeSettingsJson, runInvocations } from './__fixtures__/hook-dispatcher-fixture.observer.js'
 
 const Feature = makeFeature({ it, layer })
 

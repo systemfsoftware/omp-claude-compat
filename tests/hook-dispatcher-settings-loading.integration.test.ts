@@ -7,8 +7,8 @@ import * as PathModule from 'effect/Path'
 import { expect } from 'vitest'
 import { HookScopeLive } from '../src/hook-runtime.state.js'
 import { loadSettingsWithPaths } from '../src/internal/load-settings.executor.js'
-import { makeSettingsJson } from './hook-dispatcher-fixture.observer.js'
-import { expectLoaded } from './loaded.observer.js'
+import { makeSettingsJson } from './__fixtures__/hook-dispatcher-fixture.observer.js'
+import { expectLoaded } from './__fixtures__/loaded.observer.js'
 
 const Feature = makeFeature({ it, layer })
 

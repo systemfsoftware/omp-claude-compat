@@ -10,7 +10,7 @@ import type { HookDispatchResult } from '../src/hook-dispatcher.executor.js'
 import { dispatchHookEvent } from '../src/hook-dispatcher.executor.js'
 import { HookScopeLive } from '../src/hook-runtime.state.js'
 import type { HookSession } from '../src/hook-session.shape.js'
-import { makeSettingsJson, makeShellHookScript } from './hook-dispatcher-fixture.observer.js'
+import { makeSettingsJson, makeShellHookScript } from './__fixtures__/hook-dispatcher-fixture.observer.js'
 
 const Feature = makeFeature({ it, layer })
 

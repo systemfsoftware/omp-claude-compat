@@ -8,7 +8,7 @@ import * as PathModule from 'effect/Path'
 import type { PlatformError } from 'effect/PlatformError'
 import { expect } from 'vitest'
 import { loadSettingsWithPaths } from '../src/internal/load-settings.executor.js'
-import { expectLoaded } from './loaded.observer.js'
+import { expectLoaded } from './__fixtures__/loaded.observer.js'
 
 const Feature = makeFeature({ it, layer })
 

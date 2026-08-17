@@ -9,7 +9,7 @@ import { HookScopeLive } from '../src/hook-runtime.state.js'
 import type { HookSession } from '../src/hook-session.shape.js'
 import { runHooksForEvent } from '../src/internal/run-hooks-for-event.executor.js'
 import { runLifecycleHooks } from '../src/internal/run-lifecycle-hooks.executor.js'
-import { makeRecorder, runInvocations } from './hook-dispatcher-fixture.observer.js'
+import { makeRecorder, runInvocations } from './__fixtures__/hook-dispatcher-fixture.observer.js'
 
 const Feature = makeFeature({ it, layer })
 

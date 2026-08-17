@@ -14,8 +14,8 @@ import {
   makePathGuardScript,
   makeSettingsJson,
   makeShellHookScript,
-} from './hook-dispatcher-fixture.observer.js'
-import { expectLoaded } from './loaded.observer.js'
+} from './__fixtures__/hook-dispatcher-fixture.observer.js'
+import { expectLoaded } from './__fixtures__/loaded.observer.js'
 
 const Feature = makeFeature({ it, layer })
 

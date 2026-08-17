@@ -15,7 +15,7 @@ import {
   makeShellHookScript,
   runFileOrEmpty,
   runInvocations,
-} from './hook-dispatcher-fixture.observer.js'
+} from './__fixtures__/hook-dispatcher-fixture.observer.js'
 
 const Feature = makeFeature({ it, layer })
 

@@ -9,8 +9,8 @@ import { HookScopeLive } from '../src/hook-runtime.state.js'
 import type { HookSession, HookToolResult } from '../src/hook-session.shape.js'
 import { loadSettingsWithPaths } from '../src/internal/load-settings.executor.js'
 import { runPostToolUseHooks } from '../src/internal/run-post-tool-use-hooks.executor.js'
-import { makeSettingsJson, makeShellHookScript } from './hook-dispatcher-fixture.observer.js'
-import { expectLoaded } from './loaded.observer.js'
+import { makeSettingsJson, makeShellHookScript } from './__fixtures__/hook-dispatcher-fixture.observer.js'
+import { expectLoaded } from './__fixtures__/loaded.observer.js'
 
 const Feature = makeFeature({ it, layer })
 

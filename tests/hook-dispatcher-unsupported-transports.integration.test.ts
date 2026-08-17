@@ -10,7 +10,7 @@ import type { HookSession, HookToolCall } from '../src/hook-session.shape.js'
 import { collectSettingsGapsWithPaths } from '../src/internal/collect-settings-gaps.executor.js'
 import { loadSettingsWithPaths } from '../src/internal/load-settings.executor.js'
 import { runPreToolUseHooks } from '../src/internal/run-pre-tool-use-hooks.executor.js'
-import { makePathGuardScript, makeSettingsJson } from './hook-dispatcher-fixture.observer.js'
+import { makePathGuardScript, makeSettingsJson } from './__fixtures__/hook-dispatcher-fixture.observer.js'
 
 const Feature = makeFeature({ it, layer })
 

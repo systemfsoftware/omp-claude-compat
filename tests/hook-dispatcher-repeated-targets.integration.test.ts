@@ -9,7 +9,7 @@ import { HookScopeLive } from '../src/hook-runtime.state.js'
 import type { HookSession, HookToolCall } from '../src/hook-session.shape.js'
 import { loadSettingsWithPaths } from '../src/internal/load-settings.executor.js'
 import { runPreToolUseHooks } from '../src/internal/run-pre-tool-use-hooks.executor.js'
-import { makeSettingsJson } from './hook-dispatcher-fixture.observer.js'
+import { makeSettingsJson } from './__fixtures__/hook-dispatcher-fixture.observer.js'
 
 const Feature = makeFeature({ it, layer })
 
