@@ -1,10 +1,10 @@
 import { Context, Effect, Schema as S, type Scope, Stream } from 'effect'
 import * as ChildProcess from 'effect/unstable/process/ChildProcess'
 import { ChildProcessSpawner } from 'effect/unstable/process/ChildProcessSpawner'
-import { detachIn } from '../deadline.policy.js'
-import type { HookResult } from '../hook-dispatcher.schema.js'
-import type { CommandHook } from '../hook-settings.schema.js'
-import { ToolInputRecord } from './hook-payload.schema.js'
+import { detachIn } from '../Deadline.js'
+import type { HookResult } from '../HookDispatcher.schema.js'
+import type { CommandHook } from '../HookSettings.schema.js'
+import { ToolInputRecord } from './HookPayload.schema.js'
 
 const CLAUDE_EVENT_DEFAULT_SECONDS: Readonly<Record<string, number>> = {
   UserPromptSubmit: 30,

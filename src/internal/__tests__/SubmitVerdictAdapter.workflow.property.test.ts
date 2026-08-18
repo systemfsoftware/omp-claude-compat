@@ -1,8 +1,8 @@
 import { describe, it } from '@effect/vitest'
 import * as Result from 'effect/Result'
 import { FastCheck as fc } from 'effect/testing'
-import { InterpretHookCommand } from '../../hook-verdict.workflow.js'
-import { submitVerdictAdapter } from '../submit-verdict-adapter.workflow.js'
+import { InterpretHookCommand } from '../../HookVerdict.workflow.js'
+import { submitVerdictAdapter } from '../SubmitVerdictAdapter.workflow.js'
 
 describe('submitVerdictAdapter', () => {
   it.prop('∀cs_SubmitVerdictAdapter_≡Context', [fc.integer(), fc.string()], ([code, stdout]) => {

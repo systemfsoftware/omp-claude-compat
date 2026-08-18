@@ -1,8 +1,8 @@
 import { sessionIds } from '@systemfsoftware/omp-utils'
 import { Context, Effect, type Scope } from 'effect'
-import type { HookSettings } from '../hook-settings.schema.js'
-import type { HookSession } from './hook-session.kernel.js'
-import { runHooksForEvent } from './run-hooks-for-event.executor.js'
+import type { HookSettings } from '../HookSettings.schema.js'
+import type { HookSession } from './HookSession.js'
+import { runHooksForEvent } from './RunHooksForEventExecutor.js'
 
 export class RunPreCompactHooksExecutorDeps extends Context.Service<RunPreCompactHooksExecutorDeps, Scope.Scope>()(
   'RunPreCompactHooksExecutorDeps',

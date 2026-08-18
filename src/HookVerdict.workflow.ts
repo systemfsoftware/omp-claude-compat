@@ -3,9 +3,9 @@ import * as Exit from 'effect/Exit'
 import * as Match from 'effect/Match'
 import * as Result from 'effect/Result'
 import * as S from 'effect/Schema'
-import { Allow, Block, HookResult, Warning } from './hook-dispatcher.schema.js'
-import type { HookDecision } from './hook-dispatcher.schema.js'
-import { parseHookOutput } from './hook-output.acl.js'
+import { Allow, Block, HookResult, Warning } from './HookDispatcher.schema.js'
+import type { HookDecision } from './HookDispatcher.schema.js'
+import { parseHookOutput } from './HookOutput.js'
 import {
   blockReason,
   exitKindOf,
@@ -13,7 +13,7 @@ import {
   parsedVerdict,
   spokenStderr,
   stderrVerdict,
-} from './hook-verdict.kernel.js'
+} from './HookVerdict.js'
 
 const InterpretHookCommandTypeId: unique symbol = Symbol.for('@systemfsoftware/omp-claude-compat/InterpretHookCommand')
 type InterpretHookCommandTypeId = typeof InterpretHookCommandTypeId

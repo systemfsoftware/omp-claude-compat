@@ -1,7 +1,7 @@
 import { Context, Effect, type Scope } from 'effect'
-import type { HookSettings } from '../hook-settings.schema.js'
-import type { HookSession } from './hook-session.kernel.js'
-import { runSessionStartHooks } from './run-session-start-hooks.executor.js'
+import type { HookSettings } from '../HookSettings.schema.js'
+import type { HookSession } from './HookSession.js'
+import { runSessionStartHooks } from './RunSessionStartHooksExecutor.js'
 
 export class RunSessionSwitchHooksExecutorDeps
   extends Context.Service<RunSessionSwitchHooksExecutorDeps, Scope.Scope>()(

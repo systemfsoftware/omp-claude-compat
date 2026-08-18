@@ -1,11 +1,11 @@
 import { sessionIds } from '@systemfsoftware/omp-utils'
 import { Array as Arr, Context, Effect, Schema as S, type Scope } from 'effect'
 
-import { analyzeSettings } from '../hook-settings.acl.js'
-import type { CommandHook, HookEntry } from '../hook-settings.schema.js'
-import type { HookSession } from './hook-session.kernel.js'
-import { runHookScript } from './run-hook-script.executor.js'
-import { superviseFork } from './supervise-fork.executor.js'
+import { analyzeSettings } from '../HookSettings.js'
+import type { CommandHook, HookEntry } from '../HookSettings.schema.js'
+import type { HookSession } from './HookSession.js'
+import { runHookScript } from './RunHookScriptExecutor.js'
+import { superviseFork } from './SuperviseForkExecutor.js'
 
 export class RunLifecycleHooksExecutorDeps extends Context.Service<RunLifecycleHooksExecutorDeps, Scope.Scope>()(
   'RunLifecycleHooksExecutorDeps',

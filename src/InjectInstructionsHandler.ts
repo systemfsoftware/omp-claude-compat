@@ -8,8 +8,8 @@ import type { TomlLoader } from '@systemfsoftware/omp-utils'
 import { Config, Effect, Result } from 'effect'
 import type { FileSystem } from 'effect/FileSystem'
 import type * as PathModule from 'effect/Path'
-import type { HookRunner } from './hook-runner.kernel.js'
-import { loadReferencedContent } from './inject-instructions.executor.js'
+import type { HookRunner } from './HookRunner.js'
+import { loadReferencedContent } from './InjectInstructionsExecutor.js'
 
 export const InjectInstructionsTask = (
   pi: ExtensionAPI,

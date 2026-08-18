@@ -1,8 +1,8 @@
 import { Cause, Context, Effect, Exit, type Scope } from 'effect'
-import { recordAsyncHookContext } from '../async-hook-output.state.js'
-import type { HookResult } from '../hook-dispatcher.schema.js'
-import { parseHookOutput } from '../hook-output.acl.js'
-import type { HookSession } from './hook-session.kernel.js'
+import { recordAsyncHookContext } from '../AsyncHookOutput.js'
+import type { HookResult } from '../HookDispatcher.schema.js'
+import { parseHookOutput } from '../HookOutput.js'
+import type { HookSession } from './HookSession.js'
 
 export class SuperviseForkExecutorDeps extends Context.Service<SuperviseForkExecutorDeps, Scope.Scope>()(
   'SuperviseForkExecutorDeps',

@@ -1,9 +1,9 @@
 import { Context, Effect, type Scope } from 'effect'
-import type { HookSettings } from '../hook-settings.schema.js'
-import type { FeedbackOnlyResult } from './hook-feedback.kernel.js'
-import type { HookSession, HookToolResult } from './hook-session.kernel.js'
-import { runPostToolUseFailureHooks } from './run-post-tool-use-failure-hooks.executor.js'
-import { runPostToolUseHooks } from './run-post-tool-use-hooks.executor.js'
+import type { HookSettings } from '../HookSettings.schema.js'
+import type { FeedbackOnlyResult } from './HookFeedback.js'
+import type { HookSession, HookToolResult } from './HookSession.js'
+import { runPostToolUseFailureHooks } from './RunPostToolUseFailureHooksExecutor.js'
+import { runPostToolUseHooks } from './RunPostToolUseHooksExecutor.js'
 
 export class RunToolResultHooksExecutorDeps extends Context.Service<RunToolResultHooksExecutorDeps, Scope.Scope>()(
   'RunToolResultHooksExecutorDeps',

@@ -1,5 +1,5 @@
 import { Schema as S } from 'effect'
-import { ToolInputRecord } from './hook-payload.schema.js'
+import { ToolInputRecord } from './HookPayload.schema.js'
 
 export const EMPTY_TOOL_INPUT: Record<string, unknown> = {}
 

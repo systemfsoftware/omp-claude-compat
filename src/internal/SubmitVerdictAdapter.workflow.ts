@@ -1,8 +1,8 @@
 import { Workflow } from '@systemfsoftware/effect-cell-types'
 import * as Result from 'effect/Result'
 import * as S from 'effect/Schema'
-import type { HookDecision } from '../hook-dispatcher.schema.js'
-import { HookVerdictError, InterpretHookCommand, interpretHookResult } from '../hook-verdict.workflow.js'
+import type { HookDecision } from '../HookDispatcher.schema.js'
+import { HookVerdictError, InterpretHookCommand, interpretHookResult } from '../HookVerdict.workflow.js'
 
 /**
  * The submit decision's failure: the workflow's verdict error plus the raw's code and

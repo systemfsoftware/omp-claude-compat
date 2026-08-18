@@ -1,9 +1,9 @@
 import { matchesMatcher, sessionIds } from '@systemfsoftware/omp-utils'
 import { Context, Effect, type Scope } from 'effect'
-import type { HookSettings } from '../hook-settings.schema.js'
-import type { HookSession } from './hook-session.kernel.js'
-import { runHookScript } from './run-hook-script.executor.js'
-import { superviseFork } from './supervise-fork.executor.js'
+import type { HookSettings } from '../HookSettings.schema.js'
+import type { HookSession } from './HookSession.js'
+import { runHookScript } from './RunHookScriptExecutor.js'
+import { superviseFork } from './SuperviseForkExecutor.js'
 
 export class RunSessionStartHooksExecutorDeps extends Context.Service<RunSessionStartHooksExecutorDeps, Scope.Scope>()(
   'RunSessionStartHooksExecutorDeps',

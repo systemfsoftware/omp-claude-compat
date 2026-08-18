@@ -1,7 +1,7 @@
 import type { ExtensionAPI, InputEvent, ToolCallEvent, ToolResultEvent } from '@oh-my-pi/pi-coding-agent'
 import type { InputEventResult, ToolCallEventResult, ToolResultEventResult } from '@oh-my-pi/pi-coding-agent'
 import { Effect, Option, Result } from 'effect'
-import { dispatchHookEvent, type HookDispatchContext } from './hook-dispatcher.executor.js'
+import { dispatchHookEvent, type HookDispatchContext } from './HookDispatcherExecutor.js'
 import type {
   HookEventCommand,
   HookPreCompactCommand,
@@ -13,8 +13,8 @@ import type {
   HookSessionSwitchCommand,
   HookToolCallCommand,
   HookToolResultCommand,
-} from './hook-dispatcher.executor.js'
-import type { HookRunner } from './hook-runner.kernel.js'
+} from './HookDispatcherExecutor.js'
+import type { HookRunner } from './HookRunner.js'
 
 const HANDLER_CEILING_MS = 28_000
 

@@ -1,5 +1,5 @@
 import { Effect, Match, Option, Schema as S } from 'effect'
-import type { BridgedEvent, MatcherReach } from './hook-catalog.shape.js'
+import type { BridgedEvent, MatcherReach } from './HookCatalog.js'
 import {
   ALL_CLAUDE_CODE_EVENTS,
   BRIDGED_EVENTS,
@@ -10,7 +10,7 @@ import {
   UNBRIDGED_REASONS,
   UNRECOGNIZED_KEY_REASON,
   WRAPPED_SHADOW_REASON,
-} from './hook-catalog.shape.js'
+} from './HookCatalog.js'
 import {
   type DisableSource,
   type HookCoverage,
@@ -20,7 +20,7 @@ import {
   type SettingsAnalysisCommand,
   SettingsJSON,
   type SettingsSource,
-} from './hook-settings.schema.js'
+} from './HookSettings.schema.js'
 
 export const parseSettings = S.decodeUnknownExit(SettingsJSON)
 

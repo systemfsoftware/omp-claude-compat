@@ -1,7 +1,7 @@
 import { describe, it } from '@effect/vitest'
 import { Result } from 'effect'
 import { FastCheck as fc } from 'effect/testing'
-import { InterpretHookCommand, interpretHookResult } from '../hook-verdict.workflow.js'
+import { InterpretHookCommand, interpretHookResult } from '../HookVerdict.workflow.js'
 
 const event = fc.constantFrom('PreToolUse', 'PostToolUse', 'SessionStart', 'UserPromptSubmit', 'SessionEnd')
 
