@@ -12,13 +12,6 @@
     "low": 100,
     "break": 100
   },
-  "ignorePatterns": [
-    "reports",
-    "coverage",
-    "dist"
-  ],
-  "ignorers": [
-    "effect-schema-declarations",
-    "workflow-make-boundary"
-  ]
+  "ignorePatterns": ["reports", "coverage", "dist"],
+  "ignorers": ["effect-schema-declarations", "workflow-make-boundary"]
 }
