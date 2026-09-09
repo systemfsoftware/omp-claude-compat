@@ -1,5 +1,24 @@
 {
-  "extends": "../../../stryker.config.base.json",
+  "packageManager": "pnpm",
+  "testRunner": "vitest",
+  "checkers": ["typescript"],
+  "plugins": [
+    "@systemfsoftware/stryker-js-vitest-runner",
+    "@systemfsoftware/stryker-js-typescript-checker",
+    "@systemfsoftware/stryker-plugins/effect-schema-ignorer",
+    "@systemfsoftware/stryker-plugins/workflow-make-ignorer",
+    "@systemfsoftware/stryker-test-contribution"
+  ],
+  "reporters": ["progress", "html", "json", "progress-stream"],
+  "htmlReporter": { "fileName": "reports/mutation-report.html" },
+  "jsonReporter": { "fileName": "reports/mutation-report.json" },
+  "vitest": { "configFile": "vitest.config.ts", "dir": ".", "related": true },
+  "typescriptChecker": { "prioritizePerformanceOverAccuracy": true },
+  "coverageAnalysis": "perTest",
+  "incremental": true,
+  "incrementalFile": "reports/stryker-incremental.json",
+  "ignorePatterns": ["reports", "coverage", "dist"],
+  "disableBail": true,
   "mutate": [
     "src/**/*.workflow.ts",
     "!src/**/*.test.ts",
@@ -12,6 +31,5 @@
     "low": 100,
     "break": 100
   },
-  "ignorePatterns": ["reports", "coverage", "dist"],
   "ignorers": ["effect-schema-declarations", "workflow-make-boundary"]
 }
