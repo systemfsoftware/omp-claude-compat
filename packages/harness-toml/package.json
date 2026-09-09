@@ -1,0 +1,57 @@
+{
+  "name": "@systemfsoftware/harness-toml",
+  "private": true,
+  "license": "Apache-2.0",
+  "version": "0.0.0",
+  "author": "Ryan Lee <drdgvhbh@gmail.com>",
+  "description": "Harness TOML: codec, pure merge, and fail-open layered read for systemfsoftware.toml",
+  "type": "module",
+  "exports": {
+    ".": {
+      "@systemfsoftware/source": "./src/mod.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "rimraf dist && tsdown",
+    "typecheck": "tsc --noEmit --incremental",
+    "test": "vitest run --passWithNoTests",
+    "lint": "f=${OXLINT_FORMAT:-${AGENT:+agent}}; oxlint . --format=${f:-default}"
+  },
+  "devDependencies": {
+    "@effect/vitest": "4.0.0-rc.112",
+    "@systemfsoftware/effect-gherkin-spec": "^4.0.1",
+    "@systemfsoftware/effect-memfs": "^1.3.4",
+    "@systemfsoftware/tsconfig": "^1.3.3",
+    "@types/node": "^24",
+    "effect": "^4.0.0-rc.112",
+    "fast-check": "^4",
+    "oxlint": "^1.77.0",
+    "rimraf": "^6.1.3",
+    "tsdown": "^0.22.14",
+    "typescript": "^7",
+    "vitest": "^4"
+  },
+  "peerDependencies": {
+    "effect": "^4.0.0-rc.112"
+  },
+  "dependencies": {
+    "@std/toml": "jsr:^1.0.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/systemfsoftware/systemfsoftware.git",
+    "directory": "omp/packages/harness-toml"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": "./dist/index.js",
+      "./package.json": "./package.json"
+    }
+  }
+}
