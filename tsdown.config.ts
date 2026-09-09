@@ -32,9 +32,9 @@ export function eagerEntryBudget({ maxBytes = 32 * 1024 }: { readonly maxBytes?:
     generateBundle(
       this: BudgetPluginContext,
       _options: unknown,
-      bundle: Record<string, BudgetChunk>,
+      bundle: Record<string, BudgetChunk | undefined>,
     ) {
-      const chunks = Object.values(bundle).filter((c) => c.type === 'chunk')
+      const chunks = Object.values(bundle).filter((c): c is BudgetChunk => c !== undefined && c.type === 'chunk')
       const entries = chunks.filter((c) => c.isEntry && /(?:^|\/)index\.js$/.test(c.fileName))
 
       if (entries.length === 0) return
@@ -42,7 +42,7 @@ export function eagerEntryBudget({ maxBytes = 32 * 1024 }: { readonly maxBytes?:
       const externals = new Set<string>()
       for (const chunk of chunks) {
         for (const specifier of chunk.imports) {
-          if (!bundle[specifier] && FORBIDDEN_EXTERNAL.test(specifier)) externals.add(specifier)
+          if (bundle[specifier] === undefined && FORBIDDEN_EXTERNAL.test(specifier)) externals.add(specifier)
         }
       }
       if (externals.size > 0) {
@@ -57,7 +57,7 @@ export function eagerEntryBudget({ maxBytes = 32 * 1024 }: { readonly maxBytes?:
         const walk = (fileName: string): void => {
           if (seen.has(fileName)) return
           const chunk = bundle[fileName]
-          if (!chunk || chunk.type !== 'chunk') return
+          if (chunk === undefined || chunk.type !== 'chunk') return
           seen.add(fileName)
           for (const next of chunk.imports) walk(next)
         }
@@ -66,7 +66,7 @@ export function eagerEntryBudget({ maxBytes = 32 * 1024 }: { readonly maxBytes?:
         let bytes = 0
         for (const fileName of seen) {
           const chunk = bundle[fileName]
-          if (chunk && chunk.type === 'chunk') bytes += Buffer.byteLength(chunk.code, 'utf8')
+          if (chunk !== undefined && chunk.type === 'chunk') bytes += Buffer.byteLength(chunk.code, 'utf8')
         }
         if (bytes > maxBytes) {
           this.error(
