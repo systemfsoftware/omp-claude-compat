@@ -12,8 +12,9 @@ const isCI = !isAgent && typeof process.env['CI'] === 'string' && process.env['C
 
 const sharedTestTimeout = isCI ? 30_000 : isAgent ? 15_000 : 8_000
 
-// Inlined from the monorepo's private `@systemfsoftware/vitest-config` sharedConfig
-// (never published; this repo cannot import it). Keep in sync with that source:
+// Inlined from the monorepo's private `@systemfsoftware/vitest-config` sharedConfig —
+// source: systemfsoftware/packages/toolchain/vitest-config (never published; this
+// repo cannot import it). Keep in sync with that source:
 // node env, globals, includeSource, excludes, coverage. The `include` patterns and
 // `resolve.conditions` below are this package's own surface, unchanged.
 export default defineConfig({

@@ -2,7 +2,8 @@ import cellVocabulary from '@systemfsoftware/oxlint-plugin-cell-vocabulary'
 import { defineConfig } from 'oxlint'
 
 // Standalone strict config. Inlined from the monorepo's private
-// `@systemfsoftware/oxlint-config` base + strict presets (never published;
+// `@systemfsoftware/oxlint-config` base + strict presets — source:
+// systemfsoftware/packages/oxlint-plugin/oxlint-config (never published;
 // this repo cannot import them). It carries the portable subset of the
 // effective strict rules this code satisfies — every built-in rule below.
 // Deliberately absent standalone, with the reason for each:

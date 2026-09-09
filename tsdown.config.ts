@@ -24,7 +24,8 @@ interface BudgetPluginContext {
  * reaching a heavy chunk from the entry (e.g. importing a barrel).
  *
  * Inlined from the monorepo's private `@systemfsoftware/tsdown-config/eager-entry-budget`
- * (never published; this repo cannot import it). Keep in sync with that source.
+ * — source: systemfsoftware/packages/toolchain/tsdown-config (never published;
+ * this repo cannot import it). Keep in sync with that source.
  */
 export function eagerEntryBudget({ maxBytes = 32 * 1024 }: { readonly maxBytes?: number } = {}) {
   return {

@@ -109,16 +109,22 @@ describe('interpretHookResult (PBT)', () => {
       JSON.stringify(verdict.success.updatedInput) === JSON.stringify({ tool_input: { content: value } })
   })
 
+  // Both verdict branches must fire every run: the constantFrom arm pins the
+  // recognized decisions, the mapped arm fuzzes the rest without colliding
+  // into them (a filtered arbitrary would mostly discard its samples).
   it.prop('∀decision_Exit0DecisionJsonWithoutHookOutput_→VerdictFromDecisionAlone', [
-    fc.string(),
+    fc.oneof(
+      fc.constantFrom('deny', 'block'),
+      fc.string().map((s) => (s === 'deny' || s === 'block' ? `${s}!` : s)),
+    ),
     event,
   ], ([decision, ev]) => {
     const stdout = JSON.stringify({ decision })
     const verdict = interpretHookResult(commandOf({ code: 0, stdout, stderr: '' }, ev))
-    if (!Result.isSuccess(verdict)) return false
-    return decision === 'deny' || decision === 'block'
-      ? verdict.success._tag === 'Block' && verdict.success.reason === `Blocked by ${ev} hook`
-      : verdict.success._tag === 'Allow' && verdict.success.updatedInput === undefined
+    return Result.isSuccess(verdict) &&
+      (decision === 'deny' || decision === 'block'
+        ? verdict.success._tag === 'Block' && verdict.success.reason === `Blocked by ${ev} hook`
+        : verdict.success._tag === 'Allow' && verdict.success.updatedInput === undefined)
   })
 
   it.prop('∀code_NonStandardExitIgnoresStdoutJson_→AllowWithoutUpdatedInput', [
