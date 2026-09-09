@@ -109,6 +109,18 @@ describe('interpretHookResult (PBT)', () => {
       JSON.stringify(verdict.success.updatedInput) === JSON.stringify({ tool_input: { content: value } })
   })
 
+  it.prop('∀decision_Exit0DecisionJsonWithoutHookOutput_→VerdictFromDecisionAlone', [
+    fc.string(),
+    event,
+  ], ([decision, ev]) => {
+    const stdout = JSON.stringify({ decision })
+    const verdict = interpretHookResult(commandOf({ code: 0, stdout, stderr: '' }, ev))
+    if (!Result.isSuccess(verdict)) return false
+    return decision === 'deny' || decision === 'block'
+      ? verdict.success._tag === 'Block' && verdict.success.reason === `Blocked by ${ev} hook`
+      : verdict.success._tag === 'Allow' && verdict.success.updatedInput === undefined
+  })
+
   it.prop('∀code_NonStandardExitIgnoresStdoutJson_→AllowWithoutUpdatedInput', [
     nonStandardExit,
     stderrText,
