@@ -51,8 +51,6 @@ export default defineConfig({
     'typescript/no-unnecessary-boolean-literal-compare': 'off',
     'typescript/explicit-module-boundary-types': 'off',
     'typescript/no-explicit-any': 'error',
-    'jest/no-standalone-expect': 'off',
-    'jest/valid-expect': 'off',
 
     // Constitution I.6 -- exhaustive dispatch over a closed type is the only branch
     // form the pure core admits. `workflow-match-exhaustive` enforces that shape at
@@ -85,7 +83,7 @@ export default defineConfig({
   },
   overrides: [
     {
-      files: ['tests/**'],
+      files: ['tests/**', '**/*.test.ts', '**/*.spec.ts'],
       rules: {
         // A test double for a third-party interface cannot be satisfied
         // structurally -- the host's `ExtensionAPI` declares 40+ `on` overloads
@@ -97,21 +95,6 @@ export default defineConfig({
         // as test blocks. Assertions are real; the rules don't model them.
         'vitest/expect-expect': 'off',
         'vitest/no-standalone-expect': 'off',
-      },
-    },
-    {
-      files: ['**/*.test.ts', '**/*.spec.ts'],
-      rules: {
-        // The Gherkin step DSL and Effect.runSync-based helpers nest `expect`
-        // inside Effect callbacks — vitest plugin cannot statically see these
-        // as test blocks. Assertions are real; the rules don't model them.
-        'vitest/expect-expect': 'off',
-        'vitest/no-standalone-expect': 'off',
-        // A test double for a third-party interface cannot be satisfied
-        // structurally -- the host's `ExtensionAPI` declares 40+ `on` overloads
-        // and `ExtensionContext` 20+ members. Narrowing one is the point of the
-        // double, not a concealed type lie. Test files only; src keeps the rule.
-        'typescript/no-unsafe-type-assertion': 'off',
       },
     },
     {
