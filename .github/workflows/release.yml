@@ -54,6 +54,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - uses: denoland/setup-deno@v2
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -62,6 +63,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Consume pending change intents
         run: pnpm version -r
+      - name: Capture release set
+        run: ./scripts/tag-released-packages.ts --dry-run --json --output /tmp/captured.json && cat /tmp/captured.json
+      - name: Assert release notes
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: ./scripts/create-github-releases.ts --assert --captured /tmp/captured.json
       - name: Open or update the Release PR
         env:
           GH_TOKEN: ${{ github.token }}
@@ -93,9 +100,17 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Capture release set
         run: ./scripts/tag-released-packages.ts --dry-run --json --output /tmp/captured.json
+      - name: Assert release notes
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: ./scripts/create-github-releases.ts --assert --captured /tmp/captured.json
       - name: Build
         run: pnpm build
       - name: Publish unpublished versions via OIDC
         run: ./scripts/tag-released-packages.ts --unpublished --captured /tmp/captured.json --publish
       - name: Tag released versions
         run: ./scripts/tag-released-packages.ts --captured /tmp/captured.json
+      - name: GitHub Releases from authored changelogs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: ./scripts/create-github-releases.ts --captured /tmp/captured.json
