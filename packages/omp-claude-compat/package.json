@@ -78,7 +78,7 @@
     "@systemfsoftware/stryker-test-contribution": "^2.0.0",
     "@systemfsoftware/tsconfig": "^1.3.3",
     "@types/node": "^24",
-    "@vitest/coverage-v8": "^4",
+    "@vitest/coverage-v8": "^5",
     "effect": "^4.0.0-rc.112",
     "fast-check": "^4",
     "oxlint": "^1.77.0",
@@ -86,7 +86,7 @@
     "rimraf": "^6.1.3",
     "tsdown": "^0.23.0",
     "typescript": "^7",
-    "vitest": "^4"
+    "vitest": "^5"
   },
   "omp": {
     "extensions": [
