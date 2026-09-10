@@ -12,6 +12,14 @@ Allows Oh My Pi agents to seamlessly execute `.claude/settings.json` hook config
 
 ## Installation
 
+Clone the standalone repo and install:
+
+```bash
+git clone https://github.com/systemfsoftware/omp-claude-compat
+cd omp-claude-compat
+pnpm install
+```
+
 Add the extension to your Oh My Pi configuration:
 
 ```json
@@ -33,9 +41,12 @@ pnpm add @systemfsoftware/omp-claude-compat
 - **Configuration Discovery:** Automatically locates `.claude/settings.json` at project root and binds relevant hook handlers to corresponding agent lifecycle events.
 - **File Reference Resolving:** Matches `@path/to/file` directives in instructions and substitutes live file contents at execution time.
 
-## API Reference
+## Development
 
-The exported TypeScript definitions are published with the package: [`etc/omp-claude-compat.api.md`](./etc/omp-claude-compat.api.md).
+```bash
+pnpm build
+pnpm test
+```
 
 ## License
 
