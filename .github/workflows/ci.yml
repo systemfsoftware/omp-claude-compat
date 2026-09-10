@@ -15,11 +15,13 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      CI: "true"
+      OXLINT_FORMAT: github
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v31
-        # dprint is a flake package, not an npm dependency; bin/dprint takes the
-        # first dprint on PATH.
       - name: dprint from the flake
         run: echo "$(nix build --no-link --print-out-paths .#dprint)/bin" >> "$GITHUB_PATH"
       - uses: pnpm/action-setup@v4
@@ -28,9 +30,14 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm format:check
-      - run: pnpm -r typecheck
-      - run: pnpm build
-      - run: pnpm lint
-      - run: pnpm -r test
-      - run: pnpm mutation
+      - name: Turbo cache
+        uses: actions/cache@v4
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-checks-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ runner.os }}-checks-
+            turbo-${{ runner.os }}-
+      # Root package.json `check:ci` is the one definition. Never re-enumerate its steps here.
+      - name: Gate
+        run: pnpm check:ci
