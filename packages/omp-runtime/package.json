@@ -39,8 +39,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/systemfsoftware/systemfsoftware.git",
-    "directory": "omp/packages/omp-runtime"
+    "url": "git+https://github.com/systemfsoftware/omp-claude-compat.git",
+    "directory": "packages/omp-runtime"
   },
   "publishConfig": {
     "exports": {

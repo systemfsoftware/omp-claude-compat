@@ -45,8 +45,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/systemfsoftware/systemfsoftware.git",
-    "directory": "omp/packages/harness-toml"
+    "url": "git+https://github.com/systemfsoftware/omp-claude-compat.git",
+    "directory": "packages/harness-toml"
   },
   "publishConfig": {
     "exports": {
