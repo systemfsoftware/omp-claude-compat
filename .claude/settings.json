@@ -1,5 +1,16 @@
 {
   "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "comment-checker"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
@@ -7,48 +18,6 @@
             "type": "command",
             "command": "cd \"$CLAUDE_PROJECT_DIR\" && pnpm format >/dev/null || true",
             "async": true,
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Write|Edit|Update|MultiEdit|morph_mcp_edit-file|morph_edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "command -v deno >/dev/null 2>&1 || { echo 'deliver-leaf-agents-md: deno not found on PATH - install Deno (https://deno.land) so the guard can run' >&2; exit 1; }; exec deno run --quiet --allow-env --allow-read --allow-write \"$CLAUDE_PROJECT_DIR/.claude/hooks/deliver-leaf-agents-md.ts\"",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "command -v deno >/dev/null 2>&1 || { echo 'guard-protected-writes: deno not found on PATH - install Deno (https://deno.land) so the guard can run' >&2; exit 1; }; exec deno run --quiet --allow-env --allow-read \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-protected-writes.ts\"",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "command -v deno >/dev/null 2>&1 || { echo 'guard-native-equivalent: deno not found on PATH - install Deno (https://deno.land) so the guard can run' >&2; exit 1; }; exec deno run --quiet \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-native-equivalent.ts\"",
-            "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "command -v deno >/dev/null 2>&1 || { echo 'guard-local-mutation: deno not found on PATH - install Deno (https://deno.land) so the guard can run' >&2; exit 1; }; exec deno run --quiet \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-local-mutation.ts\"",
-            "timeout": 5
-          }
-        ]
-      },
-      {
-        "matcher": "Read|Skill",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "command -v deno >/dev/null 2>&1 || { echo 'guard-native-equivalent: deno not found on PATH - install Deno (https://deno.land) so the guard can run' >&2; exit 1; }; exec deno run --quiet \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-native-equivalent.ts\"",
             "timeout": 5
           }
         ]
