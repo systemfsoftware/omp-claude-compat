@@ -7,7 +7,8 @@ export const homeAnchor = (
   osHomedir: string,
 ): string => {
   const override = env['HARNESS_POLICY_HOME']
-  return typeof override === 'string' && override.length > 0 ? override : osHomedir
+  if (typeof override === 'string' && override.length > 0) return override
+  return osHomedir
 }
 
 export const policyFilePaths = (homeDir: string, cwd: string): readonly string[] => [

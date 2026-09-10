@@ -5,9 +5,9 @@ import { homeAnchor, policyFilePaths, readLayers } from '@systemfsoftware/harnes
 import { bootstrapPluginRuntime } from '@systemfsoftware/omp-runtime'
 import { Effect, Layer, Scope } from 'effect'
 import * as FileSystem from 'effect/FileSystem'
-import os from 'node:os'
 import { FileReferencedContentLive } from './inject/file-referenced-content.js'
 import { DEFAULT_NO_INJECT_REFS, NoInjectRefs, NoInjectRefsLive } from './inject/no-inject-refs.js'
+import { homeDir } from './internal/host-env.js'
 import { ClaudeSettingsLive } from './settings/mod.js'
 export const HookScopeLive = Layer.mergeAll(
   Layer.effect(Scope.Scope, Effect.scope),
@@ -36,7 +36,7 @@ export const warmHarnessPolicy = (
   cwd: string,
 ): Effect.Effect<void, never, FileSystem.FileSystem | NoInjectRefs> =>
   Effect.gen(function*() {
-    const home = homeAnchor(process.env, os.homedir())
+    const home = homeAnchor(process.env, homeDir())
     const paths = policyFilePaths(home, cwd)
     const policy: Record<string, readonly string[]> = yield* readLayers(paths)
     const svc = yield* NoInjectRefs

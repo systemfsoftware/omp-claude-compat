@@ -1,5 +1,5 @@
 import { describe, it } from '@effect/vitest'
-import { Exit, Option, Result } from 'effect'
+import { Exit, Match, Option, Result } from 'effect'
 import { Schema as S } from 'effect'
 import { FastCheck as fc } from 'effect/testing'
 import { HookOutputFromStdout, type ParsedHookOutput } from '../hooks.schema.js'
@@ -47,15 +47,28 @@ const stderrText = fc
 const commandOf = (result: { readonly code: number; readonly stdout: string; readonly stderr: string }, ev: string) =>
   new InterpretHookCommand({ result, event: ev, parsed: parsedOf(result.stdout) })
 
+const escapeKnownDecision = (s: string): string => {
+  if (s === 'deny' || s === 'block') {
+    return `${s}!`
+  }
+  return s
+}
+
 describe('interpretHookResult (PBT)', () => {
   it.prop('∀stdout_Exit0AndBlankStdout_→Allow', [blankStdout, event], ([stdout, ev]) => {
     const verdict = interpretHookResult(commandOf({ code: 0, stdout, stderr: '' }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Allow'
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Allow', () => true),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀stdout_Exit0AndPlainTextStdout_→Allow', [plainStdout, event], ([stdout, ev]) => {
     const verdict = interpretHookResult(commandOf({ code: 0, stdout, stderr: '' }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Allow'
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Allow', () => true),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀stdout_Exit0AndMalformedDecisionJson_→VerdictError', [malformedJson, event], ([stdout, ev]) => {
@@ -65,8 +78,10 @@ describe('interpretHookResult (PBT)', () => {
 
   it.prop('∀stderr_Exit2_→BlockCarryingStderr', [stderrText, event], ([stderr, ev]) => {
     const verdict = interpretHookResult(commandOf({ code: 2, stdout: '', stderr }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Block' &&
-      verdict.success.reason === stderr.trim()
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Block', (block) => block.reason === stderr.trim()),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀stdout_Exit2IgnoresStdout_→Block', [fc.oneof(blankStdout, plainStdout, malformedJson), event], ([
@@ -74,8 +89,10 @@ describe('interpretHookResult (PBT)', () => {
     ev,
   ]) => {
     const verdict = interpretHookResult(commandOf({ code: 2, stdout, stderr: 'denied' }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Block' &&
-      verdict.success.reason === 'denied'
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Block', (block) => block.reason === 'denied'),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀reason_Exit0AndDenyDecision_→Block', [stderrText, event], ([reason, ev]) => {
@@ -83,8 +100,10 @@ describe('interpretHookResult (PBT)', () => {
       hookSpecificOutput: { permissionDecision: 'deny', permissionDecisionReason: reason },
     })
     const verdict = interpretHookResult(commandOf({ code: 0, stdout, stderr: '' }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Block' &&
-      verdict.success.reason === reason
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Block', (block) => block.reason === reason),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀code_NonStandardExitWithStderr_→Warning', [nonStandardExit, stderrText, event], ([
@@ -93,20 +112,30 @@ describe('interpretHookResult (PBT)', () => {
     ev,
   ]) => {
     const verdict = interpretHookResult(commandOf({ code, stdout: '', stderr }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Warning' &&
-      verdict.success.message === stderr.trim()
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Warning', (warning) => warning.message === stderr.trim()),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀code_NonStandardExitWithoutStderr_→Allow', [nonStandardExit, blankStdout, event], ([code, stderr, ev]) => {
     const verdict = interpretHookResult(commandOf({ code, stdout: '', stderr }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Allow'
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Allow', () => true),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀value_Exit0AndUpdatedInput_→AllowCarriesUpdatedInput', [stderrText, event], ([value, ev]) => {
     const stdout = JSON.stringify({ hookSpecificOutput: { updatedInput: { tool_input: { content: value } } } })
     const verdict = interpretHookResult(commandOf({ code: 0, stdout, stderr: '' }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Allow' &&
-      JSON.stringify(verdict.success.updatedInput) === JSON.stringify({ tool_input: { content: value } })
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag(
+        'Allow',
+        (allow) => JSON.stringify(allow.updatedInput) === JSON.stringify({ tool_input: { content: value } }),
+      ),
+      Match.orElse(() => false),
+    )
   })
 
   // Both verdict branches must fire every run: the constantFrom arm pins the
@@ -115,16 +144,22 @@ describe('interpretHookResult (PBT)', () => {
   it.prop('∀decision_Exit0DecisionJsonWithoutHookOutput_→VerdictFromDecisionAlone', [
     fc.oneof(
       fc.constantFrom('deny', 'block'),
-      fc.string().map((s) => (s === 'deny' || s === 'block' ? `${s}!` : s)),
+      fc.string().map(escapeKnownDecision),
     ),
     event,
   ], ([decision, ev]) => {
     const stdout = JSON.stringify({ decision })
     const verdict = interpretHookResult(commandOf({ code: 0, stdout, stderr: '' }, ev))
-    return Result.isSuccess(verdict) &&
-      (decision === 'deny' || decision === 'block'
-        ? verdict.success._tag === 'Block' && verdict.success.reason === `Blocked by ${ev} hook`
-        : verdict.success._tag === 'Allow' && verdict.success.updatedInput === undefined)
+    if (decision === 'deny' || decision === 'block') {
+      return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+        Match.tag('Block', (block) => block.reason === `Blocked by ${ev} hook`),
+        Match.orElse(() => false),
+      )
+    }
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Allow', (allow) => allow.updatedInput === undefined),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀code_NonStandardExitIgnoresStdoutJson_→AllowWithoutUpdatedInput', [
@@ -134,8 +169,10 @@ describe('interpretHookResult (PBT)', () => {
   ], ([code, value, ev]) => {
     const stdout = JSON.stringify({ hookSpecificOutput: { updatedInput: { tool_input: { content: value } } } })
     const verdict = interpretHookResult(commandOf({ code, stdout, stderr: '' }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Allow' &&
-      verdict.success.updatedInput === undefined
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Allow', (allow) => allow.updatedInput === undefined),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀value_Exit0DenyWithUpdatedInput_→BlockNotAllow', [stderrText, event], ([value, ev]) => {
@@ -143,7 +180,10 @@ describe('interpretHookResult (PBT)', () => {
       hookSpecificOutput: { permissionDecision: 'deny', permissionDecisionReason: value, updatedInput: { a: '1' } },
     })
     const verdict = interpretHookResult(commandOf({ code: 0, stdout, stderr: '' }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Block'
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Block', () => true),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀prefix_Exit0AndDecisionJsonBehindBlankSpace_→Block', [leadingBlank, stderrText, event], ([
@@ -155,29 +195,37 @@ describe('interpretHookResult (PBT)', () => {
       hookSpecificOutput: { permissionDecision: 'deny', permissionDecisionReason: reason },
     })
     const verdict = interpretHookResult(commandOf({ code: 0, stdout, stderr: '' }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Block' &&
-      verdict.success.reason === reason
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Block', (block) => block.reason === reason),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀reason_Exit0AndTopLevelBlockDecision_→Block', [stderrText, event], ([reason, ev]) => {
     const stdout = JSON.stringify({ decision: 'block', reason })
     const verdict = interpretHookResult(commandOf({ code: 0, stdout, stderr: '' }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Block' &&
-      verdict.success.reason === reason
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Block', (block) => block.reason === reason),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀event_Exit0AndDenyWithoutReason_→BlockNamingTheEvent', [event], ([ev]) => {
     const stdout = JSON.stringify({ hookSpecificOutput: { permissionDecision: 'deny' } })
     const verdict = interpretHookResult(commandOf({ code: 0, stdout, stderr: '' }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Block' &&
-      verdict.success.reason === `Blocked by ${ev} hook`
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Block', (block) => block.reason === `Blocked by ${ev} hook`),
+      Match.orElse(() => false),
+    )
   })
 
   it.prop('∀event_Exit0AndTopLevelBlockWithoutReason_→BlockNamingTheEvent', [event], ([ev]) => {
     const stdout = JSON.stringify({ decision: 'block' })
     const verdict = interpretHookResult(commandOf({ code: 0, stdout, stderr: '' }, ev))
-    return Result.isSuccess(verdict) && verdict.success._tag === 'Block' &&
-      verdict.success.reason === `Blocked by ${ev} hook`
+    return Result.isSuccess(verdict) && Match.value(verdict.success).pipe(
+      Match.tag('Block', (block) => block.reason === `Blocked by ${ev} hook`),
+      Match.orElse(() => false),
+    )
   })
 })
 

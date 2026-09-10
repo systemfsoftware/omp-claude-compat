@@ -1,7 +1,7 @@
 import { homeAnchor, policyFilePaths, readLayers } from '@systemfsoftware/harness-toml'
 import { Context, Effect, Layer } from 'effect'
 import * as FileSystem from 'effect/FileSystem'
-import os from 'node:os'
+import { homeDir } from '../internal/host-env.js'
 
 export const DEFAULT_NO_INJECT_REFS: readonly string[] = ['AGENTS.md']
 
@@ -25,7 +25,7 @@ export const NoInjectRefsLive: Layer.Layer<NoInjectRefs> = Layer.succeed(NoInjec
     Effect.gen(function*() {
       const cached = cache.get(cwd)
       if (cached !== undefined) return cached
-      const home = homeAnchor(process.env, os.homedir())
+      const home = homeAnchor(process.env, homeDir())
       const paths = policyFilePaths(home, cwd)
       const policy: Record<string, readonly string[]> = yield* readLayers(paths)
       const value = policy['no_inject_refs'] ?? DEFAULT_NO_INJECT_REFS

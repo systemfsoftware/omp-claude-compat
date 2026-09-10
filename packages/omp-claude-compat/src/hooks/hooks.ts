@@ -28,7 +28,7 @@ import type { LazyArg } from 'effect/Function'
 import type { PlatformError } from 'effect/PlatformError'
 import * as ChildProcess from 'effect/unstable/process/ChildProcess'
 import { ChildProcessSpawner } from 'effect/unstable/process/ChildProcessSpawner'
-import { homedir } from 'node:os'
+import { homeDir } from '../internal/host-env.js'
 import { ClaudeSettings, ifEvaluatingEvent, matcherUnreadable } from '../settings/mod.js'
 import type { CommandHook, HookEntry, HookSettings } from '../settings/mod.js'
 
@@ -100,7 +100,13 @@ const recordAsyncHookContext = (context: string): void => {
   const text = context.trim()
   if (text.length === 0) return
   Effect.runSync(
-    Ref.update(pending, (items) => items.length >= PENDING_CAP ? [...items.slice(1), text] : [...items, text]),
+    Ref.update(pending, (items) => {
+      if (items.length >= PENDING_CAP) {
+        return [...items.slice(1), text]
+      } else {
+        return [...items, text]
+      }
+    }),
   )
 }
 
@@ -133,8 +139,13 @@ export interface HooksForEventResult {
 
 export type FeedbackOnlyResult = Omit<HooksForEventResult, 'block' | 'reason'>
 
-export const blockAsFeedback = (result: HooksForEventResult): FeedbackOnlyResult =>
-  result.reason === undefined ? {} : { warning: result.reason }
+export const blockAsFeedback = (result: HooksForEventResult): FeedbackOnlyResult => {
+  if (result.reason === undefined) {
+    return {}
+  } else {
+    return { warning: result.reason }
+  }
+}
 
 const CLAUDE_EVENT_DEFAULT_SECONDS: Readonly<Record<string, number>> = {
   UserPromptSubmit: 30,
@@ -181,23 +192,35 @@ export const runHookScript = Effect.fn('runHookScript')(function*(
 
   const [shell, evalFlag] = SHELL_INVOCATION[hook.shell ?? 'sh']
   const pluginRoot = hook.pluginRoot
-  const expand = (value: string) =>
-    pluginRoot === undefined ? value : value.split('${CLAUDE_PLUGIN_ROOT}').join(pluginRoot)
+  const expand = (value: string): string => {
+    if (pluginRoot === undefined) {
+      return value
+    } else {
+      return value.split('${CLAUDE_PLUGIN_ROOT}').join(pluginRoot)
+    }
+  }
+  let pluginRootEnv: Record<string, string> = {}
+  if (pluginRoot !== undefined) {
+    pluginRootEnv = { CLAUDE_PLUGIN_ROOT: pluginRoot }
+  }
   const options = {
     cwd,
     env: {
       OMP_PROJECT_DIR: cwd,
       CLAUDE_PROJECT_DIR: cwd,
-      ...(pluginRoot === undefined ? {} : { CLAUDE_PLUGIN_ROOT: pluginRoot }),
+      ...pluginRootEnv,
     },
     extendEnv: true,
     stdin: Stream.fromIterable([new TextEncoder().encode(stdinText)]),
     stdout: 'pipe' as const,
     stderr: 'pipe' as const,
   }
-  const hookCommand = hook.args === undefined
-    ? ChildProcess.make(shell, [evalFlag, expand(hook.command)], options)
-    : ChildProcess.make(expand(hook.command), hook.args.map(expand), options)
+  let hookCommand: ChildProcess.Command
+  if (hook.args === undefined) {
+    hookCommand = ChildProcess.make(shell, [evalFlag, expand(hook.command)], options)
+  } else {
+    hookCommand = ChildProcess.make(expand(hook.command), hook.args.map(expand), options)
+  }
 
   const hookScope = yield* Scope.Scope
   const run = Effect.scoped(
@@ -343,9 +366,19 @@ const runHooksForEventUnbounded = Effect.fn('runHooksForEventUnbounded')(functio
     }
   }
 
-  const result: HooksForEventResult = {
-    ...(currentInput === input ? {} : { updatedInput: currentInput }),
-    ...(warning !== undefined ? { warning } : {}),
+  let result: HooksForEventResult
+  if (currentInput === input) {
+    if (warning === undefined) {
+      result = {}
+    } else {
+      result = { warning }
+    }
+  } else {
+    if (warning === undefined) {
+      result = { updatedInput: currentInput }
+    } else {
+      result = { updatedInput: currentInput, warning }
+    }
   }
   return result
 })
@@ -373,12 +406,15 @@ export const runLifecycleHooks = Effect.fn('runLifecycleHooks')(
       (entry) =>
         Effect.forEach(
           Arr.filter(entry.hooks, (hook): hook is CommandHook => hook.type === 'command' && hook.if === undefined),
-          (hook) =>
-            hook.async === true || hook.asyncRewake === true
-              ? Effect.forkDetach(
+          (hook) => {
+            if (hook.async === true || hook.asyncRewake === true) {
+              return Effect.forkDetach(
                 superviseFork(runHookScript(hook, input, cwd, event, false), ctx, hook.command),
               ).pipe(Effect.asVoid)
-              : runHookScript(hook, input, cwd, event).pipe(Effect.asVoid),
+            } else {
+              return runHookScript(hook, input, cwd, event).pipe(Effect.asVoid)
+            }
+          },
           { discard: true },
         ),
       { discard: true },
@@ -406,16 +442,21 @@ export const runPreToolUseHooks = Effect.fn('runPreToolUseHooks')(function*(
     }
     const bashResult = yield* runHooksForEvent(settings.hooks.PreToolUse, 'Bash', bashInput, ctx, 'PreToolUse')
     if (bashResult.block === true) {
-      return bashResult.reason === undefined
-        ? { block: true }
-        : { block: true, reason: bashResult.reason }
+      if (bashResult.reason === undefined) {
+        return { block: true }
+      } else {
+        return { block: true, reason: bashResult.reason }
+      }
     }
   }
 
   const targets = editTargetPaths(claudeToolName, toolInput)
-  const payloads = targets.length === 0
-    ? [toolInput]
-    : targets.map((file_path) => ({ ...toolInput, file_path }))
+  let payloads: Array<Record<string, unknown>>
+  if (targets.length === 0) {
+    payloads = [toolInput]
+  } else {
+    payloads = targets.map((file_path) => ({ ...toolInput, file_path }))
+  }
 
   let lastResult: HooksForEventResult = {}
   for (const payload of payloads) {
@@ -429,14 +470,21 @@ export const runPreToolUseHooks = Effect.fn('runPreToolUseHooks')(function*(
     const result = yield* runHooksForEvent(settings.hooks.PreToolUse, claudeToolName, input, ctx, 'PreToolUse')
 
     if (result.block === true) {
-      return result.reason === undefined
-        ? { block: true }
-        : { block: true, reason: result.reason }
+      if (result.reason === undefined) {
+        return { block: true }
+      } else {
+        return { block: true, reason: result.reason }
+      }
     }
     lastResult = result
   }
 
-  const updated = payloads.length === 1 ? lastResult.updatedInput?.['tool_input'] : undefined
+  let updated: unknown
+  if (payloads.length === 1) {
+    updated = lastResult.updatedInput?.['tool_input']
+  } else {
+    updated = undefined
+  }
 
   Object.assign(event.input, denormalizeToolInput(rawInput, updated))
 
@@ -455,9 +503,12 @@ export const runPostToolUseHooks = Effect.fn('runPostToolUseHooks')(function*(
     Option.getOrElse(asToolInput(event.input), () => EMPTY_TOOL_INPUT),
   )
   const targets = editTargetPaths(claudeToolName, toolInput)
-  const payloads = targets.length === 0
-    ? [toolInput]
-    : targets.map((file_path) => ({ ...toolInput, file_path }))
+  let payloads: Array<Record<string, unknown>>
+  if (targets.length === 0) {
+    payloads = [toolInput]
+  } else {
+    payloads = targets.map((file_path) => ({ ...toolInput, file_path }))
+  }
 
   let firstWarning: string | undefined
   let lastResult: FeedbackOnlyResult = {}
@@ -477,7 +528,11 @@ export const runPostToolUseHooks = Effect.fn('runPostToolUseHooks')(function*(
     lastResult = result
   }
 
-  return firstWarning === undefined ? lastResult : { ...lastResult, warning: firstWarning }
+  if (firstWarning === undefined) {
+    return lastResult
+  } else {
+    return { ...lastResult, warning: firstWarning }
+  }
 })
 
 const asTextBlocks = S.decodeUnknownOption(S.Array(S.Struct({ text: S.optional(S.String) })))
@@ -485,7 +540,14 @@ const asPlainText = S.decodeUnknownOption(S.String)
 
 const errorText = (content: unknown): string =>
   Option.match(asTextBlocks(content), {
-    onSome: (blocks) => blocks.flatMap((block) => block.text === undefined ? [] : [block.text]).join('\n'),
+    onSome: (blocks) =>
+      blocks.flatMap((block) => {
+        if (block.text === undefined) {
+          return []
+        } else {
+          return [block.text]
+        }
+      }).join('\n'),
     onNone: () => Option.getOrElse(asPlainText(content), () => ''),
   })
 
@@ -515,7 +577,12 @@ export const runPostToolUseFailureHooks = Effect.fn('runPostToolUseFailureHooks'
     ctx,
     'PostToolUseFailure',
   )
-  const feedback: FeedbackOnlyResult = result.block === true ? blockAsFeedback(result) : result
+  let feedback: FeedbackOnlyResult
+  if (result.block === true) {
+    feedback = blockAsFeedback(result)
+  } else {
+    feedback = result
+  }
   return feedback
 })
 
@@ -524,9 +591,12 @@ export const runToolResultHooks = Effect.fn('runToolResultHooks')(function*(
   event: HookToolResult,
   ctx: HookSession,
 ) {
-  const feedback: FeedbackOnlyResult = event.isError === true
-    ? yield* runPostToolUseFailureHooks(settings, event, ctx)
-    : yield* runPostToolUseHooks(settings, event, ctx)
+  let feedback: FeedbackOnlyResult
+  if (event.isError === true) {
+    feedback = yield* runPostToolUseFailureHooks(settings, event, ctx)
+  } else {
+    feedback = yield* runPostToolUseHooks(settings, event, ctx)
+  }
   return feedback
 })
 
@@ -806,7 +876,9 @@ export const HookDispatcherTask = (
   const bounded = async <A, E>(effect: Effect.Effect<A, E, HookDispatchContext>): Promise<A | undefined> => {
     const timed = Effect.gen(function*() {
       const outcome = yield* Effect.result(effect)
-      if (Result.isFailure(outcome)) throw outcome.failure
+      if (Result.isFailure(outcome)) {
+        throw new Error('hook dispatch effect failed', { cause: outcome.failure })
+      }
       return outcome.success
     }).pipe(Effect.timeoutOption(HANDLER_CEILING_MS))
     return Option.getOrUndefined(await runSafe(timed))
@@ -820,7 +892,7 @@ export const HookDispatcherTask = (
     },
   ): HookSession => ({
     cwd: ctx.cwd,
-    homeDir: homedir(),
+    homeDir: homeDir(),
     sessionManager: ctx.sessionManager,
     ui: ctx.ui,
   })

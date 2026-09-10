@@ -78,6 +78,13 @@ const REGEX_CACHE_CAP = 256
 
 const regexCache = new Map<string, RegExp | true>()
 
+function testCompiledPattern(compiled: RegExp | true, toolName: string): boolean {
+  if (compiled === true) {
+    return true
+  }
+  return compiled.test(toolName)
+}
+
 export function matchesMatcher(toolName: string, matcher: string | undefined): boolean {
   if (matcher === undefined || matcher.length === 0) return true
   const pattern = matcher
@@ -88,12 +95,12 @@ export function matchesMatcher(toolName: string, matcher: string | undefined): b
   if (pattern.length === 0) return true
   const cached = regexCache.get(pattern)
   if (cached !== undefined) {
-    return cached === true ? true : cached.test(toolName)
+    return testCompiledPattern(cached, toolName)
   }
   const compiled = compilePattern(pattern)
   if (regexCache.size >= REGEX_CACHE_CAP) regexCache.clear()
   regexCache.set(pattern, compiled)
-  return compiled === true ? true : compiled.test(toolName)
+  return testCompiledPattern(compiled, toolName)
 }
 
 /**
@@ -148,9 +155,10 @@ export function matchesPermissionRule(
   const specifier = parsed?.[2]?.trim()
   if (specifier === undefined || specifier.length === 0) return true
 
-  return tool === 'Bash'
-    ? matchesBashRule(specifier, toolInput['command'])
-    : matchesPathRule(specifier, toolInput['file_path'], cwd)
+  if (tool === 'Bash') {
+    return matchesBashRule(specifier, toolInput['command'])
+  }
+  return matchesPathRule(specifier, toolInput['file_path'], cwd)
 }
 
 function matchesBashRule(pattern: string, command: unknown): boolean {
@@ -189,11 +197,17 @@ function matchesPathRule(pattern: string, filePath: unknown, cwd: string): boole
   // A prefix strip rather than a path-relative computation: `file_path` may
   // already be relative, and resolving it against the process directory
   // instead of the session's would silently match the wrong tree.
-  const relative = filePath.startsWith(`${cwd}/`) ? filePath.slice(cwd.length + 1) : filePath
+  let relative: string = filePath
+  if (filePath.startsWith(`${cwd}/`)) {
+    relative = filePath.slice(cwd.length + 1)
+  }
   const trimmed = pattern.replace(/\/+$/, '')
 
   // Gitignore convention: a pattern with no separator matches at any depth.
-  const target = trimmed.includes('/') ? relative : basename(relative)
+  let target: string = basename(relative)
+  if (trimmed.includes('/')) {
+    target = relative
+  }
 
   return new RegExp(`^${pathGlobSource(trimmed)}$`).test(target)
 }
@@ -215,7 +229,11 @@ function segmentGlobSource(pattern: string): string {
   while (index < pattern.length) {
     const char = pattern.charAt(index)
     if (char !== '*') {
-      source += char === '?' ? '[^/]' : escapeRegex(char)
+      if (char === '?') {
+        source += '[^/]'
+      } else {
+        source += escapeRegex(char)
+      }
       index += 1
       continue
     }
@@ -225,8 +243,13 @@ function segmentGlobSource(pattern: string): string {
       continue
     }
     const spansSegments = pattern.charAt(index + 2) === '/'
-    source += spansSegments ? '(?:[^/]+/)*' : '.*'
-    index += spansSegments ? 3 : 2
+    if (spansSegments) {
+      source += '(?:[^/]+/)*'
+      index += 3
+    } else {
+      source += '.*'
+      index += 2
+    }
   }
 
   return source
@@ -273,7 +296,10 @@ export function extractShellCommand(toolName: string, input: Record<string, unkn
   if (!isContextModeShellTool(toolName, input)) return undefined
 
   if (toolName === 'ctx_execute') {
-    return typeof input['code'] === 'string' ? input['code'] : undefined
+    if (typeof input['code'] === 'string') {
+      return input['code']
+    }
+    return undefined
   }
 
   if (Array.isArray(input['commands'])) {
@@ -282,11 +308,14 @@ export function extractShellCommand(toolName: string, input: Record<string, unkn
     // narrowing at the member access below.
     const commands: unknown[] = input['commands']
     return commands
-      .map((entry) =>
-        typeof entry === 'object' && entry !== null && 'command' in entry && typeof entry['command'] === 'string'
-          ? entry['command']
-          : ''
-      )
+      .map((entry) => {
+        if (typeof entry === 'object' && entry !== null && 'command' in entry) {
+          if (typeof entry['command'] === 'string') {
+            return entry['command']
+          }
+        }
+        return ''
+      })
       .filter((cmd): cmd is string => typeof cmd === 'string')
       .join('\n')
   }
@@ -323,25 +352,40 @@ const PATH_TOOLS: Record<string, true> = {
 function stripTagAndQuotes(raw: string): string {
   const trimmed = raw.trim()
   const tagAt = HASHLINE_TAG.exec(trimmed)?.index
-  const untagged = tagAt === undefined ? trimmed : trimmed.slice(0, tagAt)
+  let untagged: string = trimmed
+  if (tagAt !== undefined) {
+    untagged = trimmed.slice(0, tagAt)
+  }
   if (untagged.length < 2) return untagged
   const first = untagged[0]
   const last = untagged[untagged.length - 1]
   const quoted = (first === '"' || first === "'") && first === last
-  return quoted ? untagged.slice(1, -1) : untagged
+  if (quoted) {
+    return untagged.slice(1, -1)
+  }
+  return untagged
 }
 
 function hashlineHeaderPath(line: string): string | undefined {
   const trimmed = line.trimEnd()
   if (!trimmed.startsWith('[')) return undefined
-  const end = trimmed.endsWith(']') ? trimmed.length - 1 : trimmed.length
+  let end: number = trimmed.length
+  if (trimmed.endsWith(']')) {
+    end = trimmed.length - 1
+  }
   const path = stripTagAndQuotes(trimmed.slice(1, end))
-  return path.length > 0 ? path : undefined
+  if (path.length > 0) {
+    return path
+  }
+  return undefined
 }
 
 function patchTextTargets(input: string): readonly string[] {
   const found: string[] = []
-  const body = input.startsWith('\uFEFF') ? input.slice(1) : input
+  let body: string = input
+  if (input.startsWith('\uFEFF')) {
+    body = input.slice(1)
+  }
   let inHashlineSection = false
 
   for (const line of body.split('\n')) {
@@ -380,7 +424,10 @@ function patchTextTargets(input: string): readonly string[] {
 
 function nonEmptyString(input: Record<string, unknown>, key: string): string | undefined {
   const value = input[key]
-  return typeof value === 'string' && value.length > 0 ? value : undefined
+  if (typeof value === 'string' && value.length > 0) {
+    return value
+  }
+  return undefined
 }
 
 /**
@@ -394,11 +441,17 @@ export function editTargetPaths(toolName: string, input: Record<string, unknown>
   if (PATH_TOOLS[toolName] !== true) return []
 
   const patch = input['input']
-  const fromText = typeof patch === 'string' ? patchTextTargets(patch) : []
+  let fromText: readonly string[] = []
+  if (typeof patch === 'string') {
+    fromText = patchTextTargets(patch)
+  }
   if (fromText.length > 0) return Array.from(new Set(fromText))
 
   const declared = nonEmptyString(input, 'file_path') ?? nonEmptyString(input, 'path')
-  return declared === undefined ? [] : [declared]
+  if (declared === undefined) {
+    return []
+  }
+  return [declared]
 }
 
 // ── ToolInput.ts ──
@@ -429,7 +482,10 @@ const EDIT_TOOLS: Record<string, true> = { Edit: true, MultiEdit: true, Update: 
 
 const patchLines = (input: string, sigil: string): string | undefined => {
   const marked = input.split('\n').filter((line) => line.startsWith(sigil))
-  return marked.length === 0 ? undefined : marked.map((line) => line.slice(sigil.length)).join('\n')
+  if (marked.length === 0) {
+    return undefined
+  }
+  return marked.map((line) => line.slice(sigil.length)).join('\n')
 }
 
 export function normalizeToolInput(toolName: string, input: Record<string, unknown>): Record<string, unknown> {
@@ -440,10 +496,17 @@ export function normalizeToolInput(toolName: string, input: Record<string, unkno
   }
 
   if (EDIT_TOOLS[toolName] === true && 'edits' in out && isOmpEditArray(out['edits']) && !('new_string' in out)) {
-    const claudeEdits = out['edits'].map((entry) => ({
-      old_string: typeof entry['old_text'] === 'string' ? entry['old_text'] : '',
-      new_string: typeof entry['new_text'] === 'string' ? entry['new_text'] : '',
-    }))
+    const claudeEdits = out['edits'].map((entry) => {
+      let old_string = ''
+      if (typeof entry['old_text'] === 'string') {
+        old_string = entry['old_text']
+      }
+      let new_string = ''
+      if (typeof entry['new_text'] === 'string') {
+        new_string = entry['new_text']
+      }
+      return { old_string, new_string }
+    })
     out = {
       ...out,
       edits: claudeEdits,
@@ -455,10 +518,11 @@ export function normalizeToolInput(toolName: string, input: Record<string, unkno
   if (EDIT_TOOLS[toolName] === true && typeof out['input'] === 'string' && !('new_string' in out)) {
     const added = patchLines(out['input'], '+')
     const removed = patchLines(out['input'], '-')
-    out = {
-      ...out,
-      ...(added === undefined ? {} : { new_string: added }),
-      ...(removed === undefined ? {} : { old_string: removed }),
+    if (added !== undefined) {
+      out = { ...out, new_string: added }
+    }
+    if (removed !== undefined) {
+      out = { ...out, old_string: removed }
     }
   }
 
@@ -479,9 +543,13 @@ export function denormalizeToolInput(
   updated: unknown,
 ): Record<string, unknown> {
   const fields = Option.getOrNull(asRecord(updated))
-  if (fields === null) return {}
-  const pathKey = 'file_path' in original || !('path' in original) ? 'file_path' : 'path'
   const out: Record<string, unknown> = {}
+  if (fields === null) return out
+
+  let pathKey: string = 'path'
+  if ('file_path' in original || !('path' in original)) {
+    pathKey = 'file_path'
+  }
 
   for (const [key, value] of Object.entries(fields)) {
     if (key === 'file_path') {
@@ -492,10 +560,17 @@ export function denormalizeToolInput(
     // keys the OMP payload never had.
     if ((key === 'old_string' || key === 'new_string') && !(key in original)) continue
     if (key === 'edits' && isClaudeEditArray(value) && isOmpEditArray(original['edits'])) {
-      out['edits'] = value.map((entry) => ({
-        old_text: typeof entry['old_string'] === 'string' ? entry['old_string'] : '',
-        new_text: typeof entry['new_string'] === 'string' ? entry['new_string'] : '',
-      }))
+      out['edits'] = value.map((entry) => {
+        let old_text = ''
+        if (typeof entry['old_string'] === 'string') {
+          old_text = entry['old_string']
+        }
+        let new_text = ''
+        if (typeof entry['new_string'] === 'string') {
+          new_text = entry['new_string']
+        }
+        return { old_text, new_text }
+      })
       continue
     }
     out[key] = value

@@ -1,7 +1,7 @@
 import { Wire } from '@systemfsoftware/effect-cell-types'
 import { Context, Effect, Exit, Layer, Match, Option, Schema as S } from 'effect'
 import { FileSystem } from 'effect/FileSystem'
-import { homedir } from 'node:os'
+import { homeDir as hostHomeDir } from '../internal/host-env.js'
 import {
   ALL_CLAUDE_CODE_EVENTS,
   BRIDGED_EVENTS,
@@ -36,16 +36,16 @@ import {
 } from './settings.schema.js'
 
 function mergeSettings(sources: readonly DecodedSource[]): HookSettings {
-  const hooks = {
-    PreToolUse: [] as HookEntry[],
-    PostToolUse: [] as HookEntry[],
-    PostToolUseFailure: [] as HookEntry[],
-    UserPromptSubmit: [] as HookEntry[],
-    SessionStart: [] as HookEntry[],
-    SessionEnd: [] as HookEntry[],
-    Stop: [] as HookEntry[],
-    PreCompact: [] as HookEntry[],
-    PostCompact: [] as HookEntry[],
+  const hooks: Record<BridgedEvent, HookEntry[]> = {
+    PreToolUse: [],
+    PostToolUse: [],
+    PostToolUseFailure: [],
+    UserPromptSubmit: [],
+    SessionStart: [],
+    SessionEnd: [],
+    Stop: [],
+    PreCompact: [],
+    PostCompact: [],
   }
   if (sources.some((s) => s.managed && s.settings.disableAllHooks === true)) return { hooks }
   const disabledDownstream = sources.some((s) => !s.managed && s.settings.disableAllHooks === true)
@@ -54,12 +54,17 @@ function mergeSettings(sources: readonly DecodedSource[]): HookSettings {
     if (disabledDownstream && !source.managed) continue
     for (const event of ALL_HOOK_EVENTS) {
       const pluginRoot = source.pluginRoot
-      const entries = pluginRoot === undefined
-        ? source.settings.hooks[event]
-        : source.settings.hooks[event].map((entry) => ({
-          ...entry,
-          hooks: entry.hooks.map((hook) => hook.type === 'command' ? { ...hook, pluginRoot } : hook),
-        }))
+      if (pluginRoot === undefined) {
+        hooks[event] = hooks[event].concat(source.settings.hooks[event])
+        continue
+      }
+      const entries = source.settings.hooks[event].map((entry) => ({
+        ...entry,
+        hooks: entry.hooks.map((hook) => {
+          if (hook.type === 'command') return { ...hook, pluginRoot }
+          return hook
+        }),
+      }))
       hooks[event] = hooks[event].concat(entries)
     }
   }
@@ -76,8 +81,8 @@ export const mergeEffectiveSettings = (command: MergeCommand): MergedSnapshot =>
 
 export const packMergeCommand = (sources: readonly DecodedSource[]): MergeCommand => {
   const first = sources[0]
-  const pack = first === undefined ? new EmptySources() : new NonEmptySources({ sources: [first, ...sources.slice(1)] })
-  return new MergeSettingsCommand({ pack })
+  if (first === undefined) return new MergeSettingsCommand({ pack: new EmptySources() })
+  return new MergeSettingsCommand({ pack: new NonEmptySources({ sources: [first, ...sources.slice(1)] }) })
 }
 
 export const snapshotSettings = (snapshot: SettingsSnapshot): HookSettings | null =>
@@ -108,21 +113,29 @@ const asRecord = (value: unknown): Record<string, unknown> | null => {
 
 const userOmpPluginDirs = (homeDir: string): readonly string[] => {
   const conventional = `${homeDir}/.omp/plugins`
-  if (homeDir !== homedir()) return [conventional]
+  if (homeDir !== hostHomeDir()) return [conventional]
   const xdg = process.env['XDG_DATA_HOME']
   if (xdg === undefined || xdg.length === 0) return [conventional]
   const xdgDir = `${xdg}/omp/plugins`
-  return xdgDir === conventional ? [conventional] : [conventional, xdgDir]
+  if (xdgDir === conventional) return [conventional]
+  return [conventional, xdgDir]
 }
 
-const ancestorDirs = (cwd: string, homeDir: string): readonly string[] =>
-  cwd === homeDir || cwd === '/'
-    ? []
-    : [cwd, ...ancestorDirs(cwd.includes('/') ? cwd.slice(0, cwd.lastIndexOf('/')) || '/' : '/', homeDir)]
+const parentDir = (cwd: string): string => {
+  if (!cwd.includes('/')) return '/'
+  const sliced = cwd.slice(0, cwd.lastIndexOf('/'))
+  if (sliced === '') return '/'
+  return sliced
+}
+
+const ancestorDirs = (cwd: string, homeDir: string): readonly string[] => {
+  if (cwd === homeDir || cwd === '/') return []
+  return [cwd, ...ancestorDirs(parentDir(cwd), homeDir)]
+}
 
 const parseRegistryJson = (content: string): unknown => {
   try {
-    return JSON.parse(content) as unknown
+    return JSON.parse(content)
   } catch {
     return null
   }
@@ -144,14 +157,14 @@ const entryRoot = (pluginId: string, raw: unknown, cwd: string): PluginRoot | nu
 export const enabledRootsFromRegistry = (content: string, cwd: string): readonly PluginRoot[] => {
   const plugins = asRecord(asRecord(parseRegistryJson(content))?.['plugins'])
   if (plugins === null) return []
-  return Object.entries(plugins).flatMap(([pluginId, rawEntries]) =>
-    Array.isArray(rawEntries)
-      ? rawEntries.flatMap((raw) => {
-        const root = entryRoot(pluginId, raw, cwd)
-        return root === null ? [] : [root]
-      })
-      : []
-  )
+  return Object.entries(plugins).flatMap(([pluginId, rawEntries]) => {
+    if (!Array.isArray(rawEntries)) return []
+    return rawEntries.flatMap((raw) => {
+      const root = entryRoot(pluginId, raw, cwd)
+      if (root === null) return []
+      return [root]
+    })
+  })
 }
 
 export const shadowById = (layers: readonly (readonly PluginRoot[])[]): readonly PluginRoot[] =>
@@ -168,7 +181,10 @@ const readText = (path: string) =>
   Effect.flatMap(FileSystem, (fs) => fs.readFileString(path).pipe(Effect.orElseSucceed(() => '')))
 
 const readJson = (path: string) =>
-  Effect.map(readText(path), (content) => (content === '' ? null : parseRegistryJson(content)))
+  Effect.map(readText(path), (content) => {
+    if (content === '') return null
+    return parseRegistryJson(content)
+  })
 
 const fileExists = (path: string) =>
   Effect.flatMap(FileSystem, (fs) => fs.exists(path).pipe(Effect.orElseSucceed(() => false)))
@@ -178,10 +194,10 @@ const walkToProjectRegistry = (cwd: string, homeDir: string) =>
     Effect.forEach(
       ancestorDirs(cwd, homeDir),
       (dir) =>
-        Effect.map(
-          fileExists(`${dir}/.omp`),
-          (present) => (present ? `${dir}/.omp/plugins/installed_plugins.json` : null),
-        ),
+        Effect.map(fileExists(`${dir}/.omp`), (present) => {
+          if (present) return `${dir}/.omp/plugins/installed_plugins.json`
+          return null
+        }),
       { concurrency: 'unbounded' },
     ),
     (hits) => hits.find((hit) => hit !== null) ?? null,
@@ -210,10 +226,10 @@ const npmPluginRoots = (pluginsDir: string) =>
           npmCandidateNames(pkg, lock),
           (name) => {
             const p = `${pluginsDir}/node_modules/${name}`
-            return Effect.map(
-              fileExists(`${p}/.claude-plugin/plugin.json`),
-              (ok) => (ok ? { id: `npm:${name}`, path: p } : null),
-            )
+            return Effect.map(fileExists(`${p}/.claude-plugin/plugin.json`), (ok) => {
+              if (ok) return { id: `npm:${name}`, path: p }
+              return null
+            })
           },
           { concurrency: 'unbounded' },
         ),
@@ -246,11 +262,14 @@ export const listEnabledClaudePluginRoots = Effect.fn('listEnabledClaudePluginRo
     ],
     { concurrency: 'unbounded' },
   )
-  const projectReg = projectRegPath === null ? ([] as const) : yield* readRegistry(projectRegPath, cwd)
-  const projectPluginsDir = projectRegPath === null
-    ? null
-    : projectRegPath.slice(0, projectRegPath.lastIndexOf('/installed_plugins.json'))
-  const npmProject = projectPluginsDir === null ? ([] as const) : yield* npmPluginRoots(projectPluginsDir)
+  let projectReg: readonly PluginRoot[] = []
+  if (projectRegPath !== null) projectReg = yield* readRegistry(projectRegPath, cwd)
+  let projectPluginsDir: string | null = null
+  if (projectRegPath !== null) {
+    projectPluginsDir = projectRegPath.slice(0, projectRegPath.lastIndexOf('/installed_plugins.json'))
+  }
+  let npmProject: readonly PluginRoot[] = []
+  if (projectPluginsDir !== null) npmProject = yield* npmPluginRoots(projectPluginsDir)
   const marketplace = shadowById([claudeReg, ...ompLayers.map((layer) => layer.registry), projectReg])
   return Object.values(
     Object.fromEntries(
@@ -266,13 +285,20 @@ const decodePluginSettings = (content: string, pluginRoot: string): SettingsSour
   const jsonOrError = S.decodeUnknownExit(S.fromJsonString(S.Record(S.String, S.Unknown)))(content)
   if (Exit.isFailure(jsonOrError)) return null
   const parsed = parseSettings(jsonOrError.value)
-  return Exit.isFailure(parsed) ? null : { settings: parsed.value, managed: false, pluginRoot }
+  if (Exit.isFailure(parsed)) return null
+  return { settings: parsed.value, managed: false, pluginRoot }
 }
 
 const loadOnePlugin = (root: PluginRoot) =>
   Effect.gen(function*() {
     const hasManifest = yield* fileExists(`${root.path}/.claude-plugin/plugin.json`)
-    if (!hasManifest) return { hookFile: null as string | null, source: null as SettingsSource | null }
+    if (!hasManifest) {
+      const missing: { hookFile: string | null; source: SettingsSource | null } = {
+        hookFile: null,
+        source: null,
+      }
+      return missing
+    }
     const hookFile = `${root.path}/hooks/hooks.json`
     const content = yield* readText(hookFile)
     return { hookFile, source: decodePluginSettings(content, root.path) }
@@ -285,10 +311,15 @@ export const loadPluginHookSources = Effect.fn('loadPluginHookSources')(function
   const loaded = yield* Effect.forEach(yield* listEnabledClaudePluginRoots(homeDir, cwd), loadOnePlugin, {
     concurrency: 'unbounded',
   })
-  return {
-    sources: loaded.flatMap((row) => (row.source === null ? [] : [row.source])),
-    hookFiles: loaded.flatMap((row) => (row.hookFile === null ? [] : [row.hookFile])),
-  } as const
+  const sources: readonly SettingsSource[] = loaded.flatMap((row) => {
+    if (row.source === null) return []
+    return [row.source]
+  })
+  const hookFiles: readonly string[] = loaded.flatMap((row) => {
+    if (row.hookFile === null) return []
+    return [row.hookFile]
+  })
+  return { sources, hookFiles }
 })
 
 export const parseSettings = S.decodeUnknownExit(SettingsJSON)
@@ -343,7 +374,10 @@ const IF_EVALUATING_EVENTS: readonly string[] = TOOL_EVENTS
 const REACH_LOOKUP: Readonly<Record<string, Readonly<Record<string, string>>>> = MATCHER_REACH
 
 const declaredMatchers = (value: unknown): readonly string[] =>
-  Option.getOrElse(asHookRows(value), () => NO_ROWS).flatMap((row) => row.matcher === undefined ? [] : [row.matcher])
+  Option.getOrElse(asHookRows(value), () => NO_ROWS).flatMap((row) => {
+    if (row.matcher === undefined) return []
+    return [row.matcher]
+  })
 
 const declaresMatcher = (value: unknown): boolean => declaredMatchers(value).length > 0
 
@@ -463,17 +497,28 @@ const scanContent = (path: string, content: string): PathScan => {
   if (Exit.isFailure(parsed)) return { ...emptyScan, malformed: [path] }
   const coverage = hookCoverage(parsed.value)
   const settings = parseSettings(parsed.value)
+  const hookTypes = unsupportedHookTypes(parsed.value)
+  if (Exit.isFailure(settings)) {
+    return {
+      unrecognized: coverage.unrecognized,
+      notCarried: coverage.notCarried,
+      matcherNotEvaluable: coverage.matcherNotEvaluable,
+      matcherOutOfReach: coverage.matcherOutOfReach,
+      shadowed: coverage.shadowed,
+      hookTypes,
+      malformed: [path],
+      sources: [],
+    }
+  }
   return {
     unrecognized: coverage.unrecognized,
     notCarried: coverage.notCarried,
     matcherNotEvaluable: coverage.matcherNotEvaluable,
     matcherOutOfReach: coverage.matcherOutOfReach,
     shadowed: coverage.shadowed,
-    hookTypes: unsupportedHookTypes(parsed.value),
-    malformed: Exit.isFailure(settings) ? [path] : [],
-    sources: Exit.isFailure(settings)
-      ? []
-      : [{ settings: settings.value, managed: path === MANAGED_SETTINGS_PATH, label: path }],
+    hookTypes,
+    malformed: [],
+    sources: [{ settings: settings.value, managed: path === MANAGED_SETTINGS_PATH, label: path }],
   }
 }
 

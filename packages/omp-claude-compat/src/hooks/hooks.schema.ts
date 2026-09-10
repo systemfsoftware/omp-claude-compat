@@ -33,10 +33,16 @@ export const HookOutputFromStdout = S.String.pipe(
   S.decodeTo(S.toType(ParsedHookOutputSchema), {
     decode: SchemaGetter.transformOrFail((stdout) =>
       S.decodeUnknownEffect(S.fromJsonString(S.toType(ParsedHookOutputSchema)))(stdout).pipe(
-        Effect.mapError((err) => (S.isSchemaError(err) ? err.issue : err)),
+        Effect.mapError((err) => {
+          if (S.isSchemaError(err)) {
+            return err.issue
+          } else {
+            return err
+          }
+        }),
       )
     ),
-    encode: SchemaGetter.transformOrFail((parsed) => Effect.succeed(JSON.stringify(parsed as unknown))),
+    encode: SchemaGetter.transformOrFail((parsed: ParsedHookOutput) => Effect.succeed(JSON.stringify(parsed))),
   }),
 )
 

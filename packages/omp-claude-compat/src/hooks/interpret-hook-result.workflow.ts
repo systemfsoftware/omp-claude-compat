@@ -8,17 +8,31 @@ export type ExitKind = 'ExitBlock' | 'ExitDecisionJson' | 'ExitNoDecision' | 'Ex
 const exitKindOf = (code: number, stdout: string): ExitKind => {
   if (code === 2) return 'ExitBlock'
   if (code !== 0) return 'ExitOther'
-  return stdout.trim().startsWith('{') ? 'ExitDecisionJson' : 'ExitNoDecision'
+  if (stdout.trim().startsWith('{')) {
+    return 'ExitDecisionJson'
+  } else {
+    return 'ExitNoDecision'
+  }
 }
 
 const blockReason = (stderr: string, event: string): string => {
   const spoken = stderr.trim()
-  return spoken === '' ? `Blocked by ${event} hook` : spoken
+  if (spoken === '') {
+    return `Blocked by ${event} hook`
+  } else {
+    return spoken
+  }
 }
 
 export type StderrVerdict = 'warning' | 'allow'
 
-const stderrVerdict = (stderr: string): StderrVerdict => (stderr.trim() === '' ? 'allow' : 'warning')
+const stderrVerdict = (stderr: string): StderrVerdict => {
+  if (stderr.trim() === '') {
+    return 'allow'
+  } else {
+    return 'warning'
+  }
+}
 
 const spokenStderr = (stderr: string): string => stderr.trim()
 
@@ -26,7 +40,11 @@ export type ParsedVerdict = 'block' | 'allow'
 
 const parsedVerdict = (permissionDecision: string | undefined, decision: string | undefined): ParsedVerdict => {
   const key = permissionDecision ?? decision
-  return key === 'deny' || key === 'block' ? 'block' : 'allow'
+  if (key === 'deny' || key === 'block') {
+    return 'block'
+  } else {
+    return 'allow'
+  }
 }
 
 const parsedBlockReason = (
@@ -35,8 +53,19 @@ const parsedBlockReason = (
   reason: string | undefined,
   event: string,
 ): string => {
-  const stated = permissionDecision === 'deny' ? permissionDecisionReason : reason
-  return stated === undefined || stated.trim() === '' ? `Blocked by ${event} hook` : stated
+  if (permissionDecision === 'deny') {
+    if (permissionDecisionReason === undefined || permissionDecisionReason.trim() === '') {
+      return `Blocked by ${event} hook`
+    } else {
+      return permissionDecisionReason
+    }
+  } else {
+    if (reason === undefined || reason.trim() === '') {
+      return `Blocked by ${event} hook`
+    } else {
+      return reason
+    }
+  }
 }
 
 const HookVerdictTypeId: unique symbol = Symbol.for('@systemfsoftware/omp-claude-compat/HookVerdict')

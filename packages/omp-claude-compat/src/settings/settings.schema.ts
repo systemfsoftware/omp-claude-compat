@@ -61,9 +61,13 @@ const SettingsFlat = S.Struct({
 
 const LiftFlatSettingsACL = SettingsFlat.pipe(
   S.decodeTo(S.toType(SettingsWrapped), {
-    decode: SchemaGetter.transformOrFail(({ disableAllHooks, ...hooks }) =>
-      Effect.succeed(disableAllHooks === undefined ? { hooks } : { hooks, disableAllHooks })
-    ),
+    decode: SchemaGetter.transformOrFail(({ disableAllHooks, ...hooks }) => {
+      if (disableAllHooks === undefined) {
+        return Effect.succeed({ hooks })
+      } else {
+        return Effect.succeed({ hooks, disableAllHooks })
+      }
+    }),
     encode: SchemaGetter.forbidden(() => 'Decode-only: settings are never encoded'),
   }),
 )

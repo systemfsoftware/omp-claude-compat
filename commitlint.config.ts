@@ -135,12 +135,9 @@ const configuration: UserConfig = {
           const hasAIEmail = aiEmailPatterns.some((pattern) => pattern.test(raw))
           const hasAICoauthor = hasAIEmail || hasAIModelInCoauthor
 
-          return [
-            !hasAICoauthor,
-            hasAICoauthor
-              ? 'AI co-authors and AI model references are not allowed in commit messages'
-              : 'OK',
-          ]
+          const message = 'AI co-authors and AI model references are not allowed in commit messages'
+          if (hasAICoauthor) return [false, message]
+          return [true, 'OK']
         },
 
         'type-matches-diff-shape': ({ type }) => {
