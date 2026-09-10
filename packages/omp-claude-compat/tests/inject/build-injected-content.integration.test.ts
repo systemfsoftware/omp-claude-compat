@@ -1,8 +1,8 @@
 import { it, layer } from '@systemfsoftware/effect-gherkin-spec'
 import { Gherkin, Given, makeFeature, Then, When } from '@systemfsoftware/effect-gherkin-spec'
+import { buildInjectedContent } from '@systemfsoftware/omp-claude-compat/inject'
 import { Effect } from 'effect'
 import { expect } from 'vitest'
-import { buildInjectedContent } from '../../src/inject/referenced-content.js'
 
 const Feature = makeFeature({ it, layer })
 

@@ -1,21 +1,27 @@
 import type { BeforeAgentStartEvent } from '@oh-my-pi/pi-coding-agent'
 import { it, layer } from '@systemfsoftware/effect-gherkin-spec'
 import { Gherkin, Given, makeFeature, Then, When } from '@systemfsoftware/effect-gherkin-spec'
+import { InjectInstructionsTask } from '@systemfsoftware/omp-claude-compat/inject'
+import { ReferencedContent } from '@systemfsoftware/omp-claude-compat/inject'
 import { Effect, Layer } from 'effect'
 import { expect } from 'vitest'
-import { InjectInstructionsTask } from '../../src/inject/inject.js'
-import { ReferencedContent } from '../../src/inject/referenced-content.js'
 
 const Feature = makeFeature({ it, layer })
 
-const fakeEvent = {
+const fakeEvent: BeforeAgentStartEvent = {
+  type: 'before_agent_start',
+  prompt: 'test prompt',
   systemPrompt: ['base prompt'],
-} as unknown as BeforeAgentStartEvent
+}
 
 type CapturedHandler = (
   event: BeforeAgentStartEvent,
   ctx: unknown,
 ) => Promise<{ systemPrompt: readonly string[] } | undefined>
+
+function isExtensionApi(value: unknown): value is Parameters<typeof InjectInstructionsTask>[0] {
+  return typeof value === 'object' && value !== null && 'on' in value
+}
 
 function captureHandler(
   injectedContent: string,
@@ -25,15 +31,16 @@ function captureHandler(
     ReferencedContent.of({ load: (_cwd: string) => Effect.succeed(injectedContent) }),
   )
   let captured: CapturedHandler | undefined
-  const pi = {
+  const pi: unknown = {
     on: (event: string, h: CapturedHandler) => {
       if (event === 'before_agent_start') captured = h
     },
-  } as unknown as Parameters<typeof InjectInstructionsTask>[0]
+  }
 
   const runSafe = <A, E>(eff: Effect.Effect<A, E, ReferencedContent>) =>
     Effect.runPromise(eff.pipe(Effect.provide(fakeLayer)))
 
+  if (!isExtensionApi(pi)) throw new Error('pi fake must implement on')
   InjectInstructionsTask(pi, runSafe)
 
   if (captured === undefined) throw new Error('handler not captured')

@@ -2,10 +2,14 @@ import * as NodePath from '@effect/platform-node-shared/NodePath'
 import { Gherkin, Given, makeFeature, Then, When } from '@systemfsoftware/effect-gherkin-spec'
 import { it, layer } from '@systemfsoftware/effect-gherkin-spec'
 import { MemoryFileSystem } from '@systemfsoftware/effect-memfs'
+import {
+  __resetNoInjectRefsForTesting,
+  NoInjectRefs,
+  NoInjectRefsLive,
+} from '@systemfsoftware/omp-claude-compat/no-inject-refs'
+import { warmHarnessPolicy } from '@systemfsoftware/omp-claude-compat/runtime'
 import { Effect, Layer } from 'effect'
 import { afterEach, expect } from 'vitest'
-import { __resetNoInjectRefsForTesting, NoInjectRefs, NoInjectRefsLive } from '../../src/inject/no-inject-refs.js'
-import { warmHarnessPolicy } from '../../src/runtime.js'
 
 const Feature = makeFeature({ it, layer })
 

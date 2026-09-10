@@ -40,13 +40,24 @@ const fileWritten: ToolResultEvent = {
   details: undefined,
 }
 
-const textReachingAgent = (seen: HookDispatchResult): string =>
-  seen !== undefined && 'content' in seen
-    ? seen.content.map((block) => 'text' in block ? block.text : '').join('\n')
-    : ''
+const textReachingAgent = (seen: HookDispatchResult): string => {
+  if (seen === undefined || !('content' in seen)) {
+    return ''
+  }
+  return seen.content.map((block) => {
+    if ('text' in block) {
+      return block.text
+    }
+    return ''
+  }).join('\n')
+}
 
-const reportedAsFailure = (seen: HookDispatchResult): boolean | undefined =>
-  seen !== undefined && 'isError' in seen ? seen.isError : undefined
+const reportedAsFailure = (seen: HookDispatchResult): boolean | undefined => {
+  if (seen === undefined || !('isError' in seen)) {
+    return undefined
+  }
+  return seen.isError
+}
 
 const writePluginTree = (
   homeDir: string,

@@ -10,6 +10,26 @@
       "@systemfsoftware/source": "./src/index.ts",
       "default": "./dist/index.js"
     },
+    "./hooks": {
+      "@systemfsoftware/source": "./src/hooks/mod.ts",
+      "default": "./dist/hooks.js"
+    },
+    "./inject": {
+      "@systemfsoftware/source": "./src/inject/mod.ts",
+      "default": "./dist/inject.js"
+    },
+    "./no-inject-refs": {
+      "@systemfsoftware/source": "./src/inject/no-inject-refs.ts",
+      "default": "./dist/no-inject-refs.js"
+    },
+    "./runtime": {
+      "@systemfsoftware/source": "./src/runtime.ts",
+      "default": "./dist/runtime.js"
+    },
+    "./settings": {
+      "@systemfsoftware/source": "./src/settings/mod.ts",
+      "default": "./dist/settings.js"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -47,7 +67,6 @@
     "@systemfsoftware/effect-schema-vite": "^2.0.3",
     "@systemfsoftware/harness-toml": "workspace:^",
     "@systemfsoftware/omp-runtime": "workspace:^",
-    "@systemfsoftware/oxlint-plugin-cell-vocabulary": "^2.0.1",
     "@systemfsoftware/stryker-js-cli": "^6.0.0",
     "@systemfsoftware/stryker-js-typescript-checker": "^5.0.0",
     "@systemfsoftware/stryker-js-vitest-runner": "^4.0.0",
@@ -73,6 +92,11 @@
   "publishConfig": {
     "exports": {
       ".": "./dist/index.js",
+      "./hooks": "./dist/hooks.js",
+      "./inject": "./dist/inject.js",
+      "./no-inject-refs": "./dist/no-inject-refs.js",
+      "./runtime": "./dist/runtime.js",
+      "./settings": "./dist/settings.js",
       "./package.json": "./package.json"
     },
     "provenance": true

@@ -81,7 +81,14 @@ export function eagerEntryBudget({ maxBytes = 32 * 1024 }: { readonly maxBytes?:
 }
 
 export default defineConfig({
-  entry: { index: './src/index.ts' },
+  entry: {
+    index: './src/index.ts',
+    hooks: './src/hooks/mod.ts',
+    settings: './src/settings/mod.ts',
+    inject: './src/inject/mod.ts',
+    'no-inject-refs': './src/inject/no-inject-refs.ts',
+    runtime: './src/runtime.ts',
+  },
 
   format: 'esm',
   dts: false,

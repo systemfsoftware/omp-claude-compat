@@ -1,9 +1,13 @@
 import { Gherkin, Given, it, layer, makeFeature, Then, When } from '@systemfsoftware/effect-gherkin-spec'
 import { MemoryFileSystem } from '@systemfsoftware/effect-memfs'
+import {
+  ClaudeSettings,
+  ClaudeSettingsLiveUnbaked,
+  ClaudeSettingsSources,
+} from '@systemfsoftware/omp-claude-compat/settings'
 import { Effect, Layer } from 'effect'
 import * as PathModule from 'effect/Path'
 import { expect } from 'vitest'
-import { ClaudeSettings, ClaudeSettingsLiveUnbaked, ClaudeSettingsSources } from '../../src/settings/mod.js'
 
 const Feature = makeFeature({ it, layer })
 

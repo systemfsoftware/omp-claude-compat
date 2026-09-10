@@ -22,12 +22,15 @@ export function makeShellHookScript(
 ): Effect.Effect<string, PlatformError, FileSystem> {
   return Effect.gen(function*() {
     const fs = yield* FileSystem
-    const content = [
-      '#!/usr/bin/env bash',
-      ...(stderr !== undefined && stderr.length > 0 ? [`echo '${stderr}' >&2`] : []),
-      ...(stdout !== undefined && stdout.length > 0 ? [`echo '${stdout}'`] : []),
-      `exit ${exitCode}`,
-    ].join('\n')
+    const lines: Array<string> = ['#!/usr/bin/env bash']
+    if (stderr !== undefined && stderr.length > 0) {
+      lines.push(`echo '${stderr}' >&2`)
+    }
+    if (stdout !== undefined && stdout.length > 0) {
+      lines.push(`echo '${stdout}'`)
+    }
+    lines.push(`exit ${exitCode}`)
+    const content = lines.join('\n')
     const hookPath = `${dir}/${name}.sh`
     yield* fs.writeFileString(hookPath, content)
     yield* fs.chmod(hookPath, 0o755)
