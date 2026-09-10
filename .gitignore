@@ -6,4 +6,5 @@ reports/
 *.tsbuildinfo
 
 .mcp.json
+.turbo/
 .direnv/

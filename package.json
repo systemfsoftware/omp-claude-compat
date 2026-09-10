@@ -4,15 +4,20 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "build": "pnpm -r build",
-    "clean": "pnpm -r clean",
-    "typecheck": "pnpm -r typecheck && tsc -p tsconfig.node.json --noEmit",
-    "test": "pnpm -r test",
-    "mutation": "pnpm -r mutation",
-    "lint": "pnpm -r lint",
+    "build": "turbo --concurrency=${TURBO_CONCURRENCY:-50%} build",
+    "clean": "turbo clean",
+    "typecheck": "turbo --concurrency=${TURBO_CONCURRENCY:-50%} --continue typecheck typecheck:node",
+    "typecheck:node": "tsc -p tsconfig.node.json --noEmit",
+    "test": "turbo --concurrency=${TURBO_CONCURRENCY:-50%} test",
+    "mutation": "turbo --concurrency=${TURBO_CONCURRENCY:-50%} mutation",
+    "lint": "turbo --concurrency=${TURBO_CONCURRENCY:-50%} lint",
+    "attw": "turbo --concurrency=${TURBO_CONCURRENCY:-50%} attw",
     "format": "./bin/dprint fmt",
     "format:check": "./bin/dprint check",
     "precommit": "pnpm exec lint-staged --no-revert --config .lintstagedrc.js",
+    "gate:tasks": "turbo --concurrency=${TURBO_CONCURRENCY:-50%} --continue lint typecheck typecheck:node test",
+    "gate:dist": "turbo --concurrency=${TURBO_CONCURRENCY:-100%} build",
+    "check:ci": "s=0; pnpm format:check || s=1; TURBO_CONCURRENCY=${TURBO_CONCURRENCY:-100%} pnpm gate:tasks || s=1; pnpm gate:dist || s=1; pnpm mutation || s=1; exit $s",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -26,6 +31,7 @@
     "lint-staged": "^17.1.0",
     "oxlint": "^1.77.0",
     "oxlint-tsgolint": "7.0.2001",
+    "turbo": "^2.10.12",
     "typescript": "^7"
   },
   "packageManager": "pnpm@11.21.0"
