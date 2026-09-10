@@ -4,3 +4,6 @@ coverage/
 reports/
 .stryker-tmp/
 *.tsbuildinfo
+
+.mcp.json
+.direnv/
