@@ -7,8 +7,6 @@
 [![npm version](https://img.shields.io/npm/v/@systemfsoftware/omp-claude-compat?style=flat)](https://www.npmjs.com/package/@systemfsoftware/omp-claude-compat)
 [![license](https://img.shields.io/npm/l/@systemfsoftware/omp-claude-compat?style=flat)](./LICENSE)
 
-From [systemfsoftware](https://github.com/systemfsoftware/systemfsoftware): machine-generated TypeScript that doesn't suck — every behavior proven by automated gates, never taken on faith.
-
 ## What is this?
 
 This is a plugin for Oh My Pi that understands Claude Code configuration. It runs the hooks you defined in `.claude/settings.json` at the right moments, and it feeds the files your `CLAUDE.md` points at into the agent's instructions. One plugin, zero rewriting of your existing files.
@@ -87,7 +85,7 @@ Your hooks fire when they should — before a tool runs, after it finishes, when
 
 ## Why this instead of scripts?
 
-**Can't I just wire up a few shell scripts?** You can, until either side changes and your scripts silently do the wrong thing. This package pins the Claude Code behavior it matches, states openly which hooks have no equivalent and why, and proves it all with automated tests that re-run on every change — including tests designed to catch the tests themselves slacking. That's the whole systemfsoftware bet: trust from machinery, not from promises.
+**Can't I just wire up a few shell scripts?** You can, until either side changes and your scripts silently do the wrong thing. This package pins the Claude Code behavior it matches, states openly which hooks have no equivalent and why, and proves it all with automated tests that re-run on every change.
 
 | Approach                             | Keeps working                        | Admits its limits       | Tested                       |
 | ------------------------------------ | ------------------------------------ | ----------------------- | ---------------------------- |
@@ -111,7 +109,7 @@ Issues, ideas, and corrections: the [issue tracker](https://github.com/systemfso
 
 ## Support
 
-Bug reports and feature requests: the [issue tracker](https://github.com/systemfsoftware/omp-claude-compat/issues). The philosophy behind this package: [systemfsoftware STRATEGY.md](https://github.com/systemfsoftware/systemfsoftware/blob/main/STRATEGY.md).
+Bug reports and feature requests: the [issue tracker](https://github.com/systemfsoftware/omp-claude-compat/issues).
 
 ## License
 
