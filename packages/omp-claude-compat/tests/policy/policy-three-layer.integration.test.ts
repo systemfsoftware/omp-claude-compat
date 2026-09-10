@@ -4,7 +4,7 @@ import { MemoryFileSystem } from '@systemfsoftware/effect-memfs'
 import { Effect } from 'effect'
 import { expect } from 'vitest'
 
-import { readLayers } from '@systemfsoftware/harness-toml'
+import { readLayers } from '@systemfsoftware/omp-claude-compat/policy'
 
 const Feature = makeFeature({ it, layer })
 
@@ -14,7 +14,7 @@ const userPath = `${HOME}/.config/systemfsoftware/systemfsoftware.toml`
 const projectPath = '/proj/systemfsoftware.toml'
 const localPath = '/proj/systemfsoftware.local.toml'
 
-Feature('Harness TOML — three-layer config with per-key override').body(({ scenario }) => {
+Feature('Policy — three-layer config with per-key override').body(({ scenario }) => {
   scenario(
     'Disjoint user and project keys merge into one policy',
     {

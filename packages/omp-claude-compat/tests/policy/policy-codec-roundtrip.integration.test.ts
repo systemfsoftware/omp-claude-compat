@@ -5,11 +5,11 @@ import { MemoryFileSystem } from '@systemfsoftware/effect-memfs'
 import { Effect, Schema } from 'effect'
 import { expect } from 'vitest'
 
-import { PolicySchema, readLayers } from '@systemfsoftware/harness-toml'
+import { PolicySchema, readLayers } from '@systemfsoftware/omp-claude-compat/policy'
 
 const Feature = makeFeature({ it, layer })
 
-Feature('Harness TOML — PolicyFromToml codec round-trip').body(({ scenario }) => {
+Feature('Policy — PolicyFromToml codec round-trip').body(({ scenario }) => {
   scenario(
     'A policy survives a full serialize-and-parse round trip',
     {

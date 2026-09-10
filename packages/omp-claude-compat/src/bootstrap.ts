@@ -20,13 +20,24 @@ export const bootstrapPluginRuntime = <R, LE>(layer: Layer.Layer<R, LE, never>) 
   return { runtime, runSafe } as const
 }
 
-/**
- * A runSafe for registration time: the runtime module is imported only at
- * event time or after session_start, never inside the factory (PLG4). ESM
- * caches the module, so warm and runSafe share one instance however often the
- * host re-imports the entry.
- */
 export const lazyRunSafe = <R>(
   loadRuntime: () => Promise<{ readonly runSafe: RunSafe<R> }>,
 ): RunSafe<R> =>
 (effect) => loadRuntime().then((mod) => mod.runSafe(effect))
+
+interface WarmContext {
+  readonly setTimeout: (handler: () => void, ms: number) => unknown
+}
+
+type OnSessionStart = (warm: (ctx: WarmContext) => void) => void
+
+export const warmRuntimeAfterStart = (
+  onSessionStart: OnSessionStart,
+  loadRuntime: () => Promise<unknown>,
+): void => {
+  onSessionStart((ctx) => {
+    ctx.setTimeout(() => {
+      void loadRuntime()
+    }, 0)
+  })
+}

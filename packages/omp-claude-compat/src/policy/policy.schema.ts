@@ -1,6 +1,3 @@
-// Vendored from the systemfsoftware monorepo — keep in sync with the upstream source.
-// Divergence: de-ternary refactors (if/return helpers) — behavior unchanged.
-
 import { parse, stringify } from '@std/toml'
 import { Effect, Schema, SchemaGetter, SchemaIssue } from 'effect'
 

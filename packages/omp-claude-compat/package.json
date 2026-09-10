@@ -22,6 +22,10 @@
       "@systemfsoftware/source": "./src/inject/no-inject-refs.ts",
       "default": "./dist/no-inject-refs.js"
     },
+    "./policy": {
+      "@systemfsoftware/source": "./src/policy/mod.ts",
+      "default": "./dist/policy.js"
+    },
     "./runtime": {
       "@systemfsoftware/source": "./src/runtime.ts",
       "default": "./dist/runtime.js"
@@ -50,10 +54,11 @@
     "@oh-my-pi/pi-coding-agent": "^17.0.5",
     "effect": "^4.0.0-rc.112"
   },
+  "dependencies": {
+    "@std/toml": "jsr:^1.0.11"
+  },
   "optionalDependencies": {
-    "@systemfsoftware/effect-cell-types": "^6.0.1",
-    "@systemfsoftware/harness-toml": "workspace:^",
-    "@systemfsoftware/omp-runtime": "workspace:^"
+    "@systemfsoftware/effect-cell-types": "^6.0.1"
   },
   "devDependencies": {
     "@effect/platform-node": "^4.0.0-rc.112",
@@ -65,8 +70,6 @@
     "@systemfsoftware/effect-memfs": "^1.3.4",
     "@systemfsoftware/effect-schema-law": "^2.0.2",
     "@systemfsoftware/effect-schema-vite": "^2.0.3",
-    "@systemfsoftware/harness-toml": "workspace:^",
-    "@systemfsoftware/omp-runtime": "workspace:^",
     "@systemfsoftware/stryker-js-cli": "^6.0.0",
     "@systemfsoftware/stryker-js-typescript-checker": "^5.0.0",
     "@systemfsoftware/stryker-js-vitest-runner": "^4.0.0",
@@ -95,6 +98,7 @@
       "./hooks": "./dist/hooks.js",
       "./inject": "./dist/inject.js",
       "./no-inject-refs": "./dist/no-inject-refs.js",
+      "./policy": "./dist/policy.js",
       "./runtime": "./dist/runtime.js",
       "./settings": "./dist/settings.js",
       "./package.json": "./package.json"

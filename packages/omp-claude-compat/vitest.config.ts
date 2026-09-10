@@ -52,6 +52,7 @@ const srcUrl = (module: string): string => new URL(`./src/${module}`, import.met
 // the package by name, but exercise the src graph the runner's effect belongs to.
 const publicSubpaths: ReadonlyArray<[string, string]> = [
   ['@systemfsoftware/omp-claude-compat', 'index.ts'],
+  ['@systemfsoftware/omp-claude-compat/policy', 'policy/mod.ts'],
   ['@systemfsoftware/omp-claude-compat/hooks', 'hooks/mod.ts'],
   ['@systemfsoftware/omp-claude-compat/settings', 'settings/mod.ts'],
   ['@systemfsoftware/omp-claude-compat/inject', 'inject/mod.ts'],

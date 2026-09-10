@@ -42,50 +42,11 @@ importers:
         specifier: ^7
         version: 7.0.2
 
-  packages/harness-toml:
+  packages/omp-claude-compat:
     dependencies:
       '@std/toml':
         specifier: jsr:^1.0.11
         version: '@jsr/std__toml@1.0.11'
-    devDependencies:
-      '@effect/vitest':
-        specifier: 4.0.0-rc.112
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11)
-      '@systemfsoftware/effect-gherkin-spec':
-        specifier: ^4.0.1
-        version: 4.0.1(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11)
-      '@systemfsoftware/effect-memfs':
-        specifier: ^1.3.4
-        version: 1.3.4(effect@4.0.0-rc.112)(typescript@7.0.2)
-      '@systemfsoftware/tsconfig':
-        specifier: ^1.3.3
-        version: 1.3.3
-      '@types/node':
-        specifier: ^24
-        version: 24.13.3
-      effect:
-        specifier: ^4.0.0-rc.112
-        version: 4.0.0-rc.112
-      fast-check:
-        specifier: ^4
-        version: 4.9.0
-      oxlint:
-        specifier: ^1.77.0
-        version: 1.82.0(oxlint-tsgolint@7.0.2001)
-      rimraf:
-        specifier: ^6.1.3
-        version: 6.1.3
-      tsdown:
-        specifier: ^0.22.14
-        version: 0.22.14(typescript@7.0.2)
-      typescript:
-        specifier: ^7
-        version: 7.0.2
-      vitest:
-        specifier: ^4
-        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
-
-  packages/omp-claude-compat:
     devDependencies:
       '@effect/platform-node':
         specifier: ^4.0.0-rc.112
@@ -166,42 +127,6 @@ importers:
       '@systemfsoftware/effect-cell-types':
         specifier: ^6.0.1
         version: 6.0.1(effect@4.0.0-rc.112)
-      '@systemfsoftware/harness-toml':
-        specifier: workspace:^
-        version: link:../harness-toml
-      '@systemfsoftware/omp-runtime':
-        specifier: workspace:^
-        version: link:../omp-runtime
-
-  packages/omp-runtime:
-    devDependencies:
-      '@effect/vitest':
-        specifier: 4.0.0-rc.112
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11)
-      '@systemfsoftware/tsconfig':
-        specifier: ^1.3.3
-        version: 1.3.3
-      '@types/node':
-        specifier: ^24
-        version: 24.13.3
-      effect:
-        specifier: ^4.0.0-rc.112
-        version: 4.0.0-rc.112
-      oxlint:
-        specifier: ^1.77.0
-        version: 1.82.0(oxlint-tsgolint@7.0.2001)
-      rimraf:
-        specifier: ^6.1.3
-        version: 6.1.3
-      tsdown:
-        specifier: ^0.22.14
-        version: 0.22.14(typescript@7.0.2)
-      typescript:
-        specifier: ^7
-        version: 7.0.2
-      vitest:
-        specifier: ^4
-        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
 
 packages:
 

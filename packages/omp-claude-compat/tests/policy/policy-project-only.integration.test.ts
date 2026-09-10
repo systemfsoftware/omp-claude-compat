@@ -4,11 +4,11 @@ import { MemoryFileSystem } from '@systemfsoftware/effect-memfs'
 import { Effect } from 'effect'
 import { expect } from 'vitest'
 
-import { readLayers } from '@systemfsoftware/harness-toml'
+import { readLayers } from '@systemfsoftware/omp-claude-compat/policy'
 
 const Feature = makeFeature({ it, layer })
 
-Feature('Harness TOML — project-only file with shape and parse tolerance').body(({ scenario }) => {
+Feature('Policy — project-only file with shape and parse tolerance').body(({ scenario }) => {
   scenario(
     'A valid project TOML with two arrays is parsed into both keys',
     {
