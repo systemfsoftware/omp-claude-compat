@@ -17,9 +17,9 @@ importers:
       '@commitlint/types':
         specifier: ^21.2.0
         version: 21.2.0
-      '@systemfsoftware/oxlint-plugin-cell-vocabulary':
-        specifier: ^2.0.1
-        version: 2.0.1(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/all':
+        specifier: ^1.1.3
+        version: 1.1.3(effect@4.0.0-rc.112)(oxlint-tsgolint@7.0.2001)(oxlint@1.82.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)
       '@systemfsoftware/tsconfig':
         specifier: ^1.3.3
         version: 1.3.3
@@ -114,9 +114,6 @@ importers:
       '@systemfsoftware/effect-schema-vite':
         specifier: ^2.0.3
         version: 2.0.3(@systemfsoftware/effect-schema-law@2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11)
-      '@systemfsoftware/oxlint-plugin-cell-vocabulary':
-        specifier: ^2.0.1
-        version: 2.0.1(effect@4.0.0-rc.112)(typescript@7.0.2)
       '@systemfsoftware/stryker-js-cli':
         specifier: ^6.0.0
         version: 6.0.0(redis@6.2.1(@opentelemetry/api@1.9.1))
@@ -1402,6 +1399,14 @@ packages:
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
+  '@systemfsoftware/all@1.1.3':
+    resolution: {integrity: sha512-o8yAKlQY+lnY/leJHIZwmvv5a+hEM1WHQs+La++PF/VZw+eUPv2inK6oSTUgbc+jhXetUuEC1hpNK1aJBam9Sg==}
+    peerDependencies:
+      effect: ^4.0.0-rc.112
+      oxlint: ^1.77.0
+      oxlint-tsgolint: 7.0.2001
+      typescript: '>=5.0.0'
+
   '@systemfsoftware/arethetypeswrong-cli@4.0.0':
     resolution: {integrity: sha512-aJgabym5UFWaEBmHmvFQ9RRK4/DQBg0dfosVof91GR9XlZ//0Rs4/3GP2SeJ68U/6jox7LDn9cbzG5cupOAnug==}
     engines: {node: '>=24'}
@@ -1455,6 +1460,58 @@ packages:
 
   '@systemfsoftware/oxlint-plugin-cell-vocabulary@2.0.1':
     resolution: {integrity: sha512-0EThqM5Ctr9q252/5mIpkcigGu190bLGBbanNuK7CwwaSfPCvjDkuNdoVtSLpS4nW4l/p5RY2+XVqcRq6Wx7Ww==}
+    peerDependencies:
+      effect: ^4.0.0-rc.112
+      typescript: '>=5.0.0'
+
+  '@systemfsoftware/oxlint-plugin-effect-dmmf@5.3.0':
+    resolution: {integrity: sha512-N+hIhPAyp231JHInvkb1eREGbafsLqZkqEsdj3G57XMWoHxZJePCM/iovbXOEix11tvtVP0eV2s7rB0P5L9R+A==}
+    peerDependencies:
+      oxlint: ^1.77.0
+
+  '@systemfsoftware/oxlint-plugin-effect-entrypoint@1.0.8':
+    resolution: {integrity: sha512-L7cn8K99STvZduUfhI5exETAkX06v7iXmxoyHibH0fjDy0bwj51Fog6hrnlEbdIlPYf/d0zHPhSYtM2eAEIGpA==}
+    peerDependencies:
+      effect: ^4.0.0-rc.112
+      typescript: '>=5.0.0'
+
+  '@systemfsoftware/oxlint-plugin-effect-schema@5.2.0':
+    resolution: {integrity: sha512-C3cSnxa49dRkGdAtbHXxEFZDJNpW3g1xV/1TqfkYL2YyPgvcL5EpLoVAAFDpdRMua7RP2CASWKlll8pECwZ04Q==}
+    peerDependencies:
+      effect: ^4.0.0-rc.112
+      typescript: '>=5.0.0'
+
+  '@systemfsoftware/oxlint-plugin-effect-workflow@5.0.0':
+    resolution: {integrity: sha512-+9giuCTO+Xv9Gsx8NzE1FwCph0VD12/rOidM60yifQcBZx9jI8ZLkyfXzakSXpKkkChVxMV5RX6ohbpLX2YTGw==}
+    peerDependencies:
+      effect: ^4.0.0-rc.112
+      typescript: '>=5.0.0'
+
+  '@systemfsoftware/oxlint-plugin-property-testing@1.4.0':
+    resolution: {integrity: sha512-iwOLmtK9rOKgv8F4DIEpwXOvFO8sKQ8d5TCvir+PNAAIbVpIGVT5s4FQOUSfzEhqXoXeA5/2yICic/VzuSbGkQ==}
+    peerDependencies:
+      effect: ^4.0.0-rc.112
+      typescript: '>=5.0.0'
+
+  '@systemfsoftware/oxlint-plugin-recommended@1.1.5':
+    resolution: {integrity: sha512-BykGHGePPdJXQW6jG+XBJO+AnhwLKWjwiXrTlTeOiWAicPEOzB6tlIX+cg3dnu8Sc7EAH/i4+8XC8uw62tjsyQ==}
+    peerDependencies:
+      oxlint: ^1.77.0
+
+  '@systemfsoftware/oxlint-plugin-test-hygiene@1.1.8':
+    resolution: {integrity: sha512-YFhM8gkhJo3fY2saFKc1dioShwHT2xUVkSQR0+cIWfKdo7h4naGhszwCCmCNN67mEQcwrcNix9CmORibGDFI8w==}
+    peerDependencies:
+      effect: ^4.0.0-rc.112
+      typescript: '>=5.0.0'
+
+  '@systemfsoftware/oxlint-plugin-test-placement@3.4.0':
+    resolution: {integrity: sha512-c51krh334lL+IO7MSSN0XH5YH1S9NhOtFOhlSi5Gl6zg17U6wAVoOdC5qZuYnkSQtC9+gup9mMiAblq7xM5wQQ==}
+    peerDependencies:
+      effect: ^4.0.0-rc.112
+      typescript: '>=5.0.0'
+
+  '@systemfsoftware/oxlint-plugin@3.0.0':
+    resolution: {integrity: sha512-R0GzDnzWYlV9yALVLmr3iAuaiatwdGPAZyc6Z4UO4Q6K1Il/bTcnBUw2BC8hcuAhjEIF7Z7MN8Wknt/VUhpp2Q==}
     peerDependencies:
       effect: ^4.0.0-rc.112
       typescript: '>=5.0.0'
@@ -3917,6 +3974,23 @@ snapshots:
 
   '@standard-schema/spec@1.1.0': {}
 
+  '@systemfsoftware/all@1.1.3(effect@4.0.0-rc.112)(oxlint-tsgolint@7.0.2001)(oxlint@1.82.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)':
+    dependencies:
+      '@systemfsoftware/oxlint-plugin': 3.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-cell-vocabulary': 2.0.1(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-effect-dmmf': 5.3.0(effect@4.0.0-rc.112)(oxlint@1.82.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-effect-entrypoint': 1.0.8(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-effect-schema': 5.2.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-effect-workflow': 5.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-property-testing': 1.4.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-recommended': 1.1.5(oxlint@1.82.0(oxlint-tsgolint@7.0.2001))
+      '@systemfsoftware/oxlint-plugin-test-hygiene': 1.1.8(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-test-placement': 3.4.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      effect: 4.0.0-rc.112
+      oxlint: 1.82.0(oxlint-tsgolint@7.0.2001)
+      oxlint-tsgolint: 7.0.2001
+      typescript: 7.0.2
+
   '@systemfsoftware/arethetypeswrong-cli@4.0.0(redis@6.2.1(@opentelemetry/api@1.9.1))':
     dependencies:
       '@effect/platform-node': 4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1(@opentelemetry/api@1.9.1))
@@ -3987,6 +4061,72 @@ snapshots:
       '@oxc-project/types': 0.140.0
       '@oxlint/plugins': 1.82.0
       '@systemfsoftware/effect-cell-types': 6.0.1(effect@4.0.0-rc.112)
+      effect: 4.0.0-rc.112
+      typescript: 7.0.2
+
+  '@systemfsoftware/oxlint-plugin-effect-dmmf@5.3.0(effect@4.0.0-rc.112)(oxlint@1.82.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)':
+    dependencies:
+      '@oxlint/plugins': 1.82.0
+      '@systemfsoftware/oxlint-plugin-effect-schema': 5.2.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-effect-workflow': 5.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-property-testing': 1.4.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-test-hygiene': 1.1.8(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-test-placement': 3.4.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      oxlint: 1.82.0(oxlint-tsgolint@7.0.2001)
+    transitivePeerDependencies:
+      - effect
+      - typescript
+
+  '@systemfsoftware/oxlint-plugin-effect-entrypoint@1.0.8(effect@4.0.0-rc.112)(typescript@7.0.2)':
+    dependencies:
+      '@oxc-project/types': 0.140.0
+      '@oxlint/plugins': 1.82.0
+      effect: 4.0.0-rc.112
+      typescript: 7.0.2
+
+  '@systemfsoftware/oxlint-plugin-effect-schema@5.2.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
+    dependencies:
+      '@oxc-project/types': 0.140.0
+      '@oxlint/plugins': 1.82.0
+      effect: 4.0.0-rc.112
+      typescript: 7.0.2
+
+  '@systemfsoftware/oxlint-plugin-effect-workflow@5.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
+    dependencies:
+      '@oxc-project/types': 0.140.0
+      '@oxlint/plugins': 1.82.0
+      effect: 4.0.0-rc.112
+      typescript: 7.0.2
+
+  '@systemfsoftware/oxlint-plugin-property-testing@1.4.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
+    dependencies:
+      '@oxc-project/types': 0.140.0
+      '@oxlint/plugins': 1.82.0
+      effect: 4.0.0-rc.112
+      typescript: 7.0.2
+
+  '@systemfsoftware/oxlint-plugin-recommended@1.1.5(oxlint@1.82.0(oxlint-tsgolint@7.0.2001))':
+    dependencies:
+      oxlint: 1.82.0(oxlint-tsgolint@7.0.2001)
+
+  '@systemfsoftware/oxlint-plugin-test-hygiene@1.1.8(effect@4.0.0-rc.112)(typescript@7.0.2)':
+    dependencies:
+      '@oxc-project/types': 0.140.0
+      '@oxlint/plugins': 1.82.0
+      effect: 4.0.0-rc.112
+      typescript: 7.0.2
+
+  '@systemfsoftware/oxlint-plugin-test-placement@3.4.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
+    dependencies:
+      '@oxc-project/types': 0.140.0
+      '@oxlint/plugins': 1.82.0
+      effect: 4.0.0-rc.112
+      typescript: 7.0.2
+
+  '@systemfsoftware/oxlint-plugin@3.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
+    dependencies:
+      '@oxc-project/types': 0.140.0
+      '@oxlint/plugins': 1.82.0
       effect: 4.0.0-rc.112
       typescript: 7.0.2
 
