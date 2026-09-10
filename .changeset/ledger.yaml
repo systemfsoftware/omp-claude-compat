@@ -1,0 +1,4 @@
+"@systemfsoftware/omp-claude-compat@5.0.2":
+  dir: packages/omp-claude-compat
+  intents:
+    - force-release-patch
