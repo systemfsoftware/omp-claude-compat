@@ -13,8 +13,22 @@ const loaded = flags.captured ? await loadCaptured(flags.captured) : await loadW
 const cycle = flags.unpublished ? await unpublishedOf(loaded) : loaded
 
 if (flags.publish) {
-  if (cycle.length === 0) console.log('every captured version is already on npm — tagging only')
-  else await run('pnpm', ['publish', '-r', '--provenance', '--access', 'public', '--no-git-checks'])
+  if (cycle.length === 0) {
+    console.log('every captured version is already on npm — tagging only')
+    Deno.exit(0)
+  }
+  console.log(`publishing ${cycle.map((entry) => `${entry.name}@${entry.version}`).join(', ')}`)
+  const published = await new Deno.Command('pnpm', {
+    args: ['publish', '-r', '--provenance', '--access', 'public', '--no-git-checks'],
+    stdout: 'inherit',
+    stderr: 'inherit',
+  }).output()
+  if (!published.success) {
+    console.error(
+      `::error::pnpm publish -r --provenance --access public --no-git-checks failed (exit ${published.code})`,
+    )
+    Deno.exit(published.code || 1)
+  }
   Deno.exit(0)
 }
 
