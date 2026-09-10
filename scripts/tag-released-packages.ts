@@ -1,4 +1,7 @@
-#!/usr/bin/env -S deno run --config=scripts/deno.json --allow-read --allow-write --allow-run=git,pnpm --allow-net=registry.npmjs.org
+#!/usr/bin/env -S deno run --config=scripts/deno.json --allow-read --allow-write --allow-run=git,pnpm --allow-net=jsr.io,registry.npmjs.org --allow-import
+
+import { parseArgs } from '@std/cli/parse-args'
+import { join } from '@std/path'
 
 const dec = new TextDecoder()
 
@@ -15,7 +18,8 @@ type CycleEntry = {
   changelog: string
 }
 
-const changelogPath = (name: string, version: string) => `.changeset/changelogs/${name.replace('/', '!')}@${version}.md`
+const changelogPath = (name: string, version: string) =>
+  join('.changeset', 'changelogs', `${name.replace('/', '!')}@${version}.md`)
 
 const computeThisCycle = (pkgs: Pkg[], remoteTags: Set<string>): CycleEntry[] => {
   const out: CycleEntry[] = []
@@ -50,109 +54,72 @@ const normalizeCaptured = (raw: unknown): CycleEntry[] => {
   })
 }
 
-const dropExcluded = (cycle: CycleEntry[], excluded: Set<string>) => cycle.filter((entry) => !excluded.has(entry.name))
-
 const run = async (cmd: string, args: string[]) => {
   const out = await new Deno.Command(cmd, { args, stdout: 'piped', stderr: 'inherit' }).output()
   if (!out.success) throw new Error(`${cmd} ${args.join(' ')} failed (exit ${out.code})`)
   return dec.decode(out.stdout)
 }
 
-type Flags = {
-  dryRun: boolean
-  json: boolean
-  unpublished: boolean
-  publish: boolean
-  outputFile: string | null
-  capturedFile: string | null
-  excludeFile: string | null
-}
+const flags = parseArgs(Deno.args, {
+  boolean: ['dry-run', 'json', 'unpublished', 'publish'],
+  string: ['output', 'captured', 'exclude'],
+  alias: { 'captured-file': 'captured' },
+})
 
-const parseArgs = (argv: string[]): Flags => {
-  const flags: Flags = {
-    dryRun: argv.includes('--dry-run'),
-    json: argv.includes('--json'),
-    unpublished: argv.includes('--unpublished'),
-    publish: argv.includes('--publish'),
-    outputFile: null,
-    capturedFile: null,
-    excludeFile: null,
-  }
-  const valueOf = (i: number, flag: string) => {
-    const value = argv[i + 1]
-    if (value === undefined || value.startsWith('-')) throw new Error(`missing argument for ${flag}`)
-    return value
-  }
-  for (let i = 0; i < argv.length; i++) {
-    const a = argv[i]!
-    if (a === '--output') flags.outputFile = valueOf(i, a)
-    if (a.startsWith('--output=')) flags.outputFile = a.slice('--output='.length)
-    if (a === '--captured' || a === '--captured-file') flags.capturedFile = valueOf(i, a)
-    if (a.startsWith('--captured=')) flags.capturedFile = a.slice('--captured='.length)
-    if (a.startsWith('--captured-file=')) flags.capturedFile = a.slice('--captured-file='.length)
-    if (a === '--exclude') flags.excludeFile = valueOf(i, a)
-    if (a.startsWith('--exclude=')) flags.excludeFile = a.slice('--exclude='.length)
-  }
-  return flags
-}
+const excluded = new Set<string>(
+  flags.exclude
+    ? (await Deno.readTextFile(flags.exclude)).split('\n').map((line) => line.trim()).filter(Boolean)
+    : [],
+)
 
-const readExcluded = async (excludeFile: string | null) => {
-  if (!excludeFile) return new Set<string>()
-  const text = await Deno.readTextFile(excludeFile)
-  return new Set(text.split('\n').map((line) => line.trim()).filter(Boolean))
-}
+const remoteTags = new Set(
+  (await run('git', ['ls-remote', '--tags', 'origin']))
+    .split('\n')
+    .filter(Boolean)
+    .map((l) => l.replace(/.*refs\/tags\//, '').replace(/\^\{\}$/, '')),
+)
 
-const remoteTags = async () =>
-  new Set(
-    (await run('git', ['ls-remote', '--tags', 'origin']))
-      .split('\n')
-      .filter(Boolean)
-      .map((l) => l.replace(/.*refs\/tags\//, '').replace(/\^\{\}$/, '')),
+let cycle = flags.captured
+  ? normalizeCaptured(JSON.parse(await Deno.readTextFile(flags.captured))).filter((entry) => !excluded.has(entry.name))
+  : computeThisCycle(
+    JSON.parse(await run('pnpm', ['ls', '-r', '--json', '--depth=-1'])) as Pkg[],
+    remoteTags,
+  ).filter((entry) => !excluded.has(entry.name))
+
+if (flags.unpublished) {
+  const published = new Set(
+    (
+      await Promise.all(
+        cycle.map(async (entry) => {
+          const url = `https://registry.npmjs.org/${entry.name.replace('/', '%2F')}/${entry.version}`
+          const res = await fetch(url, { method: 'GET' })
+          return res.ok ? `${entry.name}@${entry.version}` : null
+        }),
+      )
+    ).filter((h): h is string => h !== null),
   )
-
-const loadThisCycle = async (flags: Flags) => {
-  const excluded = await readExcluded(flags.excludeFile)
-  if (flags.capturedFile) {
-    return dropExcluded(normalizeCaptured(JSON.parse(await Deno.readTextFile(flags.capturedFile))), excluded)
-  }
-  const pkgs = JSON.parse(await run('pnpm', ['ls', '-r', '--json', '--depth=-1'])) as Pkg[]
-  return dropExcluded(computeThisCycle(pkgs, await remoteTags()), excluded)
+  cycle = cycle.filter((entry) => !published.has(`${entry.name}@${entry.version}`))
 }
 
-const registryUrl = (name: string, version: string) =>
-  `https://registry.npmjs.org/${name.replace('/', '%2F')}/${version}`
-
-const unpublishedOf = (cycle: CycleEntry[], published: Set<string>) =>
-  cycle.filter((entry) => !published.has(`${entry.name}@${entry.version}`))
-
-const fetchPublished = async (cycle: CycleEntry[]) => {
-  const hits = await Promise.all(
-    cycle.map(async (entry) => {
-      const res = await fetch(registryUrl(entry.name, entry.version), { method: 'GET' })
-      return res.ok ? `${entry.name}@${entry.version}` : null
-    }),
-  )
-  return new Set(hits.filter((h): h is string => h !== null))
-}
-
-const emitCycle = async (cycle: CycleEntry[], flags: Flags) => {
-  if (flags.outputFile) {
-    await Deno.writeTextFile(flags.outputFile, JSON.stringify(cycle, null, 2))
-    console.error(`wrote ${cycle.length} captured package(s) to ${flags.outputFile}`)
-  }
-  if (flags.json) {
-    console.log(JSON.stringify(cycle))
-    return
-  }
-  for (const { tag } of cycle) console.log(`would tag ${tag}`)
-  console.log(`dry run: ${cycle.length} tag(s)`)
-}
-
-const pushTags = async (cycle: CycleEntry[]) => {
+if (flags.publish) {
   if (cycle.length === 0) {
-    console.log('no new tags to push')
-    return
+    console.log('every captured version is already on npm — tagging only')
+  } else {
+    await run('pnpm', ['publish', '-r', '--provenance', '--access', 'public', '--no-git-checks'])
   }
+} else if (flags['dry-run'] || flags.json || flags.output) {
+  if (flags.output) {
+    await Deno.writeTextFile(flags.output, JSON.stringify(cycle, null, 2))
+    console.error(`wrote ${cycle.length} captured package(s) to ${flags.output}`)
+  }
+  if (flags.json) console.log(JSON.stringify(cycle))
+  else {
+    for (const { tag } of cycle) console.log(`would tag ${tag}`)
+    console.log(`dry run: ${cycle.length} tag(s)`)
+  }
+} else if (cycle.length === 0) {
+  console.log('no new tags to push')
+} else {
   const made: string[] = []
   for (const { tag } of cycle) {
     await run('git', ['tag', tag])
@@ -160,30 +127,4 @@ const pushTags = async (cycle: CycleEntry[]) => {
   }
   await run('git', ['push', 'origin', ...made.map((t) => `refs/tags/${t}`)])
   console.log(`pushed ${made.length} tag(s): ${made.join(', ')}`)
-}
-
-const main = async () => {
-  const flags = parseArgs(Deno.args)
-  let cycle = await loadThisCycle(flags)
-  if (flags.unpublished) cycle = unpublishedOf(cycle, await fetchPublished(cycle))
-  if (flags.publish) {
-    if (cycle.length === 0) {
-      console.log('every captured version is already on npm — tagging only')
-      return
-    }
-    await run('pnpm', ['publish', '-r', '--provenance', '--access', 'public', '--no-git-checks'])
-    return
-  }
-  if (flags.dryRun || flags.json || flags.outputFile) {
-    await emitCycle(cycle, flags)
-    return
-  }
-  await pushTags(cycle)
-}
-
-try {
-  await main()
-} catch (error) {
-  console.error(`::error::${error instanceof Error ? error.message : String(error)}`)
-  Deno.exit(1)
 }

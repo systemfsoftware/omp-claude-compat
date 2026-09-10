@@ -1,27 +1,12 @@
-#!/usr/bin/env -S deno run --config=scripts/deno.json --allow-read --allow-write --allow-run=./scripts/tag-released-packages.ts
+#!/usr/bin/env -S deno run --config=scripts/deno.json --allow-read --allow-write --allow-run=./scripts/tag-released-packages.ts --allow-import --allow-net=jsr.io
+
+import { parseArgs } from '@std/cli/parse-args'
+import { expandGlob } from '@std/fs/expand-glob'
+import { basename } from '@std/path'
 
 const CHANGESET_DIR = '.changeset'
 const TAG_SCRIPT = './scripts/tag-released-packages.ts'
 const dec = new TextDecoder()
-
-const isPendingIntent = (name: string) =>
-  name.endsWith('.md') && !name.includes('changelogs/') && name.split('/').pop() !== 'README.md'
-
-const decidePhase = (pendingIntents: number, thisCycle: number) =>
-  thisCycle > 0 ? 'publish' : pendingIntents > 0 ? 'version' : 'none'
-
-const countPendingIntents = async () => {
-  try {
-    let count = 0
-    for await (const entry of Deno.readDir(CHANGESET_DIR)) {
-      if (entry.isFile && isPendingIntent(entry.name)) count++
-    }
-    return count
-  } catch (error) {
-    if (error instanceof Deno.errors.NotFound) return 0
-    throw error
-  }
-}
 
 const thisCycleCount = async () => {
   const out = await new Deno.Command(TAG_SCRIPT, {
@@ -35,31 +20,18 @@ const thisCycleCount = async () => {
   return parsed.length
 }
 
-const valueOf = (args: string[], flag: string) => {
-  const at = args.indexOf(flag)
-  if (at === -1) return null
-  const value = args[at + 1]
-  if (value === undefined || value.startsWith('-')) throw new Error(`missing argument for ${flag}`)
-  return value
+let pending = 0
+for await (const entry of expandGlob('*.md', { root: CHANGESET_DIR })) {
+  const name = basename(entry.path)
+  if (name !== 'README.md') pending++
 }
 
-const main = async () => {
-  const args = Deno.args
-  const outputFile = valueOf(args, '--output')
-  const pending = await countPendingIntents()
-  const owed = await thisCycleCount()
-  const phase = decidePhase(pending, owed)
+const flags = parseArgs(Deno.args, { string: ['output'] })
+const owed = await thisCycleCount()
+const phase = owed > 0 ? 'publish' : pending > 0 ? 'version' : 'none'
 
-  console.error(`plan-release: pending_intents=${pending} this_cycle=${owed} -> phase=${phase}`)
+console.error(`plan-release: pending_intents=${pending} this_cycle=${owed} -> phase=${phase}`)
 
-  const outputs = [`phase=${phase}`, `pending_intents=${pending}`, `this_cycle=${owed}`].join('\n')
-  if (outputFile) await Deno.writeTextFile(outputFile, `${outputs}\n`, { append: true })
-  else console.log(outputs)
-}
-
-try {
-  await main()
-} catch (error) {
-  console.error(`::error::${error instanceof Error ? error.message : String(error)}`)
-  Deno.exit(1)
-}
+const outputs = [`phase=${phase}`, `pending_intents=${pending}`, `this_cycle=${owed}`].join('\n')
+if (flags.output) await Deno.writeTextFile(flags.output, `${outputs}\n`, { append: true })
+else console.log(outputs)

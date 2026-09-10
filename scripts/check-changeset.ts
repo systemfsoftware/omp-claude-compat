@@ -1,78 +1,45 @@
-#!/usr/bin/env -S deno run --config=scripts/deno.json --allow-read --allow-run=git
+#!/usr/bin/env -S deno run --config=scripts/deno.json --allow-read --allow-run=git --allow-import --allow-net=jsr.io
+
+import { withoutAll } from '@std/collections/without-all'
+import { extract } from '@std/front-matter/yaml'
+import { expandGlob } from '@std/fs/expand-glob'
+import { basename, dirname } from '@std/path'
+
+const BUMPS = ['none', 'patch', 'minor', 'major'] as const
+type Bump = (typeof BUMPS)[number]
+
+const isBump = (value: unknown): value is Bump =>
+  typeof value === 'string' && (BUMPS as readonly string[]).includes(value)
 
 const dec = new TextDecoder()
 
-type Manifest = {
-  name?: string
-  version?: string
-  private?: boolean
-  dir: string
-}
-
-type PublicPkg = { name: string; dir: string }
-
-const parseIntentPackages = (markdown: string) => {
-  const match = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---/)
-  if (!match) return []
-  const names: string[] = []
-  for (const line of match[1]!.split(/\r?\n/)) {
-    const entry = line.match(/^"([^"]+)":\s*(none|patch|minor|major)\s*$/)
-    if (entry) names.push(entry[1]!)
-  }
-  return names
-}
-
-const isIntentFile = (name: string) => name.endsWith('.md') && name !== 'README.md'
-
-const publicPackagesOf = (manifests: Manifest[]): PublicPkg[] =>
-  manifests.filter((p) => p.name && p.version && !p.private).map((p) => ({ name: p.name!, dir: p.dir }))
-
-const touchedPublicPackages = (changedFiles: string[], packages: PublicPkg[]) => {
-  const workspaceTouched = changedFiles.some((file) => file === 'packages' || file.startsWith('packages/'))
-  if (!workspaceTouched) return []
-  return packages.map((pkg) => pkg.name)
-}
-
-const missingIntents = (touched: string[], namedByIntents: Set<string>) =>
-  touched.filter((name) => !namedByIntents.has(name))
-
-const loadPublicPackages = async (): Promise<PublicPkg[]> => {
-  let names: Deno.DirEntry[]
+const intentPackages = (markdown: string) => {
   try {
-    names = []
-    for await (const entry of Deno.readDir('packages')) names.push(entry)
-  } catch (error) {
-    if (error instanceof Deno.errors.NotFound) return []
-    throw error
+    const { attrs } = extract<Record<string, unknown>>(markdown)
+    return Object.entries(attrs).flatMap(([name, bump]) => (isBump(bump) ? [name] : []))
+  } catch {
+    return []
   }
-  const manifests: Manifest[] = []
-  for (const entry of names) {
-    if (!entry.isDirectory) continue
-    const dir = `packages/${entry.name}`
-    try {
-      const pkg = JSON.parse(await Deno.readTextFile(`${dir}/package.json`)) as Manifest
-      manifests.push({ ...pkg, dir })
-    } catch (error) {
-      if (error instanceof Deno.errors.NotFound) continue
-      throw error
+}
+
+const loadPublicPackages = async () => {
+  const pkgs: string[] = []
+  for await (const file of expandGlob('packages/*/package.json')) {
+    const pkg = JSON.parse(await Deno.readTextFile(file.path)) as {
+      name?: string
+      version?: string
+      private?: boolean
     }
+    if (pkg.name && pkg.version && !pkg.private) pkgs.push(pkg.name)
   }
-  return publicPackagesOf(manifests)
+  return pkgs
 }
 
 const loadIntentPackages = async () => {
-  let files: Deno.DirEntry[]
-  try {
-    files = []
-    for await (const entry of Deno.readDir('.changeset')) files.push(entry)
-  } catch (error) {
-    if (error instanceof Deno.errors.NotFound) return new Set<string>()
-    throw error
-  }
   const named = new Set<string>()
-  for (const entry of files) {
-    if (!entry.isFile || !isIntentFile(entry.name)) continue
-    for (const pkg of parseIntentPackages(await Deno.readTextFile(`.changeset/${entry.name}`))) named.add(pkg)
+  for await (const file of expandGlob('.changeset/*.md')) {
+    if (basename(file.path) === 'README.md') continue
+    for (const pkg of intentPackages(await Deno.readTextFile(file.path))) named.add(pkg)
   }
   return named
 }
@@ -87,33 +54,28 @@ const changedFilesSince = async (baseSha: string) => {
   return dec.decode(out.stdout).split('\n').filter(Boolean)
 }
 
-const main = async () => {
-  const baseSha = Deno.args[0]
-  if (!baseSha) {
-    console.error('usage: ./scripts/check-changeset.ts <base-sha>')
-    Deno.exit(2)
-  }
+const baseSha = Deno.args[0]
+if (!baseSha) {
+  console.error('usage: ./scripts/check-changeset.ts <base-sha>')
+  Deno.exit(2)
+}
 
-  const touched = touchedPublicPackages(await changedFilesSince(baseSha), await loadPublicPackages())
-  const missing = missingIntents(touched, await loadIntentPackages())
-  if (missing.length === 0) {
-    console.log(
-      touched.length === 0 ? 'no publishable-package paths in the diff' : `changeset covers: ${touched.join(', ')}`,
-    )
-    return
-  }
+const changed = await changedFilesSince(baseSha)
+const workspaceTouched = changed.some((file) =>
+  file === 'packages' || file.startsWith('packages/') || dirname(file) === 'packages'
+)
+const touched = workspaceTouched ? await loadPublicPackages() : []
+const missing = withoutAll(touched, [...await loadIntentPackages()])
 
+if (missing.length === 0) {
+  console.log(
+    touched.length === 0 ? 'no publishable-package paths in the diff' : `changeset covers: ${touched.join(', ')}`,
+  )
+} else {
   console.error(
     `::error::publishable package(s) changed with no changeset intent: ${
       missing.join(', ')
     }. Author one with \`pnpm change --bump <none|patch|minor|major> --summary "<changelog entry>" ${missing[0]}\`.`,
   )
-  Deno.exit(1)
-}
-
-try {
-  await main()
-} catch (error) {
-  console.error(`::error::${error instanceof Error ? error.message : String(error)}`)
   Deno.exit(1)
 }
