@@ -1,57 +1,40 @@
 #!/usr/bin/env -S deno run --config=scripts/deno.json --allow-read --allow-run=git --allow-import --allow-net=jsr.io
 
 import { withoutAll } from '@std/collections/without-all'
-import { extract } from '@std/front-matter/yaml'
+import { extractYaml, test } from '@std/front-matter'
 import { expandGlob } from '@std/fs/expand-glob'
-import { basename, dirname } from '@std/path'
+import { basename } from '@std/path'
+import { run } from './lib/run.ts'
 
-const BUMPS = ['none', 'patch', 'minor', 'major'] as const
-type Bump = (typeof BUMPS)[number]
-
-const isBump = (value: unknown): value is Bump =>
-  typeof value === 'string' && (BUMPS as readonly string[]).includes(value)
-
-const dec = new TextDecoder()
+const BUMP: Record<string, true> = { none: true, patch: true, minor: true, major: true }
 
 const intentPackages = (markdown: string) => {
-  try {
-    const { attrs } = extract<Record<string, unknown>>(markdown)
-    return Object.entries(attrs).flatMap(([name, bump]) => (isBump(bump) ? [name] : []))
-  } catch {
-    return []
-  }
+  if (!test(markdown)) return []
+  return Object.entries(extractYaml<Record<string, unknown>>(markdown).attrs)
+    .filter(([, bump]) => typeof bump === 'string' && BUMP[bump])
+    .map(([name]) => name)
 }
 
-const loadPublicPackages = async () => {
-  const pkgs: string[] = []
+const publicPackages = async () => {
+  const names: string[] = []
   for await (const file of expandGlob('packages/*/package.json')) {
     const pkg = JSON.parse(await Deno.readTextFile(file.path)) as {
       name?: string
       version?: string
       private?: boolean
     }
-    if (pkg.name && pkg.version && !pkg.private) pkgs.push(pkg.name)
+    if (pkg.name && pkg.version && !pkg.private) names.push(pkg.name)
   }
-  return pkgs
+  return names
 }
 
-const loadIntentPackages = async () => {
-  const named = new Set<string>()
+const namedIntents = async () => {
+  const named: string[] = []
   for await (const file of expandGlob('.changeset/*.md')) {
     if (basename(file.path) === 'README.md') continue
-    for (const pkg of intentPackages(await Deno.readTextFile(file.path))) named.add(pkg)
+    named.push(...intentPackages(await Deno.readTextFile(file.path)))
   }
   return named
-}
-
-const changedFilesSince = async (baseSha: string) => {
-  const out = await new Deno.Command('git', {
-    args: ['diff', '--name-only', `${baseSha}...HEAD`],
-    stdout: 'piped',
-    stderr: 'inherit',
-  }).output()
-  if (!out.success) throw new Error(`git diff failed (exit ${out.code})`)
-  return dec.decode(out.stdout).split('\n').filter(Boolean)
 }
 
 const baseSha = Deno.args[0]
@@ -60,22 +43,22 @@ if (!baseSha) {
   Deno.exit(2)
 }
 
-const changed = await changedFilesSince(baseSha)
-const workspaceTouched = changed.some((file) =>
-  file === 'packages' || file.startsWith('packages/') || dirname(file) === 'packages'
-)
-const touched = workspaceTouched ? await loadPublicPackages() : []
-const missing = withoutAll(touched, [...await loadIntentPackages()])
+const changed = (await run('git', ['diff', '--name-only', `${baseSha}...HEAD`])).split('\n').filter(Boolean)
+const touched = changed.some((file) => file === 'packages' || file.startsWith('packages/'))
+  ? await publicPackages()
+  : []
+const missing = withoutAll(touched, await namedIntents())
 
 if (missing.length === 0) {
   console.log(
     touched.length === 0 ? 'no publishable-package paths in the diff' : `changeset covers: ${touched.join(', ')}`,
   )
-} else {
-  console.error(
-    `::error::publishable package(s) changed with no changeset intent: ${
-      missing.join(', ')
-    }. Author one with \`pnpm change --bump <none|patch|minor|major> --summary "<changelog entry>" ${missing[0]}\`.`,
-  )
-  Deno.exit(1)
+  Deno.exit(0)
 }
+
+console.error(
+  `::error::publishable package(s) changed with no changeset intent: ${
+    missing.join(', ')
+  }. Author one with \`pnpm change --bump <none|patch|minor|major> --summary "<changelog entry>" ${missing[0]}\`.`,
+)
+Deno.exit(1)
