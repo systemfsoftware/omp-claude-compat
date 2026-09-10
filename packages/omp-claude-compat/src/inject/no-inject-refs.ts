@@ -1,7 +1,7 @@
-import { homeAnchor, policyFilePaths, readLayers } from '@systemfsoftware/harness-toml'
 import { Context, Effect, Layer } from 'effect'
 import * as FileSystem from 'effect/FileSystem'
 import { homeDir } from '../internal/host-env.js'
+import { homeAnchor, policyFilePaths, readLayers } from '../policy/mod.js'
 
 export const DEFAULT_NO_INJECT_REFS: readonly string[] = ['AGENTS.md']
 
