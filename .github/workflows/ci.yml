@@ -27,6 +27,12 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
+      - name: plan-release selftest
+        run: node scripts/plan-release.mjs --selftest
+      - name: tag-released-packages selftest
+        run: node scripts/tag-released-packages.mjs --selftest
+      - name: check-changeset selftest
+        run: node scripts/check-changeset.mjs --selftest
       - run: pnpm install --frozen-lockfile
       - run: pnpm format:check
       - run: pnpm -r typecheck
