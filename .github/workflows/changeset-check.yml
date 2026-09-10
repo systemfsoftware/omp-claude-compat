@@ -16,7 +16,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Changeset gate selftest
-        run: node scripts/check-changeset.mjs --selftest
+      - uses: denoland/setup-deno@v2
       - name: Require a changeset for publishable-package changes
-        run: node scripts/check-changeset.mjs ${{ github.event.pull_request.base.sha }}
+        run: ./scripts/check-changeset.ts ${{ github.event.pull_request.base.sha }}

@@ -27,6 +27,7 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true
+      - uses: denoland/setup-deno@v2
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -37,7 +38,7 @@ jobs:
         run: pnpm version -r --dry-run
       - id: plan
         name: Decide release phase from repository state
-        run: node scripts/plan-release.mjs --output "$GITHUB_OUTPUT"
+        run: ./scripts/plan-release.ts --output "$GITHUB_OUTPUT"
 
   version:
     if: needs.plan.outputs.phase == 'version'
@@ -83,6 +84,7 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true
+      - uses: denoland/setup-deno@v2
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
@@ -90,10 +92,10 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Capture release set
-        run: node scripts/tag-released-packages.mjs --dry-run --json --output /tmp/captured.json
+        run: ./scripts/tag-released-packages.ts --dry-run --json --output /tmp/captured.json
       - name: Build
         run: pnpm build
       - name: Publish unpublished versions via OIDC
-        run: ./scripts/publish-if-unpublished.sh
+        run: ./scripts/tag-released-packages.ts --unpublished --captured /tmp/captured.json --publish
       - name: Tag released versions
-        run: node scripts/tag-released-packages.mjs --captured /tmp/captured.json
+        run: ./scripts/tag-released-packages.ts --captured /tmp/captured.json
