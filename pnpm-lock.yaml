@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@commitlint/cli':
         specifier: ^21.2.1
-        version: 21.2.2(@types/node@24.13.3)(conventional-commits-parser@7.1.2)(typescript@7.0.2)
+        version: 21.2.2(@types/node@26.5.0)(conventional-commits-parser@7.1.2)(typescript@7.0.2)
       '@commitlint/config-conventional':
         specifier: ^21.2.0
         version: 21.2.2
@@ -24,8 +24,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       '@types/node':
-        specifier: ^24
-        version: 24.13.3
+        specifier: ^26
+        version: 26.5.0
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -61,8 +61,8 @@ importers:
         specifier: 4.0.0-rc.112
         version: 4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11)
       '@oh-my-pi/pi-coding-agent':
-        specifier: ^17.0.5
-        version: 17.4.2
+        specifier: ^18.1.13
+        version: 18.1.13
       '@systemfsoftware/all':
         specifier: ^1.1.3
         version: 1.1.3(effect@4.0.0-rc.112)(oxlint-tsgolint@7.0.2001)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)
@@ -80,7 +80,7 @@ importers:
         version: 2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11)
       '@systemfsoftware/effect-schema-vite':
         specifier: ^2.0.3
-        version: 2.0.3(@systemfsoftware/effect-schema-law@2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11)
+        version: 2.0.3(@systemfsoftware/effect-schema-law@2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11)
       '@systemfsoftware/stryker-js-cli':
         specifier: ^6.0.0
         version: 6.0.0(redis@6.2.1(@opentelemetry/api@1.9.1))
@@ -100,8 +100,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       '@types/node':
-        specifier: ^24
-        version: 24.13.3
+        specifier: ^26
+        version: 26.5.0
       '@vitest/coverage-v8':
         specifier: ^4
         version: 4.1.11(vitest@4.1.11)
@@ -128,7 +128,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: ^4
-        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.5.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0))
     optionalDependencies:
       '@systemfsoftware/effect-cell-types':
         specifier: ^6.0.1
@@ -639,38 +639,34 @@ packages:
     resolution: {integrity: sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==}
     engines: {node: ^14.21.3 || >=16}
 
-  '@oh-my-pi/hashline@17.4.2':
-    resolution: {integrity: sha512-0XVlzPzmFxwW3vgtGebU53rek84/dMO4qH4goeMFOc+Ae//eMYY8xKpiTlbCSbQSGK3zP+R+VPvNB3BM64Vxzw==}
-    engines: {bun: '>=1.3.14'}
-
-  '@oh-my-pi/omp-stats@17.4.2':
-    resolution: {integrity: sha512-2sImJ7UzShm4JhgFFWEJ0Mx6oOKhfPC+W4I2eqJ9LOFPsOTvzw9JINHEfyGaMjPVrE3ojtZZoN8fCMmkyfN5Qg==}
+  '@oh-my-pi/omp-stats@18.1.13':
+    resolution: {integrity: sha512-cPHRn4U17MSfAjJhvWEktjyehamlbxbo/UyDqmSrQ9NBXmJUOKaBC3AhjO36OslJJ41JwOH58w3JeMBC1tUIsQ==}
     engines: {bun: '>=1.3.14'}
     hasBin: true
 
-  '@oh-my-pi/omptype@17.4.2':
-    resolution: {integrity: sha512-oJV+Ioqbg1qhU42YUPjVThfcXJbr1q1FvF/hsejoTMg9epWAiD+Qo/kxbiV7wKDYiLeU7UZepp5DNUncsZsZ7w==}
+  '@oh-my-pi/omptype@18.1.13':
+    resolution: {integrity: sha512-eJvX0vzzs4DakVrrkmNWCEN4V3VCu0whKxwwOfH1QMJnP09Ry25yr/YGQ4GOz0j2sX2cNe3+dSphxWhVAVx8Ng==}
     engines: {bun: '>=1.3.14', node: '>=20'}
 
-  '@oh-my-pi/pi-agent-core@17.4.2':
-    resolution: {integrity: sha512-mgBnvupbxBnetgnEggkdH7BMXvJOWT9Tfq0tmVQw1nPWBmDj5kt6lAPP4m06RgjrNjBzkgrvPqJIWy1gGkH1/g==}
+  '@oh-my-pi/pi-agent-core@18.1.13':
+    resolution: {integrity: sha512-MnTrMRIJklfgNz0XyQWevKUDyB7GDd2TVz6dkEeCr/P3pNfTqT9AEannPD2e7QQjCRgoNmj+pMbn1yo1z5es8g==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/pi-ai@17.4.2':
-    resolution: {integrity: sha512-3EiWcQ9GQXIZegV9FGD/rM9Kk7akduSk5FhuQ1sY/dmnJzxiMUPjJcdBfhEbfbGWiqswnbgqHDQJ/Nx9l04rzw==}
+  '@oh-my-pi/pi-ai@18.1.13':
+    resolution: {integrity: sha512-PGWK0KaH5y7XtaKfVHarTWHEivtFkDcHZm45lR9uJiED7oihmkQwYXiQSZw3U9/+PygT2z39IPP7Xu1M7hJsBw==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/pi-catalog@17.4.2':
-    resolution: {integrity: sha512-CbwK78Q7wajmV8gEqPsEf6+HmKLPoOo8nHxIGN3/UXX+cSyzofUrPrna6ggK/cXqXVKarTyI3Yhr+tEaZCZMmg==}
+  '@oh-my-pi/pi-catalog@18.1.13':
+    resolution: {integrity: sha512-5oBiNj3mhgWTWi3dmG6ZezXZQtQj2vqYDE6OgHzcnEeG68Su7qZx5hfQuPxkrYEnLMwj/a1KXqfJa6rRkjQ7yA==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/pi-coding-agent@17.4.2':
-    resolution: {integrity: sha512-WcX6H81eucB1PFFujI6XCF5ObDJm42RSAnEAxQAAEEzURZCR3yOsn3kFUTR9cxkJa+jdcfMVrN3ahih2Xn/6/Q==}
+  '@oh-my-pi/pi-coding-agent@18.1.13':
+    resolution: {integrity: sha512-YuTZKrXAsE5dKwavGqEHjZLyjEYuyBWIKuUoOyj0nbcSUMY8hqbZWbMGax13K3N7EpuNpNCKFHlfDd8G3QYaog==}
     engines: {bun: '>=1.3.14'}
     hasBin: true
 
-  '@oh-my-pi/pi-mnemopi@17.4.2':
-    resolution: {integrity: sha512-TceEBqRW6AcD5Chmn9LEBkEvn27CHr3uJt8ZGkTTxEzm+jxYZrSF/VmS2OMEgf9X4RwJDYJkk/4cnA7CJj44lA==}
+  '@oh-my-pi/pi-mnemopi@18.1.13':
+    resolution: {integrity: sha512-bKuhhDzrj/yfGMlHYEg1fnniP0oDsVQv4CfzLYBN29qQ51pvFQ0Hu2AQeL2KBJFv58d8TQSgW0tB4ZyNCI5EMg==}
     engines: {bun: '>=1.3.14'}
     hasBin: true
     peerDependencies:
@@ -682,54 +678,60 @@ packages:
       onnxruntime-node:
         optional: true
 
-  '@oh-my-pi/pi-natives-darwin-arm64@17.4.2':
-    resolution: {integrity: sha512-993RZRxQeYqRywtnqfLeILvjSDh4TADwdC9oqqNrBYYzso5TPZbjbs8kT2M0eT5GWEFiNA17/3fKTA2E2QwY5Q==}
+  '@oh-my-pi/pi-natives-darwin-arm64@18.1.13':
+    resolution: {integrity: sha512-CMmUyAy4lpB2Fd60kdYGtFB6ec4hGKlzl6gtAXBgZ64ySVnksZ/5aqpzLAAcAwdy1UeILpfViifJKqLzwi0iAw==}
     engines: {bun: '>=1.3.14'}
     cpu: [arm64]
     os: [darwin]
 
-  '@oh-my-pi/pi-natives-darwin-x64@17.4.2':
-    resolution: {integrity: sha512-4YDybEMakDC7nD+rvM0CHbiFfTrscGC8G+/z3BlW5YN1ZiyZ54ts+9zYi07EHHfNVSV4t8fuHJYYP6Vkrr6viA==}
+  '@oh-my-pi/pi-natives-darwin-x64@18.1.13':
+    resolution: {integrity: sha512-QAtEtrsk8puKCHUDmnM2U7C8EBEnXElejXYjqepFINAK+c810HiVd3RQ2d0Twk5rarmaE1SSi33FBPWCb8MVFQ==}
     engines: {bun: '>=1.3.14'}
     cpu: [x64]
     os: [darwin]
 
-  '@oh-my-pi/pi-natives-linux-arm64@17.4.2':
-    resolution: {integrity: sha512-XpN2LM+4gXQGNZSWmkPP+3vYDJa1gBY62ThqVHIKCrfEXidNauNXilUzWgVTEg488Z52LNth0AXndQTaEI7I+g==}
+  '@oh-my-pi/pi-natives-linux-arm64@18.1.13':
+    resolution: {integrity: sha512-HtHkF7hdqGZUEFsN+C/gTXGf00XHZexLmGBlGnUWBV7PP5E9Vm3DN7Jki1Rzc5rgxu9cjYWBjRwnLfraJ5SySw==}
     engines: {bun: '>=1.3.14'}
     cpu: [arm64]
     os: [linux]
 
-  '@oh-my-pi/pi-natives-linux-x64@17.4.2':
-    resolution: {integrity: sha512-91UL4pNOGoccUWtexflO/IFx/u2igC2q5pS7qJwNcKrb1rqGztTuJlgaQlNHdOMa1N9sNGzFCn8dZEAusLS50Q==}
+  '@oh-my-pi/pi-natives-linux-x64@18.1.13':
+    resolution: {integrity: sha512-yL8Mf3lEsaS+sqXRiSeFOXoEqwLAfzL/hMA2T6ITYhWEaB2MVFEy42nrqdZHCmg7rrqhf4+ItLgPD4Iz2EP+6A==}
     engines: {bun: '>=1.3.14'}
     cpu: [x64]
     os: [linux]
 
-  '@oh-my-pi/pi-natives-win32-x64@17.4.2':
-    resolution: {integrity: sha512-/BNvunF+PeuCcTr2RMU4K3kDS0Dq2MPh9gueSEH9xmkK3eZv9Hu2s6MwYNa+uAdHskyd1ScShmgxYiVXgsYQNg==}
+  '@oh-my-pi/pi-natives-win32-arm64@18.1.13':
+    resolution: {integrity: sha512-wgN9iZn9j3sewCU7FPe4HYcNKNiyu00RAtYrlYRnK4cBcob/5K1ygvWCNGO7+EQumQYH9tYYVM+ElS+lyW6nPg==}
+    engines: {bun: '>=1.3.14'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@oh-my-pi/pi-natives-win32-x64@18.1.13':
+    resolution: {integrity: sha512-QRRPmS8hyXK6mp/Y8K9rkvP0S6f8fQnrHUfj52JMslzgEdSfAGqze9WHuaB+grDlLvDyvvgJXMQdDp0aNCjkAg==}
     engines: {bun: '>=1.3.14'}
     cpu: [x64]
     os: [win32]
 
-  '@oh-my-pi/pi-natives@17.4.2':
-    resolution: {integrity: sha512-889fkR9GBM16aNBiTjPqPHPvQhjkNJQVe9a1BTCpOqN00VSIDNnluzDxnCq4b+XbwbCbWCCipDoWCobwH3z8Qg==}
+  '@oh-my-pi/pi-natives@18.1.13':
+    resolution: {integrity: sha512-L9XXdj6fjkGOyU/Ic9HgeV1wreTchHM6kRzyWXG1U0qBMCWmf/mTG2DkJHFyWJRmqToxYpL4Ps7gk60qMtl0Xg==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/pi-tui@17.4.2':
-    resolution: {integrity: sha512-nsnVANgBZl4ZbzyoY3uBVOEx3G3AFOLW+ENNwG15Mmdz5acqCgbE+3fsMrBbqDgevappKLc44c/jTkK1Ayfwbw==}
+  '@oh-my-pi/pi-tui@18.1.13':
+    resolution: {integrity: sha512-b+NzqEHFG+aQVAEHWkhFt/wKG9bzFqJg6r9l3c2kw0L0mXnLa3gKA+Pq4iZdYWFWr7c9Y2CwCoV1uYxKXUP0cw==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/pi-utils@17.4.2':
-    resolution: {integrity: sha512-8ZPmgUdGNIsgvV0lZERjCMh2uw8oITgMEWHXSfsTj8xMiF0vnJ6TH7hY8+Qva6Bi2qtb/sLVuKvPant9ZQ6gwQ==}
+  '@oh-my-pi/pi-utils@18.1.13':
+    resolution: {integrity: sha512-3sqE5tNuxuBwcDDQMeeHrY2MW9T+nA5UhAeTPMbzj+Lk4tySlLC01nHgAhy3G03ciZpWzTvIhaUO1HWtgPTySA==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/pi-wire@17.4.2':
-    resolution: {integrity: sha512-vqkZcTJIxGU3HvyWBHaYSTRy7gE66ZqEdyXuh0Pb0/OTBaMzTPE0l7HQ+PPdYeVG3/+pzWQ9y5WX9cEgJT3GWQ==}
+  '@oh-my-pi/pi-wire@18.1.13':
+    resolution: {integrity: sha512-SliXavVrSeMLcJBFl9Fkzc1VTJu76PLH+L0DXw/rgq7Okpv7KTqAazhYuFwJch+1qpyxJ1SzdIe7817FKocpdQ==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/snapcompact@17.4.2':
-    resolution: {integrity: sha512-7xCOlg6i8Giblogp3LQZuvr4MT6RMpy0GK2G0QHxuTDAuH2pYkpWNrKsWZo+qVXA7iV7ZEjFrspTzobqC8pZPA==}
+  '@oh-my-pi/snapcompact@18.1.13':
+    resolution: {integrity: sha512-Hezz4xzHkUo8LVYpaipyW3n+O1cJcGieHgKHSKvMFAY5y86iQZHo7G7vOiz+k5JXUI+zXzr2QrgJGMmbo6bTwQ==}
     engines: {bun: '>=1.3.14'}
 
   '@opentelemetry/api-logs@0.220.0':
@@ -1546,8 +1548,8 @@ packages:
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
 
-  '@types/node@24.13.3':
-    resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
+  '@types/node@26.5.0':
+    resolution: {integrity: sha512-dVSGpriSoCgz8WnDNTuSSuSv1PC/ALXihO4ulRZt7Md8k9mlbdin3lGOcDE8SnWOgf513ByWlXd7BK4azmyg/A==}
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
@@ -2768,8 +2770,8 @@ packages:
   unconfig-core@7.5.0:
     resolution: {integrity: sha512-Su3FauozOGP44ZmKdHy2oE6LPjk51M/TRRjHv2HNCWiDvfvCoxC2lno6jevMA91MYAdCdwP05QnWdWpSbncX/w==}
 
-  undici-types@7.18.2:
-    resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
+  undici-types@8.9.0:
+    resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
 
   undici@8.10.2:
     resolution: {integrity: sha512-/y4/bH9YNU5hi9NIrpOuvGXFcxrj3CMrV+/AYpowAYTpHn8gX/XPFjNy766FPoYY0miQhdW977JFWKGNhBdwyQ==}
@@ -2947,12 +2949,12 @@ snapshots:
 
   '@braidai/lang@1.1.2': {}
 
-  '@commitlint/cli@21.2.2(@types/node@24.13.3)(conventional-commits-parser@7.1.2)(typescript@7.0.2)':
+  '@commitlint/cli@21.2.2(@types/node@26.5.0)(conventional-commits-parser@7.1.2)(typescript@7.0.2)':
     dependencies:
       '@commitlint/config-conventional': 21.2.2
       '@commitlint/format': 21.2.2
       '@commitlint/lint': 21.2.2
-      '@commitlint/load': 21.2.2(@types/node@24.13.3)(typescript@7.0.2)
+      '@commitlint/load': 21.2.2(@types/node@26.5.0)(typescript@7.0.2)
       '@commitlint/read': 21.2.1(conventional-commits-parser@7.1.2)
       '@commitlint/types': 21.2.0
       tinyexec: 1.3.1
@@ -2997,14 +2999,14 @@ snapshots:
       '@commitlint/rules': 21.2.2
       '@commitlint/types': 21.2.0
 
-  '@commitlint/load@21.2.2(@types/node@24.13.3)(typescript@7.0.2)':
+  '@commitlint/load@21.2.2(@types/node@26.5.0)(typescript@7.0.2)':
     dependencies:
       '@commitlint/config-validator': 21.2.0
       '@commitlint/execute-rule': 21.0.1
       '@commitlint/resolve-extends': 21.2.2
       '@commitlint/types': 21.2.0
       cosmiconfig: 9.0.2(typescript@7.0.2)
-      cosmiconfig-typescript-loader: 6.3.0(@types/node@24.13.3)(cosmiconfig@9.0.2(typescript@7.0.2))(typescript@7.0.2)
+      cosmiconfig-typescript-loader: 6.3.0(@types/node@26.5.0)(cosmiconfig@9.0.2(typescript@7.0.2))(typescript@7.0.2)
       es-toolkit: 1.52.0
       is-plain-obj: 4.1.0
       picocolors: 1.1.1
@@ -3089,7 +3091,7 @@ snapshots:
   '@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11)':
     dependencies:
       effect: 4.0.0-rc.112
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.5.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0))
 
   '@emnapi/core@1.11.2':
     dependencies:
@@ -3412,16 +3414,11 @@ snapshots:
 
   '@noble/hashes@1.8.0': {}
 
-  '@oh-my-pi/hashline@17.4.2':
+  '@oh-my-pi/omp-stats@18.1.13':
     dependencies:
-      '@oh-my-pi/pi-natives': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
-
-  '@oh-my-pi/omp-stats@17.4.2':
-    dependencies:
-      '@oh-my-pi/pi-ai': 17.4.2
-      '@oh-my-pi/pi-catalog': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
+      '@oh-my-pi/pi-ai': 18.1.13
+      '@oh-my-pi/pi-catalog': 18.1.13
+      '@oh-my-pi/pi-utils': 18.1.13
       '@tailwindcss/node': 4.3.3
       chart.js: 4.5.1
       lucide-react: 1.43.0(react@19.2.7)
@@ -3430,45 +3427,45 @@ snapshots:
       react-dom: 19.2.7(react@19.2.7)
       tailwindcss: 4.3.3
 
-  '@oh-my-pi/omptype@17.4.2': {}
+  '@oh-my-pi/omptype@18.1.13': {}
 
-  '@oh-my-pi/pi-agent-core@17.4.2':
+  '@oh-my-pi/pi-agent-core@18.1.13':
     dependencies:
-      '@oh-my-pi/pi-ai': 17.4.2
-      '@oh-my-pi/pi-catalog': 17.4.2
-      '@oh-my-pi/pi-natives': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
-      '@oh-my-pi/pi-wire': 17.4.2
-      '@oh-my-pi/snapcompact': 17.4.2
+      '@oh-my-pi/pi-ai': 18.1.13
+      '@oh-my-pi/pi-catalog': 18.1.13
+      '@oh-my-pi/pi-natives': 18.1.13
+      '@oh-my-pi/pi-utils': 18.1.13
+      '@oh-my-pi/pi-wire': 18.1.13
+      '@oh-my-pi/snapcompact': 18.1.13
       '@opentelemetry/api': 1.9.1
 
-  '@oh-my-pi/pi-ai@17.4.2':
+  '@oh-my-pi/pi-ai@18.1.13':
     dependencies:
-      '@oh-my-pi/omptype': 17.4.2
-      '@oh-my-pi/pi-catalog': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
-      '@oh-my-pi/pi-wire': 17.4.2
+      '@oh-my-pi/omptype': 18.1.13
+      '@oh-my-pi/pi-catalog': 18.1.13
+      '@oh-my-pi/pi-natives': 18.1.13
+      '@oh-my-pi/pi-utils': 18.1.13
+      '@oh-my-pi/pi-wire': 18.1.13
 
-  '@oh-my-pi/pi-catalog@17.4.2':
+  '@oh-my-pi/pi-catalog@18.1.13':
     dependencies:
-      '@oh-my-pi/omptype': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
+      '@oh-my-pi/omptype': 18.1.13
+      '@oh-my-pi/pi-utils': 18.1.13
 
-  '@oh-my-pi/pi-coding-agent@17.4.2':
+  '@oh-my-pi/pi-coding-agent@18.1.13':
     dependencies:
       '@babel/parser': 7.29.8
-      '@oh-my-pi/hashline': 17.4.2
-      '@oh-my-pi/omp-stats': 17.4.2
-      '@oh-my-pi/omptype': 17.4.2
-      '@oh-my-pi/pi-agent-core': 17.4.2
-      '@oh-my-pi/pi-ai': 17.4.2
-      '@oh-my-pi/pi-catalog': 17.4.2
-      '@oh-my-pi/pi-mnemopi': 17.4.2
-      '@oh-my-pi/pi-natives': 17.4.2
-      '@oh-my-pi/pi-tui': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
-      '@oh-my-pi/pi-wire': 17.4.2
-      '@oh-my-pi/snapcompact': 17.4.2
+      '@oh-my-pi/omp-stats': 18.1.13
+      '@oh-my-pi/omptype': 18.1.13
+      '@oh-my-pi/pi-agent-core': 18.1.13
+      '@oh-my-pi/pi-ai': 18.1.13
+      '@oh-my-pi/pi-catalog': 18.1.13
+      '@oh-my-pi/pi-mnemopi': 18.1.13
+      '@oh-my-pi/pi-natives': 18.1.13
+      '@oh-my-pi/pi-tui': 18.1.13
+      '@oh-my-pi/pi-utils': 18.1.13
+      '@oh-my-pi/pi-wire': 18.1.13
+      '@oh-my-pi/snapcompact': 18.1.13
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/api-logs': 0.220.0
       '@opentelemetry/context-async-hooks': 2.11.0(@opentelemetry/api@1.9.1)
@@ -3492,54 +3489,58 @@ snapshots:
       - utf-8-validate
       - yauzl
 
-  '@oh-my-pi/pi-mnemopi@17.4.2':
+  '@oh-my-pi/pi-mnemopi@18.1.13':
     dependencies:
-      '@oh-my-pi/pi-ai': 17.4.2
-      '@oh-my-pi/pi-catalog': 17.4.2
-      '@oh-my-pi/pi-natives': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
+      '@oh-my-pi/pi-ai': 18.1.13
+      '@oh-my-pi/pi-catalog': 18.1.13
+      '@oh-my-pi/pi-natives': 18.1.13
+      '@oh-my-pi/pi-utils': 18.1.13
 
-  '@oh-my-pi/pi-natives-darwin-arm64@17.4.2':
+  '@oh-my-pi/pi-natives-darwin-arm64@18.1.13':
     optional: true
 
-  '@oh-my-pi/pi-natives-darwin-x64@17.4.2':
+  '@oh-my-pi/pi-natives-darwin-x64@18.1.13':
     optional: true
 
-  '@oh-my-pi/pi-natives-linux-arm64@17.4.2':
+  '@oh-my-pi/pi-natives-linux-arm64@18.1.13':
     optional: true
 
-  '@oh-my-pi/pi-natives-linux-x64@17.4.2':
+  '@oh-my-pi/pi-natives-linux-x64@18.1.13':
     optional: true
 
-  '@oh-my-pi/pi-natives-win32-x64@17.4.2':
+  '@oh-my-pi/pi-natives-win32-arm64@18.1.13':
     optional: true
 
-  '@oh-my-pi/pi-natives@17.4.2':
+  '@oh-my-pi/pi-natives-win32-x64@18.1.13':
+    optional: true
+
+  '@oh-my-pi/pi-natives@18.1.13':
     optionalDependencies:
-      '@oh-my-pi/pi-natives-darwin-arm64': 17.4.2
-      '@oh-my-pi/pi-natives-darwin-x64': 17.4.2
-      '@oh-my-pi/pi-natives-linux-arm64': 17.4.2
-      '@oh-my-pi/pi-natives-linux-x64': 17.4.2
-      '@oh-my-pi/pi-natives-win32-x64': 17.4.2
+      '@oh-my-pi/pi-natives-darwin-arm64': 18.1.13
+      '@oh-my-pi/pi-natives-darwin-x64': 18.1.13
+      '@oh-my-pi/pi-natives-linux-arm64': 18.1.13
+      '@oh-my-pi/pi-natives-linux-x64': 18.1.13
+      '@oh-my-pi/pi-natives-win32-arm64': 18.1.13
+      '@oh-my-pi/pi-natives-win32-x64': 18.1.13
 
-  '@oh-my-pi/pi-tui@17.4.2':
+  '@oh-my-pi/pi-tui@18.1.13':
     dependencies:
-      '@oh-my-pi/pi-natives': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
+      '@oh-my-pi/pi-natives': 18.1.13
+      '@oh-my-pi/pi-utils': 18.1.13
 
-  '@oh-my-pi/pi-utils@17.4.2':
+  '@oh-my-pi/pi-utils@18.1.13':
     dependencies:
-      '@oh-my-pi/pi-natives': 17.4.2
+      '@oh-my-pi/pi-natives': 18.1.13
 
-  '@oh-my-pi/pi-wire@17.4.2': {}
+  '@oh-my-pi/pi-wire@18.1.13': {}
 
-  '@oh-my-pi/snapcompact@17.4.2':
+  '@oh-my-pi/snapcompact@18.1.13':
     dependencies:
-      '@oh-my-pi/pi-ai': 17.4.2
-      '@oh-my-pi/pi-catalog': 17.4.2
-      '@oh-my-pi/pi-natives': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
-      '@oh-my-pi/pi-wire': 17.4.2
+      '@oh-my-pi/pi-ai': 18.1.13
+      '@oh-my-pi/pi-catalog': 18.1.13
+      '@oh-my-pi/pi-natives': 18.1.13
+      '@oh-my-pi/pi-utils': 18.1.13
+      '@oh-my-pi/pi-wire': 18.1.13
 
   '@opentelemetry/api-logs@0.220.0':
     dependencies:
@@ -3982,7 +3983,7 @@ snapshots:
     dependencies:
       '@effect/vitest': 4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11)
       effect: 4.0.0-rc.112
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.5.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0))
 
   '@systemfsoftware/effect-memfs@1.3.4(effect@4.0.0-rc.112)(typescript@7.0.2)':
     dependencies:
@@ -3999,17 +4000,17 @@ snapshots:
     dependencies:
       '@effect/vitest': 4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11)
       effect: 4.0.0-rc.112
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.5.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0))
 
-  '@systemfsoftware/effect-schema-vite@2.0.3(@systemfsoftware/effect-schema-law@2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11)':
+  '@systemfsoftware/effect-schema-vite@2.0.3(@systemfsoftware/effect-schema-law@2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11)':
     dependencies:
       '@oxc-project/types': 0.140.0
       '@systemfsoftware/effect-schema-discovery': 1.0.2
       '@systemfsoftware/effect-schema-law': 2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11)
       effect: 4.0.0-rc.112
       oxc-parser: 0.140.0
-      vite: 8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0)
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      vite: 8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0)
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.5.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0))
 
   '@systemfsoftware/npm-package@0.2.2(effect@4.0.0-rc.112)':
     dependencies:
@@ -4152,7 +4153,7 @@ snapshots:
       '@systemfsoftware/effect-cell-types': 6.0.1(effect@4.0.0-rc.112)
       '@systemfsoftware/stryker-js': 2.0.0
       effect: 4.0.0-rc.112
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.5.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0))
 
   '@systemfsoftware/stryker-js@2.0.0':
     dependencies:
@@ -4215,13 +4216,13 @@ snapshots:
 
   '@types/estree@1.0.9': {}
 
-  '@types/node@24.13.3':
+  '@types/node@26.5.0':
     dependencies:
-      undici-types: 7.18.2
+      undici-types: 8.9.0
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 24.13.3
+      '@types/node': 26.5.0
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     optional: true
@@ -4295,7 +4296,7 @@ snapshots:
       obug: 2.1.4
       std-env: 4.2.0
       tinyrainbow: 3.1.1
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.5.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0))
 
   '@vitest/expect@4.1.11':
     dependencies:
@@ -4306,13 +4307,13 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.1
 
-  '@vitest/mocker@4.1.11(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))':
+  '@vitest/mocker@4.1.11(vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0))':
     dependencies:
       '@vitest/spy': 4.1.11
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0)
 
   '@vitest/pretty-format@4.1.11':
     dependencies:
@@ -4490,9 +4491,9 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
-  cosmiconfig-typescript-loader@6.3.0(@types/node@24.13.3)(cosmiconfig@9.0.2(typescript@7.0.2))(typescript@7.0.2):
+  cosmiconfig-typescript-loader@6.3.0(@types/node@26.5.0)(cosmiconfig@9.0.2(typescript@7.0.2))(typescript@7.0.2):
     dependencies:
-      '@types/node': 24.13.3
+      '@types/node': 26.5.0
       cosmiconfig: 9.0.2(typescript@7.0.2)
       jiti: 2.6.1
       typescript: 7.0.2
@@ -5028,7 +5029,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.2
-      '@types/node': 24.13.3
+      '@types/node': 26.5.0
       long: 5.3.2
     optional: true
 
@@ -5330,7 +5331,7 @@ snapshots:
       '@quansync/fs': 1.0.0
       quansync: 1.0.0
 
-  undici-types@7.18.2: {}
+  undici-types@8.9.0: {}
 
   undici@8.10.2: {}
 
@@ -5338,7 +5339,7 @@ snapshots:
 
   verkit@0.4.0: {}
 
-  vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0):
+  vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -5346,15 +5347,15 @@ snapshots:
       rolldown: 1.2.7
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 24.13.3
+      '@types/node': 26.5.0
       fsevents: 2.3.3
       jiti: 2.7.0
       yaml: 2.9.0
 
-  vitest@4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0)):
+  vitest@4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.5.0)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0)):
     dependencies:
       '@vitest/expect': 4.1.11
-      '@vitest/mocker': 4.1.11(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      '@vitest/mocker': 4.1.11(vite@8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0))
       '@vitest/pretty-format': 4.1.11
       '@vitest/runner': 4.1.11
       '@vitest/snapshot': 4.1.11
@@ -5371,11 +5372,11 @@ snapshots:
       tinyexec: 1.3.1
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.1
-      vite: 8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@26.5.0)(jiti@2.7.0)(yaml@2.9.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@opentelemetry/api': 1.9.1
-      '@types/node': 24.13.3
+      '@types/node': 26.5.0
       '@vitest/coverage-v8': 4.1.11(vitest@4.1.11)
     transitivePeerDependencies:
       - msw
