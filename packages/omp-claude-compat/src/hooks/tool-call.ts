@@ -1,47 +1,46 @@
 import type { ToolCallEventResult } from '@oh-my-pi/pi-coding-agent'
 import { Cell } from '@systemfsoftware/effect-cell-types'
 import { Effect, Exit, Match, Option, Result, Schema as S } from 'effect'
-import { ClaudeSettings } from '../settings/mod.js'
+import { type HookRunGate, loadHookSettingsCell } from './hook-settings-cell.js'
 import { runPreToolUseHooks } from './hooks.js'
-import { HookOutputFromStdout, type HookResult } from './hooks.schema.js'
-import type { HookSession, HookToolCall } from './hooks.schema.js'
+import { HookOutputFromStdout, type HookResult, type HookToolCall } from './hooks.schema.js'
 import { InterpretHookCommand, interpretHookResult } from './interpret-hook-result.workflow.js'
-
-export interface ToolCallInput {
-  readonly event: HookToolCall
-  readonly ctx: HookSession
-}
 
 const ALLOW: HookResult = { code: 0, stdout: '', stderr: '' }
 
-export const toolCallCell = Cell.layer({
-  read: ({ event, ctx }: ToolCallInput) =>
-    Effect.gen(function*() {
-      const port = yield* ClaudeSettings
-      const settings = yield* port.load(ctx.cwd, ctx.homeDir)
-      if (settings === null) {
-        return ALLOW
-      }
-      const result = yield* runPreToolUseHooks(settings, event, ctx)
-      if (result !== undefined && result.block === true) {
-        if (result.reason === undefined) {
-          return { code: 2, stdout: '', stderr: '' } satisfies HookResult
-        }
-        return { code: 2, stdout: '', stderr: result.reason } satisfies HookResult
-      }
-      return ALLOW
+type PreToolUseRaw = { readonly block?: boolean; readonly reason?: string } | undefined
+
+const hookResultOf = (raw: PreToolUseRaw): HookResult =>
+  Option.match(Option.fromNullishOr(raw), {
+    onNone: () => ALLOW,
+    onSome: (result) =>
+      Match.value(result.block).pipe(
+        Match.when(true, () => ({ code: 2, stdout: '', stderr: result.reason ?? '' } satisfies HookResult)),
+        Match.orElse(() => ALLOW),
+      ),
+  })
+
+const emptyRaw: PreToolUseRaw = undefined
+
+const runPreToolUseCell = Cell.layer({
+  read: (gate: HookRunGate<HookToolCall>) =>
+    Option.match(Option.fromNullishOr(gate.settings), {
+      onNone: () => Effect.succeed(emptyRaw),
+      onSome: (settings) => runPreToolUseHooks(settings, gate.event, gate.ctx),
     }),
-  decode: (raw: HookResult) =>
-    Result.succeed(
+  decode: (raw: PreToolUseRaw) => {
+    const result = hookResultOf(raw)
+    return Result.succeed(
       new InterpretHookCommand({
-        result: raw,
+        result,
         event: 'PreToolUse',
-        parsed: Exit.match(S.decodeUnknownExit(HookOutputFromStdout)(raw.stdout), {
+        parsed: Exit.match(S.decodeUnknownExit(HookOutputFromStdout)(result.stdout), {
           onFailure: () => Option.none(),
           onSuccess: Option.some,
         }),
       }),
-    ),
+    )
+  },
   decide: interpretHookResult,
   encode: (outcome) =>
     Result.match(outcome, {
@@ -59,3 +58,5 @@ export const toolCallCell = Cell.layer({
     }),
   write: (output) => Effect.succeed(Option.getOrUndefined(output)),
 })
+
+export const toolCallCell = Cell.andThen(loadHookSettingsCell<HookToolCall>(), runPreToolUseCell)

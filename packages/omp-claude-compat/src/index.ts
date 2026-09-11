@@ -7,7 +7,7 @@ export default async function claudeCompatExtension(pi: ExtensionAPI): Promise<v
     { HookDispatcherTask },
     { InjectInstructionsTask },
     { toolCallCell },
-    { toolResultCell },
+    { dispatchToolResult },
     { Cell },
     { Effect, Option, Result },
     { homeDir },
@@ -45,7 +45,7 @@ export default async function claudeCompatExtension(pi: ExtensionAPI): Promise<v
   pi.on('tool_result', (event, ctx) => {
     const timed = Effect.gen(function*() {
       const outcome = yield* Effect.result(
-        Cell.run(toolResultCell, {
+        dispatchToolResult({
           event,
           ctx: {
             cwd: ctx.cwd,
@@ -58,14 +58,7 @@ export default async function claudeCompatExtension(pi: ExtensionAPI): Promise<v
       if (Result.isFailure(outcome)) {
         throw new Error('hook dispatch effect failed', { cause: outcome.failure })
       }
-      const extra = outcome.success
-      if (extra === undefined) {
-        return undefined
-      }
-      return {
-        content: [...event.content, { type: 'text' as const, text: extra }],
-        isError: event.isError,
-      }
+      return outcome.success
     }).pipe(Effect.timeoutOption(handlerCeilingMs))
     return runSafe(timed).then((result) => Option.getOrUndefined(result))
   })
