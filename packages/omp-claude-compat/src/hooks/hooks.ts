@@ -2,7 +2,6 @@ import type {
   ExtensionAPI,
   InputEvent,
   InputEventResult,
-  ToolCallEvent,
   ToolCallEventResult,
   ToolResultEvent,
   ToolResultEventResult,
@@ -897,8 +896,6 @@ export const HookDispatcherTask = (
     ui: ctx.ui,
   })
 
-  pi.on('tool_call', (event: ToolCallEvent, ctx) => bounded(onToolCall(event, session(ctx))))
-  pi.on('tool_result', (event: ToolResultEvent, ctx) => bounded(onToolResult(event, session(ctx))))
   pi.on('input', (event: InputEvent, ctx) => bounded(onPrompt(event, session(ctx))))
   pi.on('session_start', (_event, ctx) => bounded(onSessionStart('startup', session(ctx))))
   pi.on('session_compact', (_event, ctx) => bounded(onSessionCompact(session(ctx))))
