@@ -31,12 +31,23 @@ import { homeDir } from '../internal/host-env.js'
 import { ClaudeSettings, ifEvaluatingEvent, matcherUnreadable } from '../settings/mod.js'
 import type { CommandHook, HookEntry, HookSettings } from '../settings/mod.js'
 
-import { admitLoadedSettings, SkipHooks } from './admit-loaded-settings.workflow.js'
-import { admitPresent } from './admit-present.js'
-import { Blocked, Continue, HookOutputFromStdout, HookResult } from './hooks.schema.js'
-import type { HookPrompt, HookSession, HookToolCall, HookToolResult } from './hooks.schema.js'
-export { admitLoadedSettings, admitPresent }
-import type { HookDispatchDecision } from './admit-loaded-settings.workflow.js'
+import {
+  AdmitHooksCommand,
+  Blocked,
+  Continue,
+  HookOutputFromStdout,
+  HookResult,
+  RunHooks,
+  SkipHooks,
+} from './hooks.schema.js'
+import type {
+  AdmitCommand,
+  HookDispatchDecision,
+  HookPrompt,
+  HookSession,
+  HookToolCall,
+  HookToolResult,
+} from './hooks.schema.js'
 import { InterpretHookCommand, interpretHookResult, Warning } from './interpret-hook-result.workflow.js'
 import {
   denormalizeToolInput,
@@ -50,7 +61,14 @@ import {
 } from './wire.js'
 import { ToolInputRecord } from './wire.schema.js'
 
+export const admitLoadedSettings = (command: AdmitCommand): HookDispatchDecision =>
+  Match.value(command.present).pipe(
+    Match.when(true, () => new RunHooks()),
+    Match.when(false, () => new SkipHooks()),
+    Match.exhaustive,
+  )
 export const skipHooks = (): HookDispatchDecision => new SkipHooks()
+export const admitPresent = (present: boolean): AdmitCommand => new AdmitHooksCommand({ present })
 
 const parseHookOutput = S.decodeUnknownExit(HookOutputFromStdout)
 const HOST_COMMAND_PREFIXES: readonly string[] = [
@@ -742,18 +760,14 @@ const dispatchAdmit = <Response>(
   Effect.flatMap(
     settingsFor(ctx),
     (settings) =>
-      Result.match(admitLoadedSettings(admitPresent(Option.isSome(Option.fromNullishOr(settings)))), {
-        onFailure: () => Effect.succeed(empty),
-        onSuccess: (decision) =>
-          Match.value(decision).pipe(
-            Match.tag('SkipHooks', () => Effect.succeed(empty)),
-            Match.tag('RunHooks', () => {
-              const loaded = Option.fromNullishOr(settings)
-              return write(Option.getOrThrow(loaded))
-            }),
-            Match.exhaustive,
-          ),
-      }),
+      Match.value(admitLoadedSettings(admitPresent(Option.isSome(Option.fromNullishOr(settings))))).pipe(
+        Match.tag('SkipHooks', () => Effect.succeed(empty)),
+        Match.tag('RunHooks', () => {
+          const loaded = Option.fromNullishOr(settings)
+          return write(Option.getOrThrow(loaded))
+        }),
+        Match.exhaustive,
+      ),
   )
 
 export const onToolCall = (event: HookToolCall, ctx: HookSession) =>

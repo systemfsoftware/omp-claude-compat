@@ -1,35 +1,42 @@
 import type { ToolCallEventResult } from '@oh-my-pi/pi-coding-agent'
 import { Cell } from '@systemfsoftware/effect-cell-types'
 import { Effect, Exit, Match, Option, Result, Schema as S } from 'effect'
-import { type HookRunGate, loadHookSettingsCell } from './hook-settings-cell.js'
+import { ClaudeSettings } from '../settings/mod.js'
 import { runPreToolUseHooks } from './hooks.js'
-import { HookOutputFromStdout, type HookResult, type HookToolCall } from './hooks.schema.js'
+import { HookOutputFromStdout, type HookResult, type HookSession, type HookToolCall } from './hooks.schema.js'
 import { InterpretHookCommand, interpretHookResult } from './interpret-hook-result.workflow.js'
 
-const ALLOW: HookResult = { code: 0, stdout: '', stderr: '' }
+export interface ToolCallInput {
+  readonly event: HookToolCall
+  readonly ctx: HookSession
+}
 
 type PreToolUseRaw = { readonly block?: boolean; readonly reason?: string } | undefined
 
-const hookResultOf = (raw: PreToolUseRaw): HookResult =>
+const absentRaw: PreToolUseRaw = undefined
+
+const decodeHookResult = (raw: PreToolUseRaw): HookResult =>
   Option.match(Option.fromNullishOr(raw), {
-    onNone: () => ALLOW,
+    onNone: () => ({ code: 0, stdout: '', stderr: '' }),
     onSome: (result) =>
       Match.value(result.block).pipe(
-        Match.when(true, () => ({ code: 2, stdout: '', stderr: result.reason ?? '' } satisfies HookResult)),
-        Match.orElse(() => ALLOW),
+        Match.when(true, () => ({ code: 2, stdout: '', stderr: result.reason ?? '' })),
+        Match.orElse(() => ({ code: 0, stdout: '', stderr: '' })),
       ),
   })
 
-const emptyRaw: PreToolUseRaw = undefined
-
-const runPreToolUseCell = Cell.layer({
-  read: (gate: HookRunGate<HookToolCall>) =>
-    Option.match(Option.fromNullishOr(gate.settings), {
-      onNone: () => Effect.succeed(emptyRaw),
-      onSome: (settings) => runPreToolUseHooks(settings, gate.event, gate.ctx),
+export const toolCallCell = Cell.layer({
+  read: ({ event, ctx }: ToolCallInput) =>
+    Effect.gen(function*() {
+      const port = yield* ClaudeSettings
+      const settings = yield* port.load(ctx.cwd, ctx.homeDir)
+      return yield* Option.match(Option.fromNullishOr(settings), {
+        onNone: () => Effect.succeed(absentRaw),
+        onSome: (loaded) => runPreToolUseHooks(loaded, event, ctx),
+      })
     }),
   decode: (raw: PreToolUseRaw) => {
-    const result = hookResultOf(raw)
+    const result = decodeHookResult(raw)
     return Result.succeed(
       new InterpretHookCommand({
         result,
@@ -58,5 +65,3 @@ const runPreToolUseCell = Cell.layer({
     }),
   write: (output) => Effect.succeed(Option.getOrUndefined(output)),
 })
-
-export const toolCallCell = Cell.andThen(loadHookSettingsCell<HookToolCall>(), runPreToolUseCell)

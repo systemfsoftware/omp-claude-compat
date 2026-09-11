@@ -5,37 +5,36 @@ import type { FileSystem } from 'effect/FileSystem'
 import type { PlatformError } from 'effect/PlatformError'
 import type { Scope } from 'effect/Scope'
 import type { ChildProcessSpawner } from 'effect/unstable/process/ChildProcessSpawner'
-import type { ClaudeSettings } from '../settings/mod.js'
-import { type HookRunGate, loadHookSettingsCell } from './hook-settings-cell.js'
+import { ClaudeSettings } from '../settings/mod.js'
 import { runToolResultHooks } from './hooks.js'
 import type { FeedbackOnlyResult } from './hooks.js'
 import { HookOutputFromStdout, type HookResult, type HookSession } from './hooks.schema.js'
 import { InterpretHookCommand, interpretHookResult } from './interpret-hook-result.workflow.js'
-
-const ALLOW: HookResult = { code: 0, stdout: '', stderr: '' }
 
 type ToolResultRaw = {
   readonly feedback: FeedbackOnlyResult
   readonly event: ToolResultEvent
 }
 
-const hookResultOf = (feedback: FeedbackOnlyResult): HookResult =>
+const decodeHookResult = (feedback: FeedbackOnlyResult): HookResult =>
   Option.match(Option.fromNullishOr(feedback.warning), {
-    onNone: () => ALLOW,
+    onNone: () => ({ code: 0, stdout: '', stderr: '' }),
     onSome: (warning) => ({ code: 1, stdout: '', stderr: warning }),
   })
 
 const interpretToolResultCell = Cell.layer({
-  read: (gate: HookRunGate<ToolResultEvent>) =>
-    Option.match(Option.fromNullishOr(gate.settings), {
-      onNone: () => Effect.succeed({ feedback: {}, event: gate.event } satisfies ToolResultRaw),
-      onSome: (settings) =>
-        runToolResultHooks(settings, gate.event, gate.ctx).pipe(
-          Effect.map((feedback) => ({ feedback, event: gate.event } satisfies ToolResultRaw)),
-        ),
+  read: (input: { readonly event: ToolResultEvent; readonly ctx: HookSession }) =>
+    Effect.gen(function*() {
+      const port = yield* ClaudeSettings
+      const settings = yield* port.load(input.ctx.cwd, input.ctx.homeDir)
+      const feedback = yield* Option.match(Option.fromNullishOr(settings), {
+        onNone: () => Effect.succeed({} satisfies FeedbackOnlyResult),
+        onSome: (loaded) => runToolResultHooks(loaded, input.event, input.ctx),
+      })
+      return { feedback, event: input.event } satisfies ToolResultRaw
     }),
   decode: (raw: ToolResultRaw) => {
-    const result = hookResultOf(raw.feedback)
+    const result = decodeHookResult(raw.feedback)
     return Result.succeed(
       new InterpretHookCommand({
         result,
@@ -72,11 +71,6 @@ const interpretToolResultCell = Cell.layer({
     ),
 })
 
-const toolResultSandwich = Cell.andThen(
-  loadHookSettingsCell<ToolResultEvent>(),
-  interpretToolResultCell,
-)
-
 export const dispatchToolResult = (input: {
   readonly event: ToolResultEvent
   readonly ctx: HookSession
@@ -84,4 +78,4 @@ export const dispatchToolResult = (input: {
   ToolResultEventResult | undefined,
   PlatformError,
   ClaudeSettings | FileSystem | Scope | ChildProcessSpawner
-> => Cell.run(toolResultSandwich, input)
+> => Cell.run(interpretToolResultCell, input)
