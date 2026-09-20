@@ -2,3 +2,7 @@
   dir: packages/omp-claude-compat
   intents:
     - force-release-patch
+"@systemfsoftware/omp-claude-compat@5.0.3":
+  dir: packages/omp-claude-compat
+  intents:
+    - fix-resolvable-deps
