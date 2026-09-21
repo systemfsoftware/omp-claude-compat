@@ -57,7 +57,7 @@
   "devDependencies": {
     "@effect/platform-node": "^4.0.0-rc.112",
     "@effect/platform-node-shared": "^4.0.0-rc.112",
-    "@effect/vitest": "4.0.0-rc.112",
+    "@effect/vitest": "4.0.0-rc.115",
     "@oh-my-pi/pi-coding-agent": "^17.0.5",
     "@std/toml": "jsr:^1.0.11",
     "@systemfsoftware/all": "^1.1.3",
