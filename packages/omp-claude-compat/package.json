@@ -50,12 +50,12 @@
     "lint": "f=${OXLINT_FORMAT:-${AGENT:+agent}}; oxlint . --format=${f:-default}"
   },
   "peerDependencies": {
-    "@effect/platform-node": "^4.0.0-rc.112",
+    "@effect/platform-node": "^4.0.0-rc.115",
     "@oh-my-pi/pi-coding-agent": "^17.0.5",
     "effect": "^4.0.0-rc.112"
   },
   "devDependencies": {
-    "@effect/platform-node": "^4.0.0-rc.112",
+    "@effect/platform-node": "^4.0.0-rc.115",
     "@effect/platform-node-shared": "^4.0.0-rc.112",
     "@effect/vitest": "4.0.0-rc.112",
     "@oh-my-pi/pi-coding-agent": "^17.0.5",
