@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@commitlint/cli':
         specifier: ^21.2.1
-        version: 21.2.2(@types/node@24.13.3)(conventional-commits-parser@7.1.2)(typescript@7.0.2)
+        version: 21.2.2(@types/node@26.6.1)(conventional-commits-parser@7.1.2)(typescript@7.0.2)
       '@commitlint/config-conventional':
         specifier: ^21.2.0
         version: 21.2.2
@@ -18,14 +18,14 @@ importers:
         specifier: ^21.2.0
         version: 21.2.0
       '@systemfsoftware/all':
-        specifier: ^1.1.3
-        version: 1.1.3(effect@4.0.0-rc.112)(oxlint-tsgolint@7.0.2001)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)
+        specifier: ^2.1.0
+        version: 2.1.0(effect@4.0.0-rc.112)(oxlint-tsgolint@7.0.2001)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)
       '@systemfsoftware/tsconfig':
         specifier: ^1.3.3
         version: 1.3.3
       '@types/node':
-        specifier: ^24
-        version: 24.13.3
+        specifier: ^26
+        version: 26.6.1
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -57,20 +57,20 @@ importers:
         specifier: 4.0.0-rc.112
         version: 4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11)
       '@oh-my-pi/pi-coding-agent':
-        specifier: ^17.0.5
-        version: 17.4.2
+        specifier: ^18.2.5
+        version: 18.2.5
       '@std/toml':
         specifier: jsr:^1.0.11
         version: '@jsr/std__toml@1.0.11'
       '@systemfsoftware/all':
-        specifier: ^1.1.3
-        version: 1.1.3(effect@4.0.0-rc.112)(oxlint-tsgolint@7.0.2001)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)
+        specifier: ^2.1.0
+        version: 2.1.0(effect@4.0.0-rc.112)(oxlint-tsgolint@7.0.2001)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)
       '@systemfsoftware/arethetypeswrong-cli':
         specifier: ^4.0.0
         version: 4.0.0(redis@6.2.1(@opentelemetry/api@1.9.1))
       '@systemfsoftware/effect-cell-types':
-        specifier: ^6.0.1
-        version: 6.0.1(effect@4.0.0-rc.112)
+        specifier: ^8.3.0
+        version: 8.3.0(effect@4.0.0-rc.112)
       '@systemfsoftware/effect-gherkin-spec':
         specifier: ^4.0.1
         version: 4.0.1(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11)
@@ -82,10 +82,10 @@ importers:
         version: 2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11)
       '@systemfsoftware/effect-schema-vite':
         specifier: ^2.0.3
-        version: 2.0.3(@systemfsoftware/effect-schema-law@2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11)
+        version: 2.0.3(@systemfsoftware/effect-schema-law@2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11)
       '@systemfsoftware/stryker-js-cli':
-        specifier: ^6.0.0
-        version: 6.0.0(redis@6.2.1(@opentelemetry/api@1.9.1))
+        specifier: ^8.0.1
+        version: 8.0.1
       '@systemfsoftware/stryker-js-typescript-checker':
         specifier: ^5.0.0
         version: 5.0.0
@@ -102,8 +102,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       '@types/node':
-        specifier: ^24
-        version: 24.13.3
+        specifier: ^26
+        version: 26.6.1
       '@vitest/coverage-v8':
         specifier: ^4
         version: 4.1.11(vitest@4.1.11)
@@ -130,7 +130,7 @@ importers:
         version: 7.0.2
       vitest:
         specifier: ^4
-        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+        version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0))
 
 packages:
 
@@ -280,10 +280,6 @@ packages:
 
   '@emnapi/wasi-threads@1.2.2':
     resolution: {integrity: sha512-c95qOXkHdydNKhscBTebqEC1CVAZpyqOfVfBzQ1qgzyl3gfeldUjIggDbIZgDKsHLgnsM+igH7TJ/eAasaVuMA==}
-
-  '@eslint-community/regexpp@4.12.2':
-    resolution: {integrity: sha512-EriSTlt5OC9/7SXkRSCAhfSxxoSUgBm33OH+IkwbdpgoqsSsUg7y3uh+IICI/Qg4BBWr3U2i39RpmycbxMq4ew==}
-    engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
 
   '@huggingface/jinja@0.5.10':
     resolution: {integrity: sha512-SgS1D1bglQ94ceD4ZCL6eayUDy9uV1xuyk61OjgSxU5GJh7upqZCKII0JoTYMc6wWsg3JUgaPRX0ElQzXPk3Cw==}
@@ -633,42 +629,34 @@ packages:
       '@emnapi/core': ^1.7.1 || ^2.0.0-alpha.4
       '@emnapi/runtime': ^1.7.1 || ^2.0.0-alpha.4
 
-  '@noble/hashes@1.8.0':
-    resolution: {integrity: sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==}
-    engines: {node: ^14.21.3 || >=16}
-
-  '@oh-my-pi/hashline@17.4.2':
-    resolution: {integrity: sha512-0XVlzPzmFxwW3vgtGebU53rek84/dMO4qH4goeMFOc+Ae//eMYY8xKpiTlbCSbQSGK3zP+R+VPvNB3BM64Vxzw==}
-    engines: {bun: '>=1.3.14'}
-
-  '@oh-my-pi/omp-stats@17.4.2':
-    resolution: {integrity: sha512-2sImJ7UzShm4JhgFFWEJ0Mx6oOKhfPC+W4I2eqJ9LOFPsOTvzw9JINHEfyGaMjPVrE3ojtZZoN8fCMmkyfN5Qg==}
+  '@oh-my-pi/omp-stats@18.2.5':
+    resolution: {integrity: sha512-B+jiJzjTVissNsCxKQv3NNSg/fPfWF+/ttMgrYY2c1DvqMu/MZLzd6N/fDe1S8huzZw2rRtDQ7xlBxW1r5QBfQ==}
     engines: {bun: '>=1.3.14'}
     hasBin: true
 
-  '@oh-my-pi/omptype@17.4.2':
-    resolution: {integrity: sha512-oJV+Ioqbg1qhU42YUPjVThfcXJbr1q1FvF/hsejoTMg9epWAiD+Qo/kxbiV7wKDYiLeU7UZepp5DNUncsZsZ7w==}
+  '@oh-my-pi/omptype@18.2.5':
+    resolution: {integrity: sha512-vGknZZe1J25ENQDYU60A2ihIbilBMb10DTGjgQvIRPJZE6VVt2MDyz7QLzOOClAvR3ArqAziatv2QrJYa8brig==}
     engines: {bun: '>=1.3.14', node: '>=20'}
 
-  '@oh-my-pi/pi-agent-core@17.4.2':
-    resolution: {integrity: sha512-mgBnvupbxBnetgnEggkdH7BMXvJOWT9Tfq0tmVQw1nPWBmDj5kt6lAPP4m06RgjrNjBzkgrvPqJIWy1gGkH1/g==}
+  '@oh-my-pi/pi-agent-core@18.2.5':
+    resolution: {integrity: sha512-6+mJlSPMiuSXj/ZaLtSHP8lzE7OTq5ww4ATimiZ+3aC62yGTLwnU92EA4KQCV3zb54iMlrn/9sQ/1aA5SASd6g==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/pi-ai@17.4.2':
-    resolution: {integrity: sha512-3EiWcQ9GQXIZegV9FGD/rM9Kk7akduSk5FhuQ1sY/dmnJzxiMUPjJcdBfhEbfbGWiqswnbgqHDQJ/Nx9l04rzw==}
+  '@oh-my-pi/pi-ai@18.2.5':
+    resolution: {integrity: sha512-Sp9K3pMBj6HXPv1lfe5TrmXwgetI3dI1IbHcZwxZ6fMgwOMIZ+iUgOHgJYBXPGMDf9Yvf50wN8g/lRuq0uAr8g==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/pi-catalog@17.4.2':
-    resolution: {integrity: sha512-CbwK78Q7wajmV8gEqPsEf6+HmKLPoOo8nHxIGN3/UXX+cSyzofUrPrna6ggK/cXqXVKarTyI3Yhr+tEaZCZMmg==}
+  '@oh-my-pi/pi-catalog@18.2.5':
+    resolution: {integrity: sha512-mFgy11GTCa06Cmd434hLxVTaXql+w6078Ns5jgzsf1OuujZPslR09e9bLwDDGwuzJdKp1pMGKXfNrZ+HYzdlew==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/pi-coding-agent@17.4.2':
-    resolution: {integrity: sha512-WcX6H81eucB1PFFujI6XCF5ObDJm42RSAnEAxQAAEEzURZCR3yOsn3kFUTR9cxkJa+jdcfMVrN3ahih2Xn/6/Q==}
+  '@oh-my-pi/pi-coding-agent@18.2.5':
+    resolution: {integrity: sha512-w9CPGYQHlXhlnjfpQkvLIxdwFHU1oQU7a291EHMxn779iQ2r97IIQlxwLG7HOFwdt7RTjAniTYnNSQmiBUuVBA==}
     engines: {bun: '>=1.3.14'}
     hasBin: true
 
-  '@oh-my-pi/pi-mnemopi@17.4.2':
-    resolution: {integrity: sha512-TceEBqRW6AcD5Chmn9LEBkEvn27CHr3uJt8ZGkTTxEzm+jxYZrSF/VmS2OMEgf9X4RwJDYJkk/4cnA7CJj44lA==}
+  '@oh-my-pi/pi-mnemopi@18.2.5':
+    resolution: {integrity: sha512-Srnm9gv7xrkS76lEH358J17xs4HomwixKskcXvevRzK5VZlbpo/iU3S6EOnfk2oR9BMcYdmvsvw2Vqlp7geReg==}
     engines: {bun: '>=1.3.14'}
     hasBin: true
     peerDependencies:
@@ -680,54 +668,60 @@ packages:
       onnxruntime-node:
         optional: true
 
-  '@oh-my-pi/pi-natives-darwin-arm64@17.4.2':
-    resolution: {integrity: sha512-993RZRxQeYqRywtnqfLeILvjSDh4TADwdC9oqqNrBYYzso5TPZbjbs8kT2M0eT5GWEFiNA17/3fKTA2E2QwY5Q==}
+  '@oh-my-pi/pi-natives-darwin-arm64@18.2.5':
+    resolution: {integrity: sha512-sahpPj4dogT/M2Ebhl/XXH0b2Jf6DeqwunhX9nnQu09s9Rvx/z8M9tMxU7gBNdpd2FW8W3U3DEpmKg34VMxBRA==}
     engines: {bun: '>=1.3.14'}
     cpu: [arm64]
     os: [darwin]
 
-  '@oh-my-pi/pi-natives-darwin-x64@17.4.2':
-    resolution: {integrity: sha512-4YDybEMakDC7nD+rvM0CHbiFfTrscGC8G+/z3BlW5YN1ZiyZ54ts+9zYi07EHHfNVSV4t8fuHJYYP6Vkrr6viA==}
+  '@oh-my-pi/pi-natives-darwin-x64@18.2.5':
+    resolution: {integrity: sha512-BAQA/VotfFTZ6UieMHE2A/Wg1prUEO3Hy2UzW4JYNxK3WLB4Iu0yhZxEvY6qFqNDMp/s7neB3NvQpDSGLV6M1g==}
     engines: {bun: '>=1.3.14'}
     cpu: [x64]
     os: [darwin]
 
-  '@oh-my-pi/pi-natives-linux-arm64@17.4.2':
-    resolution: {integrity: sha512-XpN2LM+4gXQGNZSWmkPP+3vYDJa1gBY62ThqVHIKCrfEXidNauNXilUzWgVTEg488Z52LNth0AXndQTaEI7I+g==}
+  '@oh-my-pi/pi-natives-linux-arm64@18.2.5':
+    resolution: {integrity: sha512-PlvEMynmqvMMqG2b4JFGPzukfsteZQ00poIktg8XLRtTWdEPCvNm+DlRL2TObisSST7LDEnh4tra0Yb7babL2A==}
     engines: {bun: '>=1.3.14'}
     cpu: [arm64]
     os: [linux]
 
-  '@oh-my-pi/pi-natives-linux-x64@17.4.2':
-    resolution: {integrity: sha512-91UL4pNOGoccUWtexflO/IFx/u2igC2q5pS7qJwNcKrb1rqGztTuJlgaQlNHdOMa1N9sNGzFCn8dZEAusLS50Q==}
+  '@oh-my-pi/pi-natives-linux-x64@18.2.5':
+    resolution: {integrity: sha512-eUudisjuEmeOtws1pxZbKhk7wEeFojbbyWgVpdPTYlx68km5dIclOUMM0EsLzjrsevInV7QG/DMWnsEhLx63jw==}
     engines: {bun: '>=1.3.14'}
     cpu: [x64]
     os: [linux]
 
-  '@oh-my-pi/pi-natives-win32-x64@17.4.2':
-    resolution: {integrity: sha512-/BNvunF+PeuCcTr2RMU4K3kDS0Dq2MPh9gueSEH9xmkK3eZv9Hu2s6MwYNa+uAdHskyd1ScShmgxYiVXgsYQNg==}
+  '@oh-my-pi/pi-natives-win32-arm64@18.2.5':
+    resolution: {integrity: sha512-8JiiP4vwMRKBYhYvBl8n9L3uQl0abiEzlpCARHqylVf7+srl7d5kdJRfJCzC7oGqmZ+Po8DXGx3eWXHpdRa13A==}
+    engines: {bun: '>=1.3.14'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@oh-my-pi/pi-natives-win32-x64@18.2.5':
+    resolution: {integrity: sha512-9w9Z2KPhvKHD8pbbg1PrbbLTLndgNKeJIeZO1yVVsAS2lmZFrx5DI/VLeCgj4KvZ7zhJ+vKvq7YA2CAxnLFIiA==}
     engines: {bun: '>=1.3.14'}
     cpu: [x64]
     os: [win32]
 
-  '@oh-my-pi/pi-natives@17.4.2':
-    resolution: {integrity: sha512-889fkR9GBM16aNBiTjPqPHPvQhjkNJQVe9a1BTCpOqN00VSIDNnluzDxnCq4b+XbwbCbWCCipDoWCobwH3z8Qg==}
+  '@oh-my-pi/pi-natives@18.2.5':
+    resolution: {integrity: sha512-NkNIA6h6IGUTR5FzFXkFDidVhE//tgEevsq8flGemAAWGv/AGOkRvCsuAxxKT6EOOOUCkXHec2DnpDhQPe0c7Q==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/pi-tui@17.4.2':
-    resolution: {integrity: sha512-nsnVANgBZl4ZbzyoY3uBVOEx3G3AFOLW+ENNwG15Mmdz5acqCgbE+3fsMrBbqDgevappKLc44c/jTkK1Ayfwbw==}
+  '@oh-my-pi/pi-tui@18.2.5':
+    resolution: {integrity: sha512-gePjzHVy6l+eXUYYDfA/38jppaqdgi5Tx21Wn0LAuEFJBbdczECin7mExcfkRLW/vptOMBqwHTlbaL6iU+hr0A==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/pi-utils@17.4.2':
-    resolution: {integrity: sha512-8ZPmgUdGNIsgvV0lZERjCMh2uw8oITgMEWHXSfsTj8xMiF0vnJ6TH7hY8+Qva6Bi2qtb/sLVuKvPant9ZQ6gwQ==}
+  '@oh-my-pi/pi-utils@18.2.5':
+    resolution: {integrity: sha512-5hCceX3kNSwAcEXd20GuWfSSfhDXyHvLfASErdIFJQ5CrmRs45Rxw89UtVYZukuc1aOpc4i3fYHVBUbusgvf5g==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/pi-wire@17.4.2':
-    resolution: {integrity: sha512-vqkZcTJIxGU3HvyWBHaYSTRy7gE66ZqEdyXuh0Pb0/OTBaMzTPE0l7HQ+PPdYeVG3/+pzWQ9y5WX9cEgJT3GWQ==}
+  '@oh-my-pi/pi-wire@18.2.5':
+    resolution: {integrity: sha512-cTCvG9cpZHX1LDHN6dlwR/zQ3xkLEiE40GFDnbQIu/WJ3yBU7Y9FHHCc4CCH0UcKbdBBWH7mH/pD5m58kQtjfQ==}
     engines: {bun: '>=1.3.14'}
 
-  '@oh-my-pi/snapcompact@17.4.2':
-    resolution: {integrity: sha512-7xCOlg6i8Giblogp3LQZuvr4MT6RMpy0GK2G0QHxuTDAuH2pYkpWNrKsWZo+qVXA7iV7ZEjFrspTzobqC8pZPA==}
+  '@oh-my-pi/snapcompact@18.2.5':
+    resolution: {integrity: sha512-Y7z5fqlaoFqo43i6aUv8/sWK9IrfeLEC8Ak66jjs2MjxLskvTK6oL32R4L3n4f+Qf/N+bKKZasFEzKLC65YhaA==}
     engines: {bun: '>=1.3.14'}
 
   '@opentelemetry/api-logs@0.220.0':
@@ -1135,8 +1129,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@oxlint/plugins@1.82.0':
-    resolution: {integrity: sha512-IDF4UXBNOaCeLoEpVxf5Bg85KOWdeuBEkbo1rGzS2vXcbD+GT1asBSeeTC+5BgW6NFTHVByd6N5giHsFPGtwAA==}
+  '@oxlint/plugins@1.83.0':
+    resolution: {integrity: sha512-qD64wr6SS1DL7YbJQ8WWjyUfFfrJsvAy9Vo0sG/PYUQy30w0uemN2h6j4xuvj4noyETDpzcGC20sv+FH7GrN5A==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
   '@protobufjs/aspromise@1.1.2':
@@ -1328,10 +1322,10 @@ packages:
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
-  '@systemfsoftware/all@1.1.3':
-    resolution: {integrity: sha512-o8yAKlQY+lnY/leJHIZwmvv5a+hEM1WHQs+La++PF/VZw+eUPv2inK6oSTUgbc+jhXetUuEC1hpNK1aJBam9Sg==}
+  '@systemfsoftware/all@2.1.0':
+    resolution: {integrity: sha512-0dk3s/fGaBSBscnzOyjQzHY/6o/20oECgJEkbj+iybkIAq4M2zHQI8nn8ls0a/JCEZFT6OwydmT8G33d4A8FIQ==}
     peerDependencies:
-      effect: ^4.0.0-rc.112
+      effect: 4.0.0-rc.112
       oxlint: ^1.77.0
       oxlint-tsgolint: 7.0.2001
       typescript: '>=5.0.0'
@@ -1349,6 +1343,11 @@ packages:
     resolution: {integrity: sha512-q/hlxsTwkqn+v9jUW9rtNTv7QVQMJIfuBj9mdgrJ5jAkhWaOGCbrpn+TwTeH38dEmSMjqzprkxp0rmQ5uF3UNw==}
     peerDependencies:
       effect: ^4.0.0-rc.112
+
+  '@systemfsoftware/effect-cell-types@8.3.0':
+    resolution: {integrity: sha512-NvD4mQopWz4yV4Maww72MjC+74GqbvVAkVDmKkXWFqezvOcl35zUHVe5Gcl/ru0wdr+Br/YSua3BCORrOZdd5Q==}
+    peerDependencies:
+      effect: 4.0.0-rc.112
 
   '@systemfsoftware/effect-gherkin-spec@4.0.1':
     resolution: {integrity: sha512-tfFG/o2Um8Ru+4HqyQWF9djfSuOvvtyIJQ0NNvwE6/AYFYsDr/dGHD/yvtj4gPX2/B6yQmWdzP5R4JpPkvRVGA==}
@@ -1387,88 +1386,62 @@ packages:
     peerDependencies:
       effect: ^4.0.0-rc.112
 
-  '@systemfsoftware/oxlint-plugin-cell-vocabulary@2.0.1':
-    resolution: {integrity: sha512-0EThqM5Ctr9q252/5mIpkcigGu190bLGBbanNuK7CwwaSfPCvjDkuNdoVtSLpS4nW4l/p5RY2+XVqcRq6Wx7Ww==}
-    peerDependencies:
-      effect: ^4.0.0-rc.112
-      typescript: '>=5.0.0'
-
-  '@systemfsoftware/oxlint-plugin-effect-dmmf@5.3.0':
-    resolution: {integrity: sha512-N+hIhPAyp231JHInvkb1eREGbafsLqZkqEsdj3G57XMWoHxZJePCM/iovbXOEix11tvtVP0eV2s7rB0P5L9R+A==}
+  '@systemfsoftware/oxlint-plugin-effect-dmmf@6.0.1':
+    resolution: {integrity: sha512-F0JwBWHVRCfIYCw+WPePFwKrG03T9FSAcqhJ25T2+kqYJNvL+dpJ+7SFZRqWhgNQUvo6w+6/kvS5HrSTkQefPA==}
     peerDependencies:
       oxlint: ^1.77.0
 
-  '@systemfsoftware/oxlint-plugin-effect-entrypoint@1.0.8':
-    resolution: {integrity: sha512-L7cn8K99STvZduUfhI5exETAkX06v7iXmxoyHibH0fjDy0bwj51Fog6hrnlEbdIlPYf/d0zHPhSYtM2eAEIGpA==}
+  '@systemfsoftware/oxlint-plugin-effect-entrypoint@1.1.0':
+    resolution: {integrity: sha512-7Ww+P6zAulTd5ajSCl/WUyqCoGNZUKnLRtbTyeSysSqs3Ylh4NhNB/0D3ZCeN1pqFMAOMv/7cSRQJVcO7hdIOg==}
     peerDependencies:
-      effect: ^4.0.0-rc.112
+      effect: 4.0.0-rc.112
       typescript: '>=5.0.0'
 
-  '@systemfsoftware/oxlint-plugin-effect-schema@5.2.0':
-    resolution: {integrity: sha512-C3cSnxa49dRkGdAtbHXxEFZDJNpW3g1xV/1TqfkYL2YyPgvcL5EpLoVAAFDpdRMua7RP2CASWKlll8pECwZ04Q==}
+  '@systemfsoftware/oxlint-plugin-effect-schema@5.3.2':
+    resolution: {integrity: sha512-5KP9TFT4Hu/6iQI4vyPNkzTDK78GRz2utF31a1XC5OdKmxXzHzYJ2IC8mFIVrLc/uhbLizrLQ/ZmFVJO2Xu9Kw==}
     peerDependencies:
-      effect: ^4.0.0-rc.112
+      effect: 4.0.0-rc.112
       typescript: '>=5.0.0'
 
-  '@systemfsoftware/oxlint-plugin-effect-workflow@5.0.0':
-    resolution: {integrity: sha512-+9giuCTO+Xv9Gsx8NzE1FwCph0VD12/rOidM60yifQcBZx9jI8ZLkyfXzakSXpKkkChVxMV5RX6ohbpLX2YTGw==}
+  '@systemfsoftware/oxlint-plugin-effect-workflow@5.1.1':
+    resolution: {integrity: sha512-9fowMHXXhqvxciLDNhO+vfPzgRlfke3qT7Fcr0jKC9d2xmcsBFMkXRbf/YcL6s5/b9YPws/0S2MEMl/zQhDhXw==}
     peerDependencies:
-      effect: ^4.0.0-rc.112
+      effect: 4.0.0-rc.112
       typescript: '>=5.0.0'
 
-  '@systemfsoftware/oxlint-plugin-property-testing@1.4.0':
-    resolution: {integrity: sha512-iwOLmtK9rOKgv8F4DIEpwXOvFO8sKQ8d5TCvir+PNAAIbVpIGVT5s4FQOUSfzEhqXoXeA5/2yICic/VzuSbGkQ==}
+  '@systemfsoftware/oxlint-plugin-property-testing@2.0.0':
+    resolution: {integrity: sha512-4D6EDvFfpAoOFbeFhU5VRuMOp8ddhI1X4f25EmfPLzi4DzWa6/jkCoZaCYff6cVt64hCZqT0vj7UjE37dvdY3A==}
     peerDependencies:
-      effect: ^4.0.0-rc.112
+      effect: 4.0.0-rc.112
       typescript: '>=5.0.0'
 
-  '@systemfsoftware/oxlint-plugin-recommended@1.1.5':
-    resolution: {integrity: sha512-BykGHGePPdJXQW6jG+XBJO+AnhwLKWjwiXrTlTeOiWAicPEOzB6tlIX+cg3dnu8Sc7EAH/i4+8XC8uw62tjsyQ==}
+  '@systemfsoftware/oxlint-plugin-recommended@1.3.1':
+    resolution: {integrity: sha512-TU2sQH6TPCf4Q6N0ebb3YXT2RlQ1G9SLiZuwM5tro+fPfZjADCD5+/xkhLUenxSCruuOrA7fFfBgjKy0xxpoag==}
     peerDependencies:
       oxlint: ^1.77.0
 
-  '@systemfsoftware/oxlint-plugin-test-hygiene@1.1.8':
-    resolution: {integrity: sha512-YFhM8gkhJo3fY2saFKc1dioShwHT2xUVkSQR0+cIWfKdo7h4naGhszwCCmCNN67mEQcwrcNix9CmORibGDFI8w==}
+  '@systemfsoftware/oxlint-plugin-test-hygiene@1.1.9':
+    resolution: {integrity: sha512-4rTSLx+MfizZRMNhImRLQyC1/bMsuSk0DgVa7iydatfulZu7Pu11o8DrfL9DoN2dOIIPkmNk7qghdiI5X6q1WA==}
     peerDependencies:
-      effect: ^4.0.0-rc.112
+      effect: 4.0.0-rc.112
       typescript: '>=5.0.0'
 
-  '@systemfsoftware/oxlint-plugin-test-placement@3.4.0':
-    resolution: {integrity: sha512-c51krh334lL+IO7MSSN0XH5YH1S9NhOtFOhlSi5Gl6zg17U6wAVoOdC5qZuYnkSQtC9+gup9mMiAblq7xM5wQQ==}
+  '@systemfsoftware/oxlint-plugin-test-placement@3.5.0':
+    resolution: {integrity: sha512-EK0Ba8GYeIYJrn6AbOuLUPqmPdbYheQRtdlXYW2x+r0Da4r4TRNAuUF1yTge5iWGGIQEHRmvxGMNKcp1IH4xVw==}
     peerDependencies:
-      effect: ^4.0.0-rc.112
+      effect: 4.0.0-rc.112
       typescript: '>=5.0.0'
 
-  '@systemfsoftware/oxlint-plugin@3.0.0':
-    resolution: {integrity: sha512-R0GzDnzWYlV9yALVLmr3iAuaiatwdGPAZyc6Z4UO4Q6K1Il/bTcnBUw2BC8hcuAhjEIF7Z7MN8Wknt/VUhpp2Q==}
+  '@systemfsoftware/oxlint-plugin@4.0.2':
+    resolution: {integrity: sha512-d9U+7FGd/uY9nb7n/Wy9s1Q63tgeQ38aQUi/fxTFxQbbRhLt1g3eKoQebGn4Nx6DtN/KplHClz9z6OQBIRqjNQ==}
     peerDependencies:
-      effect: ^4.0.0-rc.112
+      effect: 4.0.0-rc.112
       typescript: '>=5.0.0'
 
-  '@systemfsoftware/stryker-js-cli@6.0.0':
-    resolution: {integrity: sha512-wa62wIrbhjK/89yCe62VYZw7DpwM8datc5JjPrQkep9UMLqpXrUA6R8tJ+RxPAAJh5FWoqnYlEIj5h3aUixI+Q==}
-    engines: {node: '>=20.0.0'}
+  '@systemfsoftware/stryker-js-cli@8.0.1':
+    resolution: {integrity: sha512-bSODktWLVEWl6Nml10flmog+ta9beISS2BCz7nNC9MkZKFIjPYU8HvqTojcAf7p2UnSH66nVDI46t9XlOwJIIg==}
+    engines: {node: '>=20.19.0'}
     hasBin: true
-
-  '@systemfsoftware/stryker-js-engine@1.0.0':
-    resolution: {integrity: sha512-Mh4xL341/pYKxDoPbK+fEUrM1wZGVY04t8SC9Sc+12duq2EPPbcmqbIX9SAWCa4NgoTI7nJsasHYK0+QglsTkg==}
-    peerDependencies:
-      effect: ^4.0.0-rc.112
-
-  '@systemfsoftware/stryker-js-html-reporter@2.0.0':
-    resolution: {integrity: sha512-bC4CLH+9REFi1v6gdRjunW6OYe13dlqY7E+13OkL8JME6rExHhfiO5lefeDmHOPK/HH+C+jLsnoYtICj5ktOrQ==}
-    engines: {node: '>=20.0.0'}
-    peerDependencies:
-      effect: ^4.0.0-rc.112
-
-  '@systemfsoftware/stryker-js-instrumenter@5.0.0':
-    resolution: {integrity: sha512-RQxdnqGGcyboeu2ODhlBFM3jnB2wlwMbXrXX1evpuuUR3CRNXNSCd63oDrUtfqD4CDb5n/SejfBr1/8c7uHSYw==}
-    engines: {node: '>=20.0.0'}
-    peerDependencies:
-      svelte: '>=4.0.0'
-    peerDependenciesMeta:
-      svelte:
-        optional: true
 
   '@systemfsoftware/stryker-js-typescript-checker@5.0.0':
     resolution: {integrity: sha512-aRV84c4cpvPupFrPlitEfCraHdiSC0zv0U7Sg6TXE58caYj2Ntne+eZfitBfEQFqYmWmYRN9ZRQotAgUpobbEw==}
@@ -1544,8 +1517,8 @@ packages:
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
 
-  '@types/node@24.13.3':
-    resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
+  '@types/node@26.6.1':
+    resolution: {integrity: sha512-VqGJBMCtdhqkBUCcBLvywI0NJ+KLuVzgNnlBUNFOQjqVxzo2lxLUNg1DSey8+u2u6ktswSAxg+s68QLzWHNOuA==}
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
@@ -1850,10 +1823,6 @@ packages:
   ajv@8.20.0:
     resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
 
-  angular-html-parser@10.4.0:
-    resolution: {integrity: sha512-++nLNyZwRfHqFh7akH5Gw/JYizoFlMRz0KRigfwfsLqV8ZqlcVRb1LkPEWdYvEKDnbktknM2J4BXaYUGrQZPww==}
-    engines: {node: '>= 14'}
-
   ansi-regex@6.3.0:
     resolution: {integrity: sha512-WpDfL7NO6j7tH88IDBNVdUJxDh9nmCteAVW9dsep846XdwF4naCBK+/tGLX3KJgcpgMRXCFlTM2hKGoK9FsdrQ==}
     engines: {node: '>=12'}
@@ -1974,9 +1943,6 @@ packages:
 
   devtools-protocol@0.0.1638949:
     resolution: {integrity: sha512-mXwg4Fqnv0WR4iuAT/gYUmctNkjILwXFHyZ+m7Ty1dfr0ezZt2U3gnrrJTfRobJTHoXf+IbuFvFITzLrLFjwJA==}
-
-  diff-match-patch@1.0.5:
-    resolution: {integrity: sha512-IayShXAgj/QMXgB0IWmKx+rOPuGMhqm5w6jvFxmVenXKIzRqTAAsbBPT3kWQeGANj3jGgvcvv4yK6SxqYmikgw==}
 
   dts-resolver@3.0.0:
     resolution: {integrity: sha512-1T1f+z+4tl9XD+m+0HBgWoL/nm0bOIffyWaUuUSBlFg/86IWvfx+wjNaO/ybU0AJzG9/Mi5hBUgGV6zCmWEN7Q==}
@@ -2406,12 +2372,6 @@ packages:
   msgpackr@2.1.0:
     resolution: {integrity: sha512-p/pBCVO63CsvvpkomUnNNag6+n38rULuDA6HHe70o2gtC8ODI52foF/4ko2qQcp6OiErJXTmrZeXmsGGHsIQNQ==}
 
-  mutation-testing-elements@3.7.3:
-    resolution: {integrity: sha512-SMeIPxngJpfjfNYctFpYQQtlBlZaVO0aoB3FKdwrI8Ee/2bkyUuCZzAOCLv1U9fnmfA37dPFq0Owduoxs2XgGQ==}
-
-  mutation-testing-metrics@3.7.3:
-    resolution: {integrity: sha512-B8QrP0ZomErzTPNlhrzKWPNBln+3afwBZPHv0Q7N8wZZTYxMptzb/Gdm3ExXVmioVYrtZAtsDs7W/T/b2AixOQ==}
-
   mutation-testing-report-schema@3.7.3:
     resolution: {integrity: sha512-BHm3MYq+ckO+t5CtlG8zpqxc75rdJCkxVlE+fGuGJM3F7tNCQ/OW2N+TQVHN3BHsYa84+BFc6g3AwDYkUsw2MA==}
 
@@ -2766,8 +2726,8 @@ packages:
   unconfig-core@7.5.0:
     resolution: {integrity: sha512-Su3FauozOGP44ZmKdHy2oE6LPjk51M/TRRjHv2HNCWiDvfvCoxC2lno6jevMA91MYAdCdwP05QnWdWpSbncX/w==}
 
-  undici-types@7.18.2:
-    resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
+  undici-types@8.9.0:
+    resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
 
   undici@8.10.2:
     resolution: {integrity: sha512-/y4/bH9YNU5hi9NIrpOuvGXFcxrj3CMrV+/AYpowAYTpHn8gX/XPFjNy766FPoYY0miQhdW977JFWKGNhBdwyQ==}
@@ -2945,12 +2905,12 @@ snapshots:
 
   '@braidai/lang@1.1.2': {}
 
-  '@commitlint/cli@21.2.2(@types/node@24.13.3)(conventional-commits-parser@7.1.2)(typescript@7.0.2)':
+  '@commitlint/cli@21.2.2(@types/node@26.6.1)(conventional-commits-parser@7.1.2)(typescript@7.0.2)':
     dependencies:
       '@commitlint/config-conventional': 21.2.2
       '@commitlint/format': 21.2.2
       '@commitlint/lint': 21.2.2
-      '@commitlint/load': 21.2.2(@types/node@24.13.3)(typescript@7.0.2)
+      '@commitlint/load': 21.2.2(@types/node@26.6.1)(typescript@7.0.2)
       '@commitlint/read': 21.2.1(conventional-commits-parser@7.1.2)
       '@commitlint/types': 21.2.0
       tinyexec: 1.3.1
@@ -2995,14 +2955,14 @@ snapshots:
       '@commitlint/rules': 21.2.2
       '@commitlint/types': 21.2.0
 
-  '@commitlint/load@21.2.2(@types/node@24.13.3)(typescript@7.0.2)':
+  '@commitlint/load@21.2.2(@types/node@26.6.1)(typescript@7.0.2)':
     dependencies:
       '@commitlint/config-validator': 21.2.0
       '@commitlint/execute-rule': 21.0.1
       '@commitlint/resolve-extends': 21.2.2
       '@commitlint/types': 21.2.0
       cosmiconfig: 9.0.2(typescript@7.0.2)
-      cosmiconfig-typescript-loader: 6.3.0(@types/node@24.13.3)(cosmiconfig@9.0.2(typescript@7.0.2))(typescript@7.0.2)
+      cosmiconfig-typescript-loader: 6.3.0(@types/node@26.6.1)(cosmiconfig@9.0.2(typescript@7.0.2))(typescript@7.0.2)
       es-toolkit: 1.52.0
       is-plain-obj: 4.1.0
       picocolors: 1.1.1
@@ -3087,7 +3047,7 @@ snapshots:
   '@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11)':
     dependencies:
       effect: 4.0.0-rc.112
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0))
 
   '@emnapi/core@1.11.2':
     dependencies:
@@ -3109,8 +3069,6 @@ snapshots:
     dependencies:
       tslib: 2.8.1
     optional: true
-
-  '@eslint-community/regexpp@4.12.2': {}
 
   '@huggingface/jinja@0.5.10':
     optional: true
@@ -3408,18 +3366,11 @@ snapshots:
       '@tybys/wasm-util': 0.10.3
     optional: true
 
-  '@noble/hashes@1.8.0': {}
-
-  '@oh-my-pi/hashline@17.4.2':
+  '@oh-my-pi/omp-stats@18.2.5':
     dependencies:
-      '@oh-my-pi/pi-natives': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
-
-  '@oh-my-pi/omp-stats@17.4.2':
-    dependencies:
-      '@oh-my-pi/pi-ai': 17.4.2
-      '@oh-my-pi/pi-catalog': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
+      '@oh-my-pi/pi-ai': 18.2.5
+      '@oh-my-pi/pi-catalog': 18.2.5
+      '@oh-my-pi/pi-utils': 18.2.5
       '@tailwindcss/node': 4.3.3
       chart.js: 4.5.1
       lucide-react: 1.43.0(react@19.2.7)
@@ -3428,45 +3379,45 @@ snapshots:
       react-dom: 19.2.7(react@19.2.7)
       tailwindcss: 4.3.3
 
-  '@oh-my-pi/omptype@17.4.2': {}
+  '@oh-my-pi/omptype@18.2.5': {}
 
-  '@oh-my-pi/pi-agent-core@17.4.2':
+  '@oh-my-pi/pi-agent-core@18.2.5':
     dependencies:
-      '@oh-my-pi/pi-ai': 17.4.2
-      '@oh-my-pi/pi-catalog': 17.4.2
-      '@oh-my-pi/pi-natives': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
-      '@oh-my-pi/pi-wire': 17.4.2
-      '@oh-my-pi/snapcompact': 17.4.2
+      '@oh-my-pi/pi-ai': 18.2.5
+      '@oh-my-pi/pi-catalog': 18.2.5
+      '@oh-my-pi/pi-natives': 18.2.5
+      '@oh-my-pi/pi-utils': 18.2.5
+      '@oh-my-pi/pi-wire': 18.2.5
+      '@oh-my-pi/snapcompact': 18.2.5
       '@opentelemetry/api': 1.9.1
 
-  '@oh-my-pi/pi-ai@17.4.2':
+  '@oh-my-pi/pi-ai@18.2.5':
     dependencies:
-      '@oh-my-pi/omptype': 17.4.2
-      '@oh-my-pi/pi-catalog': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
-      '@oh-my-pi/pi-wire': 17.4.2
+      '@oh-my-pi/omptype': 18.2.5
+      '@oh-my-pi/pi-catalog': 18.2.5
+      '@oh-my-pi/pi-natives': 18.2.5
+      '@oh-my-pi/pi-utils': 18.2.5
+      '@oh-my-pi/pi-wire': 18.2.5
 
-  '@oh-my-pi/pi-catalog@17.4.2':
+  '@oh-my-pi/pi-catalog@18.2.5':
     dependencies:
-      '@oh-my-pi/omptype': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
+      '@oh-my-pi/omptype': 18.2.5
+      '@oh-my-pi/pi-utils': 18.2.5
 
-  '@oh-my-pi/pi-coding-agent@17.4.2':
+  '@oh-my-pi/pi-coding-agent@18.2.5':
     dependencies:
       '@babel/parser': 7.29.8
-      '@oh-my-pi/hashline': 17.4.2
-      '@oh-my-pi/omp-stats': 17.4.2
-      '@oh-my-pi/omptype': 17.4.2
-      '@oh-my-pi/pi-agent-core': 17.4.2
-      '@oh-my-pi/pi-ai': 17.4.2
-      '@oh-my-pi/pi-catalog': 17.4.2
-      '@oh-my-pi/pi-mnemopi': 17.4.2
-      '@oh-my-pi/pi-natives': 17.4.2
-      '@oh-my-pi/pi-tui': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
-      '@oh-my-pi/pi-wire': 17.4.2
-      '@oh-my-pi/snapcompact': 17.4.2
+      '@oh-my-pi/omp-stats': 18.2.5
+      '@oh-my-pi/omptype': 18.2.5
+      '@oh-my-pi/pi-agent-core': 18.2.5
+      '@oh-my-pi/pi-ai': 18.2.5
+      '@oh-my-pi/pi-catalog': 18.2.5
+      '@oh-my-pi/pi-mnemopi': 18.2.5
+      '@oh-my-pi/pi-natives': 18.2.5
+      '@oh-my-pi/pi-tui': 18.2.5
+      '@oh-my-pi/pi-utils': 18.2.5
+      '@oh-my-pi/pi-wire': 18.2.5
+      '@oh-my-pi/snapcompact': 18.2.5
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/api-logs': 0.220.0
       '@opentelemetry/context-async-hooks': 2.11.0(@opentelemetry/api@1.9.1)
@@ -3490,54 +3441,64 @@ snapshots:
       - utf-8-validate
       - yauzl
 
-  '@oh-my-pi/pi-mnemopi@17.4.2':
+  '@oh-my-pi/pi-mnemopi@18.2.5':
     dependencies:
-      '@oh-my-pi/pi-ai': 17.4.2
-      '@oh-my-pi/pi-catalog': 17.4.2
-      '@oh-my-pi/pi-natives': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
+      '@oh-my-pi/pi-ai': 18.2.5
+      '@oh-my-pi/pi-catalog': 18.2.5
+      '@oh-my-pi/pi-natives': 18.2.5
+      '@oh-my-pi/pi-utils': 18.2.5
 
-  '@oh-my-pi/pi-natives-darwin-arm64@17.4.2':
+  '@oh-my-pi/pi-natives-darwin-arm64@18.2.5':
     optional: true
 
-  '@oh-my-pi/pi-natives-darwin-x64@17.4.2':
+  '@oh-my-pi/pi-natives-darwin-x64@18.2.5':
     optional: true
 
-  '@oh-my-pi/pi-natives-linux-arm64@17.4.2':
+  '@oh-my-pi/pi-natives-linux-arm64@18.2.5':
     optional: true
 
-  '@oh-my-pi/pi-natives-linux-x64@17.4.2':
+  '@oh-my-pi/pi-natives-linux-x64@18.2.5':
     optional: true
 
-  '@oh-my-pi/pi-natives-win32-x64@17.4.2':
+  '@oh-my-pi/pi-natives-win32-arm64@18.2.5':
     optional: true
 
-  '@oh-my-pi/pi-natives@17.4.2':
+  '@oh-my-pi/pi-natives-win32-x64@18.2.5':
+    optional: true
+
+  '@oh-my-pi/pi-natives@18.2.5':
     optionalDependencies:
-      '@oh-my-pi/pi-natives-darwin-arm64': 17.4.2
-      '@oh-my-pi/pi-natives-darwin-x64': 17.4.2
-      '@oh-my-pi/pi-natives-linux-arm64': 17.4.2
-      '@oh-my-pi/pi-natives-linux-x64': 17.4.2
-      '@oh-my-pi/pi-natives-win32-x64': 17.4.2
+      '@oh-my-pi/pi-natives-darwin-arm64': 18.2.5
+      '@oh-my-pi/pi-natives-darwin-x64': 18.2.5
+      '@oh-my-pi/pi-natives-linux-arm64': 18.2.5
+      '@oh-my-pi/pi-natives-linux-x64': 18.2.5
+      '@oh-my-pi/pi-natives-win32-arm64': 18.2.5
+      '@oh-my-pi/pi-natives-win32-x64': 18.2.5
 
-  '@oh-my-pi/pi-tui@17.4.2':
+  '@oh-my-pi/pi-tui@18.2.5':
     dependencies:
-      '@oh-my-pi/pi-natives': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
+      '@oh-my-pi/omptype': 18.2.5
+      '@oh-my-pi/pi-agent-core': 18.2.5
+      '@oh-my-pi/pi-ai': 18.2.5
+      '@oh-my-pi/pi-catalog': 18.2.5
+      '@oh-my-pi/pi-natives': 18.2.5
+      '@oh-my-pi/pi-utils': 18.2.5
+      '@oh-my-pi/pi-wire': 18.2.5
+      '@oh-my-pi/snapcompact': 18.2.5
 
-  '@oh-my-pi/pi-utils@17.4.2':
+  '@oh-my-pi/pi-utils@18.2.5':
     dependencies:
-      '@oh-my-pi/pi-natives': 17.4.2
+      '@oh-my-pi/pi-natives': 18.2.5
 
-  '@oh-my-pi/pi-wire@17.4.2': {}
+  '@oh-my-pi/pi-wire@18.2.5': {}
 
-  '@oh-my-pi/snapcompact@17.4.2':
+  '@oh-my-pi/snapcompact@18.2.5':
     dependencies:
-      '@oh-my-pi/pi-ai': 17.4.2
-      '@oh-my-pi/pi-catalog': 17.4.2
-      '@oh-my-pi/pi-natives': 17.4.2
-      '@oh-my-pi/pi-utils': 17.4.2
-      '@oh-my-pi/pi-wire': 17.4.2
+      '@oh-my-pi/pi-ai': 18.2.5
+      '@oh-my-pi/pi-catalog': 18.2.5
+      '@oh-my-pi/pi-natives': 18.2.5
+      '@oh-my-pi/pi-utils': 18.2.5
+      '@oh-my-pi/pi-wire': 18.2.5
 
   '@opentelemetry/api-logs@0.220.0':
     dependencies:
@@ -3816,7 +3777,7 @@ snapshots:
   '@oxlint/binding-win32-x64-msvc@1.81.0':
     optional: true
 
-  '@oxlint/plugins@1.82.0': {}
+  '@oxlint/plugins@1.83.0': {}
 
   '@protobufjs/aspromise@1.1.2':
     optional: true
@@ -3933,18 +3894,17 @@ snapshots:
 
   '@standard-schema/spec@1.1.0': {}
 
-  '@systemfsoftware/all@1.1.3(effect@4.0.0-rc.112)(oxlint-tsgolint@7.0.2001)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)':
+  '@systemfsoftware/all@2.1.0(effect@4.0.0-rc.112)(oxlint-tsgolint@7.0.2001)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)':
     dependencies:
-      '@systemfsoftware/oxlint-plugin': 3.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)
-      '@systemfsoftware/oxlint-plugin-cell-vocabulary': 2.0.1(effect@4.0.0-rc.112)(typescript@7.0.2)
-      '@systemfsoftware/oxlint-plugin-effect-dmmf': 5.3.0(effect@4.0.0-rc.112)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)
-      '@systemfsoftware/oxlint-plugin-effect-entrypoint': 1.0.8(effect@4.0.0-rc.112)(typescript@7.0.2)
-      '@systemfsoftware/oxlint-plugin-effect-schema': 5.2.0(effect@4.0.0-rc.112)(typescript@7.0.2)
-      '@systemfsoftware/oxlint-plugin-effect-workflow': 5.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)
-      '@systemfsoftware/oxlint-plugin-property-testing': 1.4.0(effect@4.0.0-rc.112)(typescript@7.0.2)
-      '@systemfsoftware/oxlint-plugin-recommended': 1.1.5(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))
-      '@systemfsoftware/oxlint-plugin-test-hygiene': 1.1.8(effect@4.0.0-rc.112)(typescript@7.0.2)
-      '@systemfsoftware/oxlint-plugin-test-placement': 3.4.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin': 4.0.2(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-effect-dmmf': 6.0.1(effect@4.0.0-rc.112)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-effect-entrypoint': 1.1.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-effect-schema': 5.3.2(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-effect-workflow': 5.1.1(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-property-testing': 2.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-recommended': 1.3.1(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))
+      '@systemfsoftware/oxlint-plugin-test-hygiene': 1.1.9(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-test-placement': 3.5.0(effect@4.0.0-rc.112)(typescript@7.0.2)
       effect: 4.0.0-rc.112
       oxlint: 1.81.0(oxlint-tsgolint@7.0.2001)
       oxlint-tsgolint: 7.0.2001
@@ -3976,11 +3936,15 @@ snapshots:
     dependencies:
       effect: 4.0.0-rc.112
 
+  '@systemfsoftware/effect-cell-types@8.3.0(effect@4.0.0-rc.112)':
+    dependencies:
+      effect: 4.0.0-rc.112
+
   '@systemfsoftware/effect-gherkin-spec@4.0.1(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11)':
     dependencies:
       '@effect/vitest': 4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11)
       effect: 4.0.0-rc.112
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0))
 
   '@systemfsoftware/effect-memfs@1.3.4(effect@4.0.0-rc.112)(typescript@7.0.2)':
     dependencies:
@@ -3997,17 +3961,17 @@ snapshots:
     dependencies:
       '@effect/vitest': 4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11)
       effect: 4.0.0-rc.112
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0))
 
-  '@systemfsoftware/effect-schema-vite@2.0.3(@systemfsoftware/effect-schema-law@2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11)':
+  '@systemfsoftware/effect-schema-vite@2.0.3(@systemfsoftware/effect-schema-law@2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11)':
     dependencies:
       '@oxc-project/types': 0.140.0
       '@systemfsoftware/effect-schema-discovery': 1.0.2
       '@systemfsoftware/effect-schema-law': 2.0.2(@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11))(effect@4.0.0-rc.112)(vitest@4.1.11)
       effect: 4.0.0-rc.112
       oxc-parser: 0.140.0
-      vite: 8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0)
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      vite: 8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0)
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0))
 
   '@systemfsoftware/npm-package@0.2.2(effect@4.0.0-rc.112)':
     dependencies:
@@ -4015,128 +3979,73 @@ snapshots:
       effect: 4.0.0-rc.112
       fflate: 0.8.3
 
-  '@systemfsoftware/oxlint-plugin-cell-vocabulary@2.0.1(effect@4.0.0-rc.112)(typescript@7.0.2)':
+  '@systemfsoftware/oxlint-plugin-effect-dmmf@6.0.1(effect@4.0.0-rc.112)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)':
     dependencies:
-      '@oxc-project/types': 0.140.0
-      '@oxlint/plugins': 1.82.0
-      '@systemfsoftware/effect-cell-types': 6.0.1(effect@4.0.0-rc.112)
-      effect: 4.0.0-rc.112
-      typescript: 7.0.2
-
-  '@systemfsoftware/oxlint-plugin-effect-dmmf@5.3.0(effect@4.0.0-rc.112)(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))(typescript@7.0.2)':
-    dependencies:
-      '@oxlint/plugins': 1.82.0
-      '@systemfsoftware/oxlint-plugin-effect-schema': 5.2.0(effect@4.0.0-rc.112)(typescript@7.0.2)
-      '@systemfsoftware/oxlint-plugin-effect-workflow': 5.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)
-      '@systemfsoftware/oxlint-plugin-property-testing': 1.4.0(effect@4.0.0-rc.112)(typescript@7.0.2)
-      '@systemfsoftware/oxlint-plugin-test-hygiene': 1.1.8(effect@4.0.0-rc.112)(typescript@7.0.2)
-      '@systemfsoftware/oxlint-plugin-test-placement': 3.4.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@oxlint/plugins': 1.83.0
+      '@systemfsoftware/oxlint-plugin-effect-schema': 5.3.2(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-effect-workflow': 5.1.1(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-property-testing': 2.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-test-hygiene': 1.1.9(effect@4.0.0-rc.112)(typescript@7.0.2)
+      '@systemfsoftware/oxlint-plugin-test-placement': 3.5.0(effect@4.0.0-rc.112)(typescript@7.0.2)
       oxlint: 1.81.0(oxlint-tsgolint@7.0.2001)
     transitivePeerDependencies:
       - effect
       - typescript
 
-  '@systemfsoftware/oxlint-plugin-effect-entrypoint@1.0.8(effect@4.0.0-rc.112)(typescript@7.0.2)':
+  '@systemfsoftware/oxlint-plugin-effect-entrypoint@1.1.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
     dependencies:
       '@oxc-project/types': 0.140.0
-      '@oxlint/plugins': 1.82.0
+      '@oxlint/plugins': 1.83.0
       effect: 4.0.0-rc.112
       typescript: 7.0.2
 
-  '@systemfsoftware/oxlint-plugin-effect-schema@5.2.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
+  '@systemfsoftware/oxlint-plugin-effect-schema@5.3.2(effect@4.0.0-rc.112)(typescript@7.0.2)':
     dependencies:
       '@oxc-project/types': 0.140.0
-      '@oxlint/plugins': 1.82.0
+      '@oxlint/plugins': 1.83.0
       effect: 4.0.0-rc.112
       typescript: 7.0.2
 
-  '@systemfsoftware/oxlint-plugin-effect-workflow@5.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
+  '@systemfsoftware/oxlint-plugin-effect-workflow@5.1.1(effect@4.0.0-rc.112)(typescript@7.0.2)':
     dependencies:
       '@oxc-project/types': 0.140.0
-      '@oxlint/plugins': 1.82.0
+      '@oxlint/plugins': 1.83.0
       effect: 4.0.0-rc.112
       typescript: 7.0.2
 
-  '@systemfsoftware/oxlint-plugin-property-testing@1.4.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
+  '@systemfsoftware/oxlint-plugin-property-testing@2.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
     dependencies:
       '@oxc-project/types': 0.140.0
-      '@oxlint/plugins': 1.82.0
+      '@oxlint/plugins': 1.83.0
       effect: 4.0.0-rc.112
       typescript: 7.0.2
 
-  '@systemfsoftware/oxlint-plugin-recommended@1.1.5(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))':
+  '@systemfsoftware/oxlint-plugin-recommended@1.3.1(oxlint@1.81.0(oxlint-tsgolint@7.0.2001))':
     dependencies:
       oxlint: 1.81.0(oxlint-tsgolint@7.0.2001)
 
-  '@systemfsoftware/oxlint-plugin-test-hygiene@1.1.8(effect@4.0.0-rc.112)(typescript@7.0.2)':
+  '@systemfsoftware/oxlint-plugin-test-hygiene@1.1.9(effect@4.0.0-rc.112)(typescript@7.0.2)':
     dependencies:
       '@oxc-project/types': 0.140.0
-      '@oxlint/plugins': 1.82.0
+      '@oxlint/plugins': 1.83.0
       effect: 4.0.0-rc.112
       typescript: 7.0.2
 
-  '@systemfsoftware/oxlint-plugin-test-placement@3.4.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
+  '@systemfsoftware/oxlint-plugin-test-placement@3.5.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
     dependencies:
       '@oxc-project/types': 0.140.0
-      '@oxlint/plugins': 1.82.0
+      '@oxlint/plugins': 1.83.0
       effect: 4.0.0-rc.112
       typescript: 7.0.2
 
-  '@systemfsoftware/oxlint-plugin@3.0.0(effect@4.0.0-rc.112)(typescript@7.0.2)':
+  '@systemfsoftware/oxlint-plugin@4.0.2(effect@4.0.0-rc.112)(typescript@7.0.2)':
     dependencies:
       '@oxc-project/types': 0.140.0
-      '@oxlint/plugins': 1.82.0
+      '@oxlint/plugins': 1.83.0
       effect: 4.0.0-rc.112
       typescript: 7.0.2
 
-  '@systemfsoftware/stryker-js-cli@6.0.0(redis@6.2.1(@opentelemetry/api@1.9.1))':
-    dependencies:
-      '@effect/platform-node': 4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1(@opentelemetry/api@1.9.1))
-      '@effect/platform-node-shared': 4.0.0-rc.112(effect@4.0.0-rc.112)
-      '@noble/hashes': 1.8.0
-      '@systemfsoftware/effect-cell-types': 6.0.1(effect@4.0.0-rc.112)
-      '@systemfsoftware/stryker-js': 2.0.0
-      '@systemfsoftware/stryker-js-engine': 1.0.0(effect@4.0.0-rc.112)
-      '@systemfsoftware/stryker-js-html-reporter': 2.0.0(effect@4.0.0-rc.112)
-      effect: 4.0.0-rc.112
-    transitivePeerDependencies:
-      - bufferutil
-      - redis
-      - svelte
-      - utf-8-validate
-
-  '@systemfsoftware/stryker-js-engine@1.0.0(effect@4.0.0-rc.112)':
-    dependencies:
-      '@noble/hashes': 1.8.0
-      '@systemfsoftware/effect-cell-types': 6.0.1(effect@4.0.0-rc.112)
-      '@systemfsoftware/stryker-js': 2.0.0
-      '@systemfsoftware/stryker-js-instrumenter': 5.0.0
-      diff-match-patch: 1.0.5
-      effect: 4.0.0-rc.112
-      minimatch: 10.2.6
-      mutation-testing-metrics: 3.7.3
-      mutation-testing-report-schema: 3.7.3
-    transitivePeerDependencies:
-      - svelte
-
-  '@systemfsoftware/stryker-js-html-reporter@2.0.0(effect@4.0.0-rc.112)':
-    dependencies:
-      '@systemfsoftware/effect-cell-types': 6.0.1(effect@4.0.0-rc.112)
-      '@systemfsoftware/stryker-js': 2.0.0
-      effect: 4.0.0-rc.112
-      mutation-testing-elements: 3.7.3
-      mutation-testing-metrics: 3.7.3
-      mutation-testing-report-schema: 3.7.3
-
-  '@systemfsoftware/stryker-js-instrumenter@5.0.0':
-    dependencies:
-      '@eslint-community/regexpp': 4.12.2
-      '@oxc-project/types': 0.140.0
-      '@systemfsoftware/effect-cell-types': 6.0.1(effect@4.0.0-rc.112)
-      '@systemfsoftware/stryker-js': 2.0.0
-      angular-html-parser: 10.4.0
-      effect: 4.0.0-rc.112
-      oxc-parser: 0.140.0
+  '@systemfsoftware/stryker-js-cli@8.0.1': {}
 
   '@systemfsoftware/stryker-js-typescript-checker@5.0.0':
     dependencies:
@@ -4150,7 +4059,7 @@ snapshots:
       '@systemfsoftware/effect-cell-types': 6.0.1(effect@4.0.0-rc.112)
       '@systemfsoftware/stryker-js': 2.0.0
       effect: 4.0.0-rc.112
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0))
 
   '@systemfsoftware/stryker-js@2.0.0':
     dependencies:
@@ -4213,13 +4122,13 @@ snapshots:
 
   '@types/estree@1.0.9': {}
 
-  '@types/node@24.13.3':
+  '@types/node@26.6.1':
     dependencies:
-      undici-types: 7.18.2
+      undici-types: 8.9.0
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 24.13.3
+      '@types/node': 26.6.1
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     optional: true
@@ -4293,7 +4202,7 @@ snapshots:
       obug: 2.1.4
       std-env: 4.2.0
       tinyrainbow: 3.1.1
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0))
 
   '@vitest/expect@4.1.11':
     dependencies:
@@ -4304,13 +4213,13 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.1
 
-  '@vitest/mocker@4.1.11(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))':
+  '@vitest/mocker@4.1.11(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0))':
     dependencies:
       '@vitest/spy': 4.1.11
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0)
 
   '@vitest/pretty-format@4.1.11':
     dependencies:
@@ -4420,8 +4329,6 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
-  angular-html-parser@10.4.0: {}
-
   ansi-regex@6.3.0: {}
 
   ansi-styles@6.2.3: {}
@@ -4488,9 +4395,9 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
-  cosmiconfig-typescript-loader@6.3.0(@types/node@24.13.3)(cosmiconfig@9.0.2(typescript@7.0.2))(typescript@7.0.2):
+  cosmiconfig-typescript-loader@6.3.0(@types/node@26.6.1)(cosmiconfig@9.0.2(typescript@7.0.2))(typescript@7.0.2):
     dependencies:
-      '@types/node': 24.13.3
+      '@types/node': 26.6.1
       cosmiconfig: 9.0.2(typescript@7.0.2)
       jiti: 2.6.1
       typescript: 7.0.2
@@ -4526,8 +4433,6 @@ snapshots:
     optional: true
 
   devtools-protocol@0.0.1638949: {}
-
-  diff-match-patch@1.0.5: {}
 
   dts-resolver@3.0.0: {}
 
@@ -4882,12 +4787,6 @@ snapshots:
     optionalDependencies:
       msgpackr-extract: 3.0.4
 
-  mutation-testing-elements@3.7.3: {}
-
-  mutation-testing-metrics@3.7.3:
-    dependencies:
-      mutation-testing-report-schema: 3.7.3
-
   mutation-testing-report-schema@3.7.3: {}
 
   nanoid@3.3.18: {}
@@ -5026,7 +4925,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.2
-      '@types/node': 24.13.3
+      '@types/node': 26.6.1
       long: 5.3.2
     optional: true
 
@@ -5328,7 +5227,7 @@ snapshots:
       '@quansync/fs': 1.0.0
       quansync: 1.0.0
 
-  undici-types@7.18.2: {}
+  undici-types@8.9.0: {}
 
   undici@8.10.2: {}
 
@@ -5336,7 +5235,7 @@ snapshots:
 
   verkit@0.4.0: {}
 
-  vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0):
+  vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -5344,15 +5243,15 @@ snapshots:
       rolldown: 1.2.7
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 24.13.3
+      '@types/node': 26.6.1
       fsevents: 2.3.3
       jiti: 2.7.0
       yaml: 2.9.0
 
-  vitest@4.1.11(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0)):
+  vitest@4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(@vitest/coverage-v8@4.1.11)(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0)):
     dependencies:
       '@vitest/expect': 4.1.11
-      '@vitest/mocker': 4.1.11(vite@8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0))
+      '@vitest/mocker': 4.1.11(vite@8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0))
       '@vitest/pretty-format': 4.1.11
       '@vitest/runner': 4.1.11
       '@vitest/snapshot': 4.1.11
@@ -5369,11 +5268,11 @@ snapshots:
       tinyexec: 1.3.1
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.1
-      vite: 8.2.2(@types/node@24.13.3)(jiti@2.7.0)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@26.6.1)(jiti@2.7.0)(yaml@2.9.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@opentelemetry/api': 1.9.1
-      '@types/node': 24.13.3
+      '@types/node': 26.6.1
       '@vitest/coverage-v8': 4.1.11(vitest@4.1.11)
     transitivePeerDependencies:
       - msw
