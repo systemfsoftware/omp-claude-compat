@@ -1,0 +1,19 @@
+{
+  // Config for the shared release toolchain
+  // (systemfsoftware/pnpm-release-management), consumed as a reusable workflow.
+  // The toolchain derives the release phase from repository state and reads this
+  // file; there is no local release tooling in this repo.
+  //
+  // Distribution is this repository's Nix flake outputs consumed from a git ref
+  // (pinned by flake.lock rev + narHash), not an npm registry. The release path
+  // writes a <pkg>@vX.Y.Z git tag and a GitHub Release per unreleased version —
+  // no npm token, no OIDC, no registry.
+  "base": "main",
+  "branch": "changeset-release/main",
+  "changesetDir": ".changeset",
+  "changelogDir": ".changeset/changelogs",
+  "versioning": {
+    "strategy": "pnpm"
+  },
+  "gate": { "strategy": "turbo", "task": "build" }
+}
