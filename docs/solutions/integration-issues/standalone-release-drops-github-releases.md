@@ -49,7 +49,7 @@ Root-cause chain: the port preserved the plan/version/publish skeleton but dropp
 
 Architectural invariants:
 
-- **Terminal-action completeness.** A release pipeline's terminal phase must produce every consumer-visible artifact (registry version, tag, Release object with notes and latest promotion). If the last step only moves a ref, the pipeline ships half a release by construction.
+- **Terminal-action completeness.** A release pipeline's terminal phase must produce every consumer-visible artifact. For this repo that is the `<pkg>@vX.Y.Z` git tag and the GitHub Release object with notes and latest promotion — distribution is this repository's Nix flake outputs consumed from a git ref, so the tag is the durable record that a version shipped and there is no registry version to produce. If the last step only moves a ref without cutting the Release, the pipeline ships half a release by construction.
 - **Generated-output capture.** Let $G$ be the generator's output set and $S$ the staged set. Update-only staging stages $\{f : \text{tracked}(f)\}$; generated files start untracked, so $S \cap G = \varnothing$ always. Completeness requires the staging predicate to cover $G$, not just tracked modifications.
 - **Assert at consumption.** Each phase asserts the artifacts it consumes before acting on them. A producer/consumer handoff (captured set, changelog files) with no consumer-side check converts every upstream drop into a silent downstream degradation.
 

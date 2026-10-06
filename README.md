@@ -4,8 +4,7 @@
 
 `@systemfsoftware/omp-claude-compat` brings your Claude Code configuration into [Oh My Pi](https://github.com/can1357/oh-my-pi) (OMP). Your hooks keep firing. Your `CLAUDE.md` rules keep applying. You change nothing — install one plugin and your existing setup just works.
 
-[![npm version](https://img.shields.io/npm/v/@systemfsoftware/omp-claude-compat?style=flat)](https://www.npmjs.com/package/@systemfsoftware/omp-claude-compat)
-[![license](https://img.shields.io/npm/l/@systemfsoftware/omp-claude-compat?style=flat)](./LICENSE)
+[![license](https://img.shields.io/badge/license-Apache--2.0-blue?style=flat)](./LICENSE)
 
 ## What is this?
 
@@ -13,14 +12,15 @@ This is a plugin for Oh My Pi that understands Claude Code configuration. It run
 
 ## Install
 
-**How do I use my Claude Code setup in Oh My Pi?** Install the package and list it as a plugin:
+**How do I use my Claude Code setup in Oh My Pi?** Add it as a Nix flake input
+and list it as a plugin. This package is **not** published to any npm registry —
+distribution is this repository's Nix flake outputs, consumed from a git ref and
+pinned by `flake.lock` rev + narHash:
 
-```bash
-pnpm add @systemfsoftware/omp-claude-compat
-```
-
-```bash
-npm install @systemfsoftware/omp-claude-compat
+```nix
+{
+  inputs.omp-claude-compat.url = "github:systemfsoftware/omp-claude-compat";
+}
 ```
 
 ```json
