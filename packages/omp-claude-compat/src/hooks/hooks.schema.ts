@@ -49,36 +49,6 @@ export const HookOutputFromStdout = S.String.pipe(
 export const HookResult = S.Struct({ code: S.Number, stdout: S.String, stderr: S.String })
 export type HookResult = S.Schema.Type<typeof HookResult>
 
-export class Blocked extends S.TaggedClass<Blocked>()('Blocked', { reason: S.String }) {}
-
-export class Continue extends S.TaggedClass<Continue>()(
-  'Continue',
-  { warning: S.optional(S.String), updatedInput: S.optional(S.Record(S.String, S.Unknown)) },
-) {}
-
-export const HookOutcome = S.Union([Blocked, Continue])
-export type HookOutcome = S.Schema.Type<typeof HookOutcome>
-
-export class AdmitHooksCommand extends S.TaggedClass<AdmitHooksCommand>()('AdmitHooksCommand', {
-  present: S.Boolean,
-}) {}
-
-const HookDispatchDecisionTypeId: unique symbol = Symbol.for(
-  '@systemfsoftware/omp-claude-compat/HookDispatchDecision',
-)
-type HookDispatchDecisionTypeId = typeof HookDispatchDecisionTypeId
-
-export class SkipHooks extends S.TaggedClass<SkipHooks>()('SkipHooks', {}) {
-  readonly [HookDispatchDecisionTypeId] = HookDispatchDecisionTypeId
-}
-
-export class RunHooks extends S.TaggedClass<RunHooks>()('RunHooks', {}) {
-  readonly [HookDispatchDecisionTypeId] = HookDispatchDecisionTypeId
-}
-
-export type AdmitCommand = InstanceType<typeof AdmitHooksCommand>
-export type HookDispatchDecision = InstanceType<typeof SkipHooks> | InstanceType<typeof RunHooks>
-
 export interface HookSession {
   readonly cwd: string
   readonly homeDir: string

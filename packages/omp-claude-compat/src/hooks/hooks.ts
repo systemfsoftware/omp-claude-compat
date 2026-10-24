@@ -2,7 +2,6 @@ import type {
   ExtensionAPI,
   InputEvent,
   InputEventResult,
-  ToolCallEvent,
   ToolCallEventResult,
   ToolResultEvent,
   ToolResultEventResult,
@@ -32,31 +31,9 @@ import { homeDir } from '../internal/host-env.js'
 import { ClaudeSettings, ifEvaluatingEvent, matcherUnreadable } from '../settings/mod.js'
 import type { CommandHook, HookEntry, HookSettings } from '../settings/mod.js'
 
-import {
-  AdmitHooksCommand,
-  Blocked,
-  Continue,
-  HookOutputFromStdout,
-  HookResult,
-  RunHooks,
-  SkipHooks,
-} from './hooks.schema.js'
-import type {
-  AdmitCommand,
-  HookDispatchDecision,
-  HookPrompt,
-  HookSession,
-  HookToolCall,
-  HookToolResult,
-} from './hooks.schema.js'
-
-export const admitLoadedSettings = (command: AdmitCommand): HookDispatchDecision =>
-  Match.value(command.present).pipe(
-    Match.when(true, () => new RunHooks()),
-    Match.when(false, () => new SkipHooks()),
-    Match.exhaustive,
-  )
-import { InterpretHookCommand, interpretHookResult, Warning } from './interpret-hook-result.workflow.js'
+import { HookOutputFromStdout, HookResult } from './hooks.schema.js'
+import type { HookPrompt, HookSession, HookToolCall, HookToolResult } from './hooks.schema.js'
+import { InterpretHookCommand, interpretHookResult } from './interpret-hook-result.workflow.js'
 import {
   denormalizeToolInput,
   editTargetPaths,
@@ -69,11 +46,7 @@ import {
 } from './wire.js'
 import { ToolInputRecord } from './wire.schema.js'
 
-export const skipHooks = (): HookDispatchDecision => new SkipHooks()
-export const admitPresent = (present: boolean): AdmitCommand => new AdmitHooksCommand({ present })
-
 const parseHookOutput = S.decodeUnknownExit(HookOutputFromStdout)
-
 const HOST_COMMAND_PREFIXES: readonly string[] = [
   '/',
   '!',
@@ -311,37 +284,34 @@ const runHooksForEventUnbounded = Effect.fn('runHooksForEventUnbounded')(functio
         }),
       ),
     decide: interpretHookResult,
-    encode: (outcome) =>
-      Match.value(
-        Result.match(outcome, {
-          onFailure: ({ error, code, stdout }) =>
-            new Warning({
-              message: `Hook exited 0 but produced invalid JSON: ${error.raw.slice(0, 200)}`,
-              code,
-              stdout,
-            }),
-          onSuccess: (verdict) => verdict,
+    encode: (outcome): HooksForEventResult =>
+      Result.match(outcome, {
+        onFailure: ({ error }) => ({
+          warning: `Hook exited 0 but produced invalid JSON: ${error.raw.slice(0, 200)}`,
         }),
-      ).pipe(
-        Match.tag('Block', (d) => new Blocked({ reason: d.reason })),
-        Match.tag('Warning', (d) => new Continue({ warning: d.message })),
-        Match.tag('Allow', (d) => new Continue({ updatedInput: d.updatedInput })),
-        Match.exhaustive,
-      ),
+        onSuccess: (verdict) =>
+          Match.value(verdict).pipe(
+            Match.tag('Block', (d) => ({ block: true, reason: d.reason })),
+            Match.tag('Warning', (d) => ({ warning: d.message })),
+            Match.tag('Allow', (d) =>
+              Option.match(Option.fromNullishOr(d.updatedInput), {
+                onNone: () => ({}),
+                onSome: (updatedInput) => ({ updatedInput }),
+              })),
+            Match.exhaustive,
+          ),
+      }),
     write: (outcome) =>
-      Effect.sync(() =>
-        Match.value(outcome).pipe(
-          Match.tag('Blocked', (b) => Option.some({ block: true as const, reason: b.reason })),
-          Match.tag('Continue', (c) => {
-            if (c.warning !== undefined && warning === undefined) warning = c.warning
-            if (c.updatedInput !== undefined) {
-              currentInput = { ...currentInput, ...c.updatedInput }
-            }
-            return Option.none()
-          }),
-          Match.exhaustive,
-        )
-      ),
+      Effect.sync(() => {
+        if (outcome.warning !== undefined && warning === undefined) warning = outcome.warning
+        if (outcome.updatedInput !== undefined) {
+          currentInput = { ...currentInput, ...outcome.updatedInput }
+        }
+        if (outcome.block === true) {
+          return Option.some({ block: true as const, reason: outcome.reason ?? 'Blocked by hook' })
+        }
+        return Option.none()
+      }),
   })
 
   for (const entry of entries) {
@@ -763,14 +733,10 @@ const dispatchAdmit = <Response>(
   Effect.flatMap(
     settingsFor(ctx),
     (settings) =>
-      Match.value(admitLoadedSettings(admitPresent(Option.isSome(Option.fromNullishOr(settings))))).pipe(
-        Match.tag('SkipHooks', () => Effect.succeed(empty)),
-        Match.tag('RunHooks', () => {
-          const loaded = Option.fromNullishOr(settings)
-          return write(Option.getOrThrow(loaded))
-        }),
-        Match.exhaustive,
-      ),
+      Option.match(Option.fromNullishOr(settings), {
+        onNone: () => Effect.succeed(empty),
+        onSome: (loaded) => write(loaded),
+      }),
   )
 
 export const onToolCall = (event: HookToolCall, ctx: HookSession) =>
@@ -897,8 +863,6 @@ export const HookDispatcherTask = (
     ui: ctx.ui,
   })
 
-  pi.on('tool_call', (event: ToolCallEvent, ctx) => bounded(onToolCall(event, session(ctx))))
-  pi.on('tool_result', (event: ToolResultEvent, ctx) => bounded(onToolResult(event, session(ctx))))
   pi.on('input', (event: InputEvent, ctx) => bounded(onPrompt(event, session(ctx))))
   pi.on('session_start', (_event, ctx) => bounded(onSessionStart('startup', session(ctx))))
   pi.on('session_compact', (_event, ctx) => bounded(onSessionCompact(session(ctx))))
