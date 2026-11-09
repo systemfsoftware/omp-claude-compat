@@ -18,3 +18,13 @@ queue_rules:
     merge_conditions:
       - check-success = check
       - check-success = lint PR commits
+
+  - name: release
+    # Release PRs (changeset-release/* heads opened by the release bot) only ever report `check`:
+    # the other pull_request workflows sit `action_required` behind the workflow-approval gate for
+    # that actor, and the changeset intent check skips release heads.
+    queue_conditions:
+      - head ~= ^changeset-release/
+      - check-success = check
+    merge_conditions:
+      - check-success = check
