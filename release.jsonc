@@ -13,7 +13,7 @@
   "changesetDir": ".changeset",
   "changelogDir": ".changeset/changelogs",
   "versioning": {
-    "strategy": "pnpm",
+    "strategy": "changesets",
   },
   "gate": { "strategy": "paths" },
 }
