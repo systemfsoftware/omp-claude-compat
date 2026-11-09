@@ -14,3 +14,11 @@ queue_rules:
     # Checked on Mergify's queue draft PR (mergify/merge-queue/*), i.e. CI on the PR rebased with main and any batch.
     merge_conditions:
       - check-success = check
+  - name: release
+    # A release PR (changeset-release/* head, opened by the release bot) reports only `check`: the other pull_request
+    # workflows wait on the workflow-approval gate for that actor, and the changeset intent check skips release heads.
+    queue_conditions:
+      - head ~= ^changeset-release/
+      - check-success = check
+    merge_conditions:
+      - check-success = check
