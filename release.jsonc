@@ -15,5 +15,5 @@
   "versioning": {
     "strategy": "changesets",
   },
-  "gate": { "strategy": "paths" },
+  "gate": { "strategy": "turbo", "task": "build" },
 }
