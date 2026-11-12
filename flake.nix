@@ -28,9 +28,10 @@
           comment-checker-bwrap = pkgs.callPackage ./nix/comment-checker-bwrap.nix { comment-checker = cc; };
         in { inherit dprint comment-checker-bwrap; comment-checker = cc; default = dprint; });
 
-      # pnpm is deliberately absent: `packageManager` pins pnpm@11.21.0 and
-      # corepack is the one thing allowed to resolve it. A second pnpm on PATH
-      # would answer `pnpm install` with a version the lockfile never saw.
+      # pnpm is not a nixpkgs package: `packageManager` pins pnpm@11.21.0 and
+      # corepack resolves exactly that version. The shim gives the release
+      # plan a `pnpm` on PATH (`nix develop --command` runs this hook), and a
+      # second, unpinned pnpm is never on PATH.
       devShells = forEachSystem (pkgs: {
         default = pkgs.mkShell {
           packages = [
@@ -39,6 +40,11 @@
             pkgs.nodejs_24
             pkgs.deno
           ];
+          shellHook = ''
+            mkdir -p "$HOME/.cache/corepack-shims"
+            corepack enable pnpm --install-directory "$HOME/.cache/corepack-shims"
+            export PATH="$HOME/.cache/corepack-shims:$PATH"
+          '';
         };
       });
     };
