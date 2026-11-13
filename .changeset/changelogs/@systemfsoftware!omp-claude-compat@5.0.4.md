@@ -1,6 +1,4 @@
----
-"@systemfsoftware/omp-claude-compat": patch
----
+# @systemfsoftware/omp-claude-compat@5.0.4
 
 Remove the unresolvable `@std/toml` runtime dependency. It was declared as `jsr:^1.0.11`
 (rewritten to `npm:@jsr/std__toml` on publish) but the build already inlines it via
@@ -8,3 +6,5 @@ Remove the unresolvable `@std/toml` runtime dependency. It was declared as `jsr:
 `@jsr` scope to `https://npm.jsr.io/`. `@std/toml` and `@systemfsoftware/effect-cell-types`
 are bundled at build time, so both now live in `devDependencies` only, and the empty
 `dependencies` and `optionalDependencies` entries are gone.
+
+The plugin still handles the same host events with the same results. No release is warranted.
