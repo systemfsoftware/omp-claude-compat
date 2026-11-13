@@ -13,8 +13,8 @@ This is a plugin for Oh My Pi that understands Claude Code configuration. It run
 ## Install
 
 **How do I use my Claude Code setup in Oh My Pi?** Add it as a Nix flake input
-and list it as a plugin. This package is **not** published to any npm registry —
-distribution is this repository's Nix flake outputs, consumed from a git ref and
+and list it as a plugin. This package is **not** published to any npm registry. nix.systemfsoftware.com is the package registry for `@systemfsoftware` packages: producers push package tarballs there from `main`, consumers substitute them through flake inputs, and nothing goes to npm.
+This repository's Nix flake outputs are consumed from a git ref and
 pinned by `flake.lock` rev + narHash:
 
 ```nix
