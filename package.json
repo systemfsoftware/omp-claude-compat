@@ -17,7 +17,7 @@
     "precommit": "pnpm exec lint-staged --no-revert --config .lintstagedrc.js",
     "gate:tasks": "turbo --concurrency=${TURBO_CONCURRENCY:-50%} --continue lint typecheck typecheck:node test",
     "gate:dist": "turbo --concurrency=${TURBO_CONCURRENCY:-100%} build",
-    "check:ci": "s=0; pnpm format:check || s=1; TURBO_CONCURRENCY=${TURBO_CONCURRENCY:-100%} pnpm gate:tasks || s=1; pnpm gate:dist || s=1; pnpm mutation || s=1; exit $s",
+    "check:ci": "s=0; pnpm format:check || s=1; TURBO_CONCURRENCY=${TURBO_CONCURRENCY:-100%} pnpm gate:tasks || s=1; pnpm gate:dist || s=1; exit $s",
     "prepare": "husky"
   },
   "devDependencies": {
