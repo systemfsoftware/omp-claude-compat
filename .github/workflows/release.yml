@@ -18,6 +18,6 @@ permissions:
 
 jobs:
   release:
-    uses: systemfsoftware/pnpm-release-management/.github/workflows/release.yml@7c976f10f0233a671caa340c5b20f9c2acaab433
+    uses: systemfsoftware/pnpm-release-management/.github/workflows/release.yml@1e897828d917341fb7dd444c7bbd6cfa0998caa9
     with:
       ci-workflow: ci.yml
