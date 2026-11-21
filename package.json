@@ -31,7 +31,7 @@
     "lint-staged": "^17.1.0",
     "oxlint": "^1.92.0",
     "oxlint-tsgolint": "7.0.2001",
-    "turbo": "^2.10.12",
+    "turbo": "^2.11.10",
     "typescript": "^7"
   },
   "packageManager": "pnpm@11.21.0"
